@@ -15,7 +15,8 @@ import {
 //          style={{height: 40, width: 140}}
 //          placeholder="Type here to translate!"
 
-import TextInput from './TextInput';
+import TextInput from './components/basic/TextInput';
+import Button from './components/basic/Button';
 
 export default class AwesomeProject extends Component {
   render() {
@@ -34,6 +35,7 @@ export default class AwesomeProject extends Component {
             text="ololo"
             placeholder="Введите номер гидрокостюма"
         />
+        <Button text="click" onClick={() => {}} />
         <Text style={styles.instructions}>
           Double tap R on your keyboard to reload,{'\n'}
           Shake or press menu button for dev menu
