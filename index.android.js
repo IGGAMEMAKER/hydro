@@ -12,11 +12,9 @@ import {
   View
 } from 'react-native';
 //  TextInput,
-//          style={{height: 40, width: 140}}
-//          placeholder="Type here to translate!"
 
-import TextInput from './components/basic/TextInput';
-import Button from './components/basic/Button';
+import TextInput from './app/components/basic/TextInput';
+import Button from './app/components/basic/Button';
 
 export default class AwesomeProject extends Component {
   render() {
@@ -25,9 +23,9 @@ export default class AwesomeProject extends Component {
         <Text style={styles.welcome}>
           Welcome to React Native! AZAZAZAAAAAAAAAAAAAA
         </Text>
-        <Text>
-            qqq
-        </Text>
+
+        <Text>qqq</Text>
+
         <Text style={styles.instructions}>
           To get started, edit index.android.js
         </Text>
@@ -35,7 +33,10 @@ export default class AwesomeProject extends Component {
             text="ololo"
             placeholder="Введите номер гидрокостюма"
         />
-        <Button text="click" onClick={() => {}} />
+        <Button
+            text="click"
+            onClick={() => { console.log('Extended Class TextInput'); }}
+        />
         <Text style={styles.instructions}>
           Double tap R on your keyboard to reload,{'\n'}
           Shake or press menu button for dev menu
