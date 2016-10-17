@@ -17,33 +17,49 @@ import TextInput from './app/components/basic/TextInput';
 import Button from './app/components/basic/Button';
 
 export default class AwesomeProject extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native! AZAZAZAAAAAAAAAAAAAA
-        </Text>
+    state = {
+        count: 0
+    }
+    componentWillMount() {
+        console.log('componentWillMount');
+    }
 
-        <Text>qqq</Text>
+    tickCounter = () => {
+        const count = this.state.count;
+        console.log('tickCounter', count, count + 1);
+        this.setState({
+            count: count + 1
+        })
+    }
 
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <TextInput
-            text="ololo"
-            placeholder="Введите номер гидрокостюма"
-        />
-        <Button
-            text="click"
-            onClick={() => { console.log('Extended Class TextInput'); }}
-        />
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
-  }
+    render() {
+        return (
+          <View style={styles.container}>
+            <Text style={styles.welcome}>
+              Welcome to React Native! AZAZAZAAAAAAAAAAAAAA
+            </Text>
+
+            <Text>qqq</Text>
+
+            <Text style={styles.instructions}>
+              To get started, edit index.android.js
+            </Text>
+            <TextInput
+                text="ololo"
+                placeholder="Введите номер гидрокостюма"
+            />
+            <Button
+                text="click"
+                onClick={this.tickCounter}
+            />
+            <Text style={styles.instructions}>
+              Double tap R on your keyboard to reload,{'\n'}
+              Shake or press menu button for dev menu
+              {this.state.count}
+            </Text>
+          </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
