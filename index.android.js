@@ -16,20 +16,30 @@ import {
 import TextInput from './app/components/basic/TextInput';
 import Button from './app/components/basic/Button';
 
+import TestAction from './app/actions/testAction';
+import TestStore from './app/stores/testStore';
+
 export default class AwesomeProject extends Component {
     state = {
-        count: 0
+        count: 0,
     }
+
     componentWillMount() {
         console.log('componentWillMount');
+        TestStore.addChangeListener(() => {
+            this.setState({
+                count: TestStore.getTestValue()
+            })
+        })
     }
 
     tickCounter = () => {
-        const count = this.state.count;
-        console.log('tickCounter', count, count + 1);
-        this.setState({
-            count: count + 1
-        })
+        TestAction.test();
+//        const count = this.state.count;
+//        console.log('tickCounter', count, count + 1);
+//        this.setState({
+//            count: count + 1
+//        })
     }
 
     render() {
