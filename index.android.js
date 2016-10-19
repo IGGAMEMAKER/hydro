@@ -20,14 +20,19 @@ import Button from './app/components/basic/Button';
 import TestAction from './app/actions/testAction';
 import TestStore from './app/stores/testStore';
 
-import { MODE_INITIAL_TABLE_VIEW } from './app/constants/constants';
+import {
+    MODE_INITIAL_TABLE_VIEW,
+    MODE_COSTUME_EDITOR,
+} from './app/constants/constants';
 
 import CostumeList from './app/components/CostumeList';
+import CostumeView from './app/components/CostumeView';
 
 export default class AwesomeProject extends Component {
     state = {
         count: 0,
-        mode: MODE_INITIAL_TABLE_VIEW
+        mode: MODE_INITIAL_TABLE_VIEW,
+        selectedCostumeId: null,
     }
 
     componentWillMount() {
@@ -43,6 +48,37 @@ export default class AwesomeProject extends Component {
         TestAction.test();
     }
 
+    getCostumes = () => {
+        return {
+           '123': {
+               size: 2,
+               owner: 'Михалыч',
+               companyOwner: 'ООО Лукоморье',
+               wasWashedInside: new Date(1, 2, 2000),
+               location: 'участок 1'
+           },
+           '120': {
+              size: 22,
+              owner: 'Петрович',
+              companyOwner: 'ООО Лукоморье',
+              wasWashedInside: new Date(1, 2, 2007),
+              location: 'участок 1'
+           }
+        }
+    }
+
+    getCostumeById = (id) => {
+        const costumes = this.getCostumes();
+        return costumes[id];
+    }
+
+    selectCostume = (id) => {
+        this.setState({
+            mode: MODE_COSTUME_EDITOR,
+            selectedCostumeId: id
+        });
+    }
+
     render() {
         const state = this.state;
 
@@ -55,28 +91,23 @@ export default class AwesomeProject extends Component {
            location: 'участок 2'
         }
 
-        const costumes = [{
-            id: '123',
-            size: 2,
-            owner: 'Михалыч',
-            companyOwner: 'ООО Лукоморье',
-            wasWashedInside: new Date(1, 2, 2000),
-            location: 'участок 1'
-        }, {
-           id: '120',
-           size: 22,
-           owner: 'Петрович',
-           companyOwner: 'ООО Лукоморье',
-           wasWashedInside: new Date(1, 2, 2007),
-           location: 'участок 1'
-        }];
+        const costumes = this.getCostumes();
 
         if (state.mode === MODE_INITIAL_TABLE_VIEW) {
             return (
-                <CostumeList costumes={costumes} />
+                <CostumeList
+                    costumes={costumes}
+                    onChooseCostume={this.selectCostume}
+                />
             );
         }
 
+        if (state.mode === MODE_COSTUME_EDITOR) {
+            const id = state.selectedCostumeId;
+            return (
+                <CostumeView id={id} data={this.getCostumeById(id)} />
+            );
+        }
 
         return (
           <View style={styles.container}>

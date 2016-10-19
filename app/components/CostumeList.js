@@ -7,8 +7,11 @@ import {
   ViewGroup
 } from 'react-native';
 
+import Button from './basic/Button';
+
 type PropsType = {
-    costumes: Array
+    costumes: Array,
+    onChooseCostume: Function,
 }
 
 export default class CostumeList extends Component {
@@ -18,12 +21,17 @@ export default class CostumeList extends Component {
 //            </ViewGroup>
 //        );
 //    }
+
     render() {
         const props: PropsType = this.props;
         // {'\n'}
-        const costumeList = props.costumes.map(c => (
+        const costumeList = Object.keys(props.costumes).map(key => (
             <View>
-                <Text>{c.id}</Text>
+                <Text>№ {key}</Text>
+                <Button
+                    onClick={() => { props.onChooseCostume(key) }}
+                    text="Подробнее"
+                />
             </View>
         ));
 
@@ -35,3 +43,22 @@ export default class CostumeList extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+});
