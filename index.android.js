@@ -105,7 +105,13 @@ export default class AwesomeProject extends Component {
         if (state.mode === MODE_COSTUME_EDITOR) {
             const id = state.selectedCostumeId;
             return (
-                <CostumeView id={id} data={this.getCostumeById(id)} />
+                <CostumeView
+                    id={id}
+                    data={this.getCostumeById(id)}
+                    onBackButtonPressed={() => {
+                        this.setState({ mode: MODE_INITIAL_TABLE_VIEW, selectedCostumeId: null })
+                    }}
+                />
             );
         }
 

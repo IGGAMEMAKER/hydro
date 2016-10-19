@@ -5,6 +5,7 @@ import {
     Text
 } from 'react-native';
 
+import Button from './basic/Button';
 
 //type
 
@@ -16,6 +17,10 @@ export default class CostumeView extends Component {
             <View>
                 <Text>{JSON.stringify(props.data)}</Text>
                 <Text>{props.id}</Text>
+                <Button
+                    onClick={props.onBackButtonPressed}
+                    text="Вернуться к списку гидрокостюмов"
+                ></Button>
             </View>
         );
     }
