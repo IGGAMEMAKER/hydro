@@ -9,7 +9,8 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  ViewGroup
 } from 'react-native';
 //  TextInput,
 
@@ -19,9 +20,14 @@ import Button from './app/components/basic/Button';
 import TestAction from './app/actions/testAction';
 import TestStore from './app/stores/testStore';
 
+import { MODE_INITIAL_TABLE_VIEW } from './app/constants/constants';
+
+import CostumeList from './app/components/CostumeList';
+
 export default class AwesomeProject extends Component {
     state = {
         count: 0,
+        mode: MODE_INITIAL_TABLE_VIEW
     }
 
     componentWillMount() {
@@ -35,14 +41,43 @@ export default class AwesomeProject extends Component {
 
     tickCounter = () => {
         TestAction.test();
-//        const count = this.state.count;
-//        console.log('tickCounter', count, count + 1);
-//        this.setState({
-//            count: count + 1
-//        })
     }
 
     render() {
+        const state = this.state;
+
+        const newCostume = {
+           id: '124',
+           size: 5,
+           owner: null,
+           companyOwner: null,
+           wasWashedInside: new Date(1, 2, 2000),
+           location: 'участок 2'
+        }
+
+        const costumes = [{
+            id: '123',
+            size: 2,
+            owner: 'Михалыч',
+            companyOwner: 'ООО Лукоморье',
+            wasWashedInside: new Date(1, 2, 2000),
+            location: 'участок 1'
+        }, {
+           id: '120',
+           size: 22,
+           owner: 'Петрович',
+           companyOwner: 'ООО Лукоморье',
+           wasWashedInside: new Date(1, 2, 2007),
+           location: 'участок 1'
+        }];
+
+        if (state.mode === MODE_INITIAL_TABLE_VIEW) {
+            return (
+                <CostumeList costumes={costumes} />
+            );
+        }
+
+
         return (
           <View style={styles.container}>
             <Text style={styles.welcome}>
@@ -68,7 +103,7 @@ export default class AwesomeProject extends Component {
               {this.state.count}
             </Text>
           </View>
-        );
+);
     }
 }
 
