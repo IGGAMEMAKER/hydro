@@ -6,7 +6,8 @@ const CHANGE_EVENT = 'CHANGE_EVENT';
 import {
     DISPATCHER_COSTUME_ADD,
     DISPATCHER_SWITCH_COSTUME_OWNER,
-    DISPATCHER_FLUSH_COSTUME_OWNER
+    DISPATCHER_FLUSH_COSTUME_OWNER,
+    DISPATCHER_COSTUME_WASH_INSIDE
 } from '../constants/constants';
 
 let _costumes = {
@@ -74,6 +75,11 @@ Dispatcher.register((p: PayloadType) => {
     case DISPATCHER_FLUSH_COSTUME_OWNER:
         _costumes[p.id].owner = null;
         _costumes[p.id].companyOwner = null;
+
+        store.emitChange();
+        break;
+    case DISPATCHER_COSTUME_WASH_INSIDE:
+        _costumes[p.id].wasWashedInside = new Date();
 
         store.emitChange();
         break;

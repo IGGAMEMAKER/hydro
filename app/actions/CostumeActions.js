@@ -3,7 +3,8 @@ import Dispatcher from '../dispatcher';
 import {
     DISPATCHER_COSTUME_ADD,
     DISPATCHER_SWITCH_COSTUME_OWNER,
-    DISPATCHER_FLUSH_COSTUME_OWNER
+    DISPATCHER_FLUSH_COSTUME_OWNER,
+    DISPATCHER_COSTUME_WASH_INSIDE
 } from '../constants/constants';
 
 export default {
@@ -38,6 +39,13 @@ export default {
     flushCostumeOwner: (id) => {
         Dispatcher.dispatch({
             type: DISPATCHER_FLUSH_COSTUME_OWNER,
+            id
+        })
+    },
+
+    washInsides: (id) => {
+        Dispatcher.dispatch({
+            type: DISPATCHER_COSTUME_WASH_INSIDE,
             id
         })
     }

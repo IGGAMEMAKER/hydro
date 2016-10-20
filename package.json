@@ -11,7 +11,8 @@
     "flux": "^3.0.0",
     "react": "15.3.2",
     "react-native": "0.35.0",
-    "react-native-button": "^1.7.1"
+    "react-native-button": "^1.7.1",
+    "react-native-dropdown": "0.0.6"
   },
   "jest": {
     "preset": "jest-react-native"

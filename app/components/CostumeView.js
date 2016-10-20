@@ -58,6 +58,12 @@ export default class CostumeView extends Component {
         this.disableEditing();
     }
 
+    washInsides = () => {
+        actions.washInsides(this.props.id);
+
+        this.disableEditing();
+    }
+
     disableEditing = () => { this.setState({ mode: null }) }
 
     renderOwnerSwitchingForm = (props, state) => {
@@ -87,9 +93,33 @@ export default class CostumeView extends Component {
         );
     }
 
+    formatDate = (date) => {
+//
+        const options = {
+//          era: 'long',
+          year: 'numeric',
+//          month: 'long',
+//          month: 'numeric',
+//          day: 'numeric',
+//          weekday: 'long',
+          timezone: 'UTC',
+//          hour: 'numeric',
+//          minute: 'numeric',
+//          second: 'numeric'
+        };
+
+        const dt = new Date(date);
+
+        return `${dt.getDate()}.${dt.getMonth()+1}.${dt.getFullYear()}`;
+        return date.toLocaleString("RU", options);
+//        return JSON.stringify(date);
+    }
+
     render() {
         const props = this.props;
         const state = this.state;
+
+        const formatDate = this.formatDate;
 
         return (
             <View>
@@ -112,7 +142,7 @@ export default class CostumeView extends Component {
                     <Text style={styles.text}>
                         {
                             props.data.owner?
-                                `${props.data.owner} (${props.data.companyOwner})`
+                                `${props.data.owner} (${props.data.companyOwner || 'Компания не указана'})`
                                 :
                                 'Свободен'
                         }
@@ -123,6 +153,12 @@ export default class CostumeView extends Component {
                 <View style={styles.container}>
                     <Text style={styles.label}>Комплектность: </Text>
                     <Text style={styles.text}>{props.data.composition}</Text>
+                </View>
+
+                <View style={styles.container}>
+                    <Text style={styles.label}>Дата стирки внутренней подкладки: </Text>
+                    <Text style={styles.text}>{formatDate(props.data.wasWashedInside)}</Text>
+                    <Button text="Постирать сейчас" onClick={this.washInsides} />
                 </View>
 
                 <Text>{JSON.stringify(props.data)}</Text>
