@@ -148,6 +148,13 @@ export default class CostumeView extends Component {
             this.disableEditing();
         }
     }
+    switchCostumeLocation = (id) => {
+        return (value) => {
+            actions.switchCostumeLocation(id, value);
+
+            this.disableEditing();
+        }
+    }
 
     renderCostumeInfo = () => {
         const props = this.props;
@@ -162,24 +169,35 @@ export default class CostumeView extends Component {
             { label: 'xl', value: 'xl'},
         ];
 
+        locationOptions = [
+            { label: 'участок 1', value: 'участок 1'},
+            { label: 'участок 2', value: 'участок 2'},
+            { label: 'участок 3', value: 'участок 3'},
+        ]
+
         return (
             <View>
                 <View style={styles.container}>
-                    <View style={{ flexDirection: 'row' }}>
-                        <Text style={styles.label}>Размер: </Text>
-                        <View style={{ marginTop: -15 }}>
-                                            <Select
-                                                options={costumeSizeOptions}
-                                                selectedValue={props.data.size}
-                                                onChange={this.switchCostumeSize(props.id)}
-                                            />
-                        </View>
+                    <Text style={styles.label}>Размер: </Text>
+                    <View style={{ marginTop: -15 }}>
+                        <Select
+                            options={costumeSizeOptions}
+                            selectedValue={props.data.size}
+                            onChange={this.switchCostumeSize(props.id)}
+                        />
                     </View>
                 </View>
 
                 <View style={styles.container}>
                     <Text style={styles.label}>Местоположение: </Text>
                     <Text style={styles.text}>{props.data.location}</Text>
+                    <View style={{ marginTop: -15 }}>
+                        <Select
+                            options={locationOptions}
+                            selectedValue={props.data.location}
+                            onChange={this.switchCostumeLocation(props.id)}
+                        />
+                    </View>
                 </View>
 
                 <View style={styles.container}>

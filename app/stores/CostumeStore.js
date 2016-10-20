@@ -8,7 +8,8 @@ import {
     DISPATCHER_SWITCH_COSTUME_OWNER,
     DISPATCHER_FLUSH_COSTUME_OWNER,
     DISPATCHER_COSTUME_WASH_INSIDE,
-    DISPATCHER_SWITCH_COSTUME_SIZE
+    DISPATCHER_SWITCH_COSTUME_SIZE,
+    DISPATCHER_SWITCH_COSTUME_LOCATION
 } from '../constants/constants';
 
 let _costumes = {
@@ -20,6 +21,7 @@ let _costumes = {
          location: 'участок 1',
          wasCertifiedDate: new Date(2001, 2, 10),
          isCertifiedTillDate: new Date(2002, 2, 10),
+         history: [],
     },
     '120': {
         size: 'xl',
@@ -29,6 +31,7 @@ let _costumes = {
         location: 'участок 1',
         wasCertifiedDate: new Date(2004, 2, 10),
         isCertifiedTillDate: new Date(2005, 2, 10),
+        history: [],
     }
 }
 
@@ -87,6 +90,13 @@ Dispatcher.register((p: PayloadType) => {
     case DISPATCHER_SWITCH_COSTUME_SIZE:
         if (_costumes[p.id].size !== p.size) {
             _costumes[p.id].size = p.size;
+
+            store.emitChange();
+        }
+        break;
+    case DISPATCHER_SWITCH_COSTUME_LOCATION:
+        if (_costumes[p.id].location !== p.location) {
+            _costumes[p.id].location = p.location;
 
             store.emitChange();
         }

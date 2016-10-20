@@ -5,7 +5,8 @@ import {
     DISPATCHER_SWITCH_COSTUME_OWNER,
     DISPATCHER_FLUSH_COSTUME_OWNER,
     DISPATCHER_COSTUME_WASH_INSIDE,
-    DISPATCHER_SWITCH_COSTUME_SIZE
+    DISPATCHER_SWITCH_COSTUME_SIZE,
+    DISPATCHER_SWITCH_COSTUME_LOCATION
 } from '../constants/constants';
 
 export default {
@@ -56,6 +57,14 @@ export default {
             type: DISPATCHER_SWITCH_COSTUME_SIZE,
             id,
             size
+        })
+    },
+
+    switchCostumeLocation: (id, location) => {
+        Dispatcher.dispatch({
+            type: DISPATCHER_SWITCH_COSTUME_LOCATION,
+            id,
+            location
         })
     }
 }

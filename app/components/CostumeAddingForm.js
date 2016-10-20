@@ -46,6 +46,7 @@ export default class CostumeAdding extends Component {
             location: null,
             wasCertifiedDate: null,
             isCertifiedTillDate: null,
+            history: [],
         }
 
 //        console.log('render CostumeAddingForm', newCostumeId, newCostume);
