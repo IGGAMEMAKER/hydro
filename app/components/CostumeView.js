@@ -11,11 +11,16 @@ import Input from './basic/TextInput';
 import actions from '../actions/CostumeActions';
 
 const MODE_SWITCH_OWNER = 'MODE_SWITCH_OWNER';
+const MODE_CERTIFICATION = 'MODE_CERTIFICATION';
 
 export default class CostumeView extends Component {
     state = {
         mode: null,
         changes: {},
+    }
+
+    isCertificationProcessStarted = () => {
+        return this.state.mode === MODE_CERTIFICATION;
     }
 
     isOwnerSwitchingMode = () => {
@@ -30,6 +35,8 @@ export default class CostumeView extends Component {
             }
         });
     }
+
+
 
     flushOwner = () => {
         actions.flushCostumeOwner(this.props.id);
@@ -58,10 +65,23 @@ export default class CostumeView extends Component {
         this.disableEditing();
     }
 
+    rejectChangesOwner = () => {
+        this.setState({
+            mode: null,
+            changes: {}
+        });
+    }
+
     washInsides = () => {
         actions.washInsides(this.props.id);
 
         this.disableEditing();
+    }
+
+    startCertificationProcess = () => {
+        this.setState({
+            mode: MODE_CERTIFICATION
+        })
     }
 
     disableEditing = () => { this.setState({ mode: null }) }
@@ -80,7 +100,10 @@ export default class CostumeView extends Component {
                         text={props.data.companyOwner}
                         onChange={this.onCompanyOwnerSwitch}
                     />
-                    <Button text="Сохранить изменения" onClick={this.saveChangesOwner} />
+                    <View style={{marginBottom: 15}}>
+                        <Button text="Сохранить изменения" onClick={this.saveChangesOwner} />
+                    </View>
+                    <Button text="Отменить изменения" onClick={this.rejectChangesOwner} />
                 </View>
             );
         }
@@ -88,7 +111,7 @@ export default class CostumeView extends Component {
         return (
             <View style={{ flexDirection: 'row' }}>
                 <Button
-                    style={{ height: 20, width: 350, marginRight: 25 }}
+                    style={styles.minorButton}
                     onClick={this.switchOwner} text="Сменить владельца" />
                 <Button
                     style={{ height: 20, color: 'pomegranate', width: 150 }}
@@ -96,6 +119,8 @@ export default class CostumeView extends Component {
             </View>
         );
     }
+
+
 
     formatDate = (date) => {
 //
@@ -162,10 +187,21 @@ export default class CostumeView extends Component {
                 <View style={styles.container}>
                     <Text style={styles.label}>Дата стирки внутренней подкладки: </Text>
                     <Text style={styles.text}>{formatDate(props.data.wasWashedInside)}</Text>
-                    <Button text="Постирать сейчас" onClick={this.washInsides} />
+                </View>
+                <Button style={styles.minorButton} text="Постирать сейчас" onClick={this.washInsides} />
+
+                <View style={styles.container}>
+                    <Text style={styles.label}>Дата проведения сертификации (тех. осмотра??): </Text>
+                    <Text style={styles.text}>{formatDate(props.data.wasCertifiedDate)}</Text>
                 </View>
 
-                <Text>{JSON.stringify(props.data)}</Text>
+                <View style={styles.container}>
+                    <Text style={styles.label}>Сертификация действительна до: </Text>
+                    <Text style={styles.text}>{formatDate(props.data.isCertifiedTillDate)}</Text>
+                </View>
+                <Button style={styles.minorButton} text="Провести техосмотр" onClick={this.startCertificationProcess} />
+
+
                 <Text>{props.id}</Text>
                 <Button
                     onClick={props.onBackButtonPressed}
@@ -175,7 +211,7 @@ export default class CostumeView extends Component {
         );
     }
 }
-
+//<Text>{JSON.stringify(props.data)}</Text>
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -203,5 +239,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
         height: 22
 //        justifyContent: 'left'
+    },
+    minorButton: {
+        height: 20,
+        width: 350,
+        marginRight: 25
     }
 })
