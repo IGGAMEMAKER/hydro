@@ -15,6 +15,16 @@ const MODE_SWITCH_OWNER = 'MODE_SWITCH_OWNER';
 const MODE_CERTIFICATION = 'MODE_CERTIFICATION';
 const MODE_EDIT_COMPOSITION = 'MODE_EDIT_COMPOSITION';
 
+import {
+    DISPATCHER_COSTUME_ADD,
+    DISPATCHER_SWITCH_COSTUME_OWNER,
+    DISPATCHER_FLUSH_COSTUME_OWNER,
+    DISPATCHER_COSTUME_WASH_INSIDE,
+    DISPATCHER_SWITCH_COSTUME_SIZE,
+    DISPATCHER_SWITCH_COSTUME_LOCATION,
+    DISPATCHER_SWITCH_COSTUME_COMPOSITION
+} from '../constants/constants';
+
 export default class CostumeView extends Component {
     state = {
         mode: null,
@@ -167,7 +177,7 @@ export default class CostumeView extends Component {
         });
     }
 
-    saveCompositionText = (id) = {
+    saveCompositionText = (id) => {
         return (value) => {
             actions.saveCompositionText(id, value);
 
@@ -196,6 +206,7 @@ export default class CostumeView extends Component {
 
         return (
             <View>
+                <Text style={styles.columnLabel}>Общая информация</Text>
                 <View style={styles.container}>
                     <Text style={styles.label}>Размер: </Text>
                     <View style={{ marginTop: -15 }}>
@@ -267,7 +278,43 @@ export default class CostumeView extends Component {
         );
     }
 
-    renderCostumeHistory = () => {
+    renderHistoryRecordComponent = (record) => {
+        let text = '';
+        switch (record.tag) {
+            case DISPATCHER_SWITCH_COSTUME_OWNER:
+                text = `Смена владельца: ${record.owner}`;
+                break;
+            case DISPATCHER_FLUSH_COSTUME_OWNER:
+                text = `Возврат костюма`;
+                break;
+            case DISPATCHER_COSTUME_WASH_INSIDE:
+                text = `DISPATCHER_COSTUME_WASH_INSIDE`;
+                break;
+            case DISPATCHER_SWITCH_COSTUME_SIZE:
+                text = ``;
+                break;
+            case DISPATCHER_SWITCH_COSTUME_LOCATION:
+                text = ``;
+                break;
+            case DISPATCHER_SWITCH_COSTUME_COMPOSITION:
+                text = ``;
+                break;
+        }
+
+        return (
+            <View style={{ marginBottom: 15 }}>
+                <Text>{text}</Text>
+            </View>
+        );
+    }
+
+    renderCostumeHistory = (costume) => {
+        return (
+            <View style={{ marginBottom: 15 }}>
+                <Text style={styles.columnLabel}>История гидрокостюма</Text>
+                {costume.history.map(this.renderHistoryRecordComponent)}
+            </View>
+        );
         return <Text>costume history</Text>
     }
 
@@ -280,8 +327,8 @@ export default class CostumeView extends Component {
                     <Text style={styles.center}>Гидрокостюм №{props.id} </Text>
                 </View>
                 <View style={{ flexDirection: 'row'}}>
-                    <View style={{}}>{this.renderCostumeInfo()}</View>
-                    <View>{this.renderCostumeHistory()}</View>
+                    <View>{this.renderCostumeInfo()}</View>
+                    <View>{this.renderCostumeHistory(props.data)}</View>
                 </View>
             </View>
         )
@@ -320,5 +367,13 @@ const styles = StyleSheet.create({
         height: 20,
         width: 350,
         marginRight: 25
+    },
+
+    columnLabel: {
+        fontSize: 20,
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
     }
 })
