@@ -20,6 +20,9 @@ import Button from './app/components/basic/Button';
 import TestAction from './app/actions/testAction';
 import TestStore from './app/stores/testStore';
 
+import actions from './app/actions/CostumeActions';
+import store from './app/stores/CostumeStore';
+
 import {
     MODE_INITIAL_TABLE_VIEW,
     MODE_COSTUME_EDITOR,
@@ -51,22 +54,7 @@ export default class AwesomeProject extends Component {
     }
 
     getCostumes = () => {
-        return {
-           '123': {
-               size: 2,
-               owner: 'Михалыч',
-               companyOwner: 'ООО Лукоморье',
-               wasWashedInside: new Date(1, 2, 2000),
-               location: 'участок 1'
-           },
-           '120': {
-              size: 22,
-              owner: 'Петрович',
-              companyOwner: 'ООО Лукоморье',
-              wasWashedInside: new Date(1, 2, 2007),
-              location: 'участок 1'
-           }
-        }
+        return store.getCostumes();
     }
 
     getCostumeById = (id) => {
@@ -95,17 +83,14 @@ export default class AwesomeProject extends Component {
         });
     }
 
+    addCostume = (costume) => {
+        actions.addCostume(costume);
+
+        this.backToMainMenu();
+    }
+
     render() {
         const state = this.state;
-
-        const newCostume = {
-           id: '124',
-           size: 5,
-           owner: null,
-           companyOwner: null,
-           wasWashedInside: new Date(1, 2, 2000),
-           location: 'участок 2'
-        }
 
         const costumes = this.getCostumes();
 
@@ -134,6 +119,7 @@ export default class AwesomeProject extends Component {
             return (
                 <CostumeAddingForm
                     onBackButtonPressed={this.backToMainMenu}
+                    onAddCostumePressed={this.addCostume}
                 />
             );
         }

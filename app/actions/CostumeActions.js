@@ -13,5 +13,12 @@ export default {
                 msg: 'ololo'
             }
         })
+    },
+
+    addCostume: (costume) => {
+        Dispatcher.dispatch({
+            type: DISPATCHER_COSTUME_ADD,
+            costume
+        })
     }
 }

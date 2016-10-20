@@ -7,6 +7,23 @@ import {
     DISPATCHER_COSTUME_ADD
 } from '../constants/constants';
 
+const _costumes = {
+    '123': {
+         size: 2,
+         owner: 'Михалыч',
+         companyOwner: 'ООО Лукоморье',
+         wasWashedInside: new Date(1, 2, 2000),
+         location: 'участок 1'
+    },
+    '120': {
+        size: 22,
+        owner: 'Петрович',
+        companyOwner: 'ООО Лукоморье',
+        wasWashedInside: new Date(1, 2, 2007),
+        location: 'участок 1'
+    }
+}
+
 class TestStore extends EventEmitter {
   addChangeListener(c: Function) {
     this.addListener(CHANGE_EVENT, c);
@@ -20,8 +37,8 @@ class TestStore extends EventEmitter {
     this.emit(CHANGE_EVENT);
   }
 
-  getTestValue() {
-    return baseValue;
+  getCostumes() {
+    return _costumes;
   }
 }
 
@@ -35,6 +52,11 @@ type PayloadType = {
 
 Dispatcher.register((p: PayloadType) => {
   switch (p.type) {
+    case DISPATCHER_COSTUME_ADD:
+        const costume = p.costume;
+        console.log('new costume CostumeStore.js', costume);
+        store.emitChange();
+        break;
     default:
         console.log('costumeStore.js Dispatcher.register worked, but no Payload Type', p)
       break;

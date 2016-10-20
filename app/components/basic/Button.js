@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
         paddingTop: 15
     },
     action: {
-//        backgroundColor: 'seagreen',
         backgroundColor: 'tomato',
         color: 'white',
         padding: 25,
@@ -48,7 +47,8 @@ const styles = StyleSheet.create({
         paddingTop: 15
     },
     navigation: {
-        backgroundColor: 'green',
+        backgroundColor: 'seagreen',
+        color: 'white',
         padding: 25,
 
         paddingLeft: 25,
