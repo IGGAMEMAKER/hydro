@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    ScrollView,
 } from 'react-native';
 
 import Button from './basic/Button';
@@ -279,25 +280,28 @@ export default class CostumeView extends Component {
     }
 
     renderHistoryRecordComponent = (record) => {
+        const showDate = (date) => {
+            return `(${this.formatDate(date)})`;
+        }
         let text = '';
         switch (record.tag) {
             case DISPATCHER_SWITCH_COSTUME_OWNER:
-                text = `Смена владельца: ${record.owner}`;
+                text = `Смена владельца: ${record.data.owner}`;
                 break;
             case DISPATCHER_FLUSH_COSTUME_OWNER:
-                text = `Возврат костюма`;
+                text = `Возврат костюма ${showDate(record.data.date)}`;
                 break;
             case DISPATCHER_COSTUME_WASH_INSIDE:
-                text = `DISPATCHER_COSTUME_WASH_INSIDE`;
+                text = `Стирка внутренней подкладки ${showDate(record.data.date)}`;
                 break;
             case DISPATCHER_SWITCH_COSTUME_SIZE:
                 text = ``;
                 break;
             case DISPATCHER_SWITCH_COSTUME_LOCATION:
-                text = ``;
+                text = `Смена местоположения: ${record.data.location}`;
                 break;
             case DISPATCHER_SWITCH_COSTUME_COMPOSITION:
-                text = ``;
+                text = `Смена комплектации состава: ${record.data.composition}`;
                 break;
         }
 
@@ -310,10 +314,10 @@ export default class CostumeView extends Component {
 
     renderCostumeHistory = (costume) => {
         return (
-            <View style={{ marginBottom: 15 }}>
+            <ScrollView style={{ marginBottom: 15 }}>
                 <Text style={styles.columnLabel}>История гидрокостюма</Text>
                 {costume.history.map(this.renderHistoryRecordComponent)}
-            </View>
+            </ScrollView>
         );
         return <Text>costume history</Text>
     }

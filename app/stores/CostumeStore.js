@@ -79,14 +79,16 @@ Dispatcher.register((p: PayloadType) => {
         _costumes[p.id].owner = p.owner;
         _costumes[p.id].companyOwner = p.companyOwner;
 
-        recordToHistory(p.id, DISPATCHER_SWITCH_COSTUME_OWNER, { owner: p.owner, companyOwner: p.companyOwner })
+        recordToHistory(p.id, DISPATCHER_SWITCH_COSTUME_OWNER, {
+            owner: p.owner, companyOwner: p.companyOwner, date: new Date()
+        })
         store.emitChange();
         break;
     case DISPATCHER_FLUSH_COSTUME_OWNER:
         _costumes[p.id].owner = null;
         _costumes[p.id].companyOwner = null;
 
-        recordToHistory(p.id, DISPATCHER_FLUSH_COSTUME_OWNER, { })
+        recordToHistory(p.id, DISPATCHER_FLUSH_COSTUME_OWNER, { date: new Date() })
         store.emitChange();
         break;
     case DISPATCHER_COSTUME_WASH_INSIDE:
@@ -98,7 +100,9 @@ Dispatcher.register((p: PayloadType) => {
     case DISPATCHER_SWITCH_COSTUME_COMPOSITION:
         _costumes[p.id].composition = p.composition;
 
-        recordToHistory(p.id, DISPATCHER_SWITCH_COSTUME_COMPOSITION, { composition: p.composition })
+        recordToHistory(p.id, DISPATCHER_SWITCH_COSTUME_COMPOSITION, {
+            composition: p.composition, date: new Date()
+        })
         store.emitChange();
         break;
     case DISPATCHER_SWITCH_COSTUME_SIZE:
@@ -112,7 +116,9 @@ Dispatcher.register((p: PayloadType) => {
         if (_costumes[p.id].location !== p.location) {
             _costumes[p.id].location = p.location;
 
-            recordToHistory(p.id, DISPATCHER_SWITCH_COSTUME_LOCATION, { location: p.location })
+            recordToHistory(p.id, DISPATCHER_SWITCH_COSTUME_LOCATION, {
+                location: p.location, date: new Date()
+            })
             store.emitChange();
         }
         break;
