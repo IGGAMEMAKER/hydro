@@ -21,7 +21,7 @@ let _costumes = {
         size: 22,
         owner: 'Петрович',
         companyOwner: 'ООО Лукоморье',
-        wasWashedInside: new Date(1, 2, 2007),
+        wasWashedInside: new Date(2007, 2, 1),
         location: 'участок 1',
         wasCertifiedDate: new Date(2004, 2, 10),
         isCertifiedTillDate: new Date(2005, 2, 10),

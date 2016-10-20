@@ -17,9 +17,6 @@ import {
 import TextInput from './app/components/basic/TextInput';
 import Button from './app/components/basic/Button';
 
-//import TestAction from './app/actions/testAction';
-//import TestStore from './app/stores/testStore';
-
 import actions from './app/actions/CostumeActions';
 import store from './app/stores/CostumeStore';
 
@@ -47,10 +44,6 @@ export default class AwesomeProject extends Component {
 //                count: TestStore.getTestValue()
 //            })
 //        })
-    }
-
-    tickCounter = () => {
-//        TestAction.test();
     }
 
     getCostumes = () => {
@@ -129,27 +122,13 @@ export default class AwesomeProject extends Component {
             <Text style={styles.welcome}>
               Welcome to React Native! AZAZAZAAAAAAAAAAAAAA
             </Text>
-
-            <Text>qqq</Text>
-
-            <Text style={styles.instructions}>
-              To get started, edit index.android.js
-            </Text>
-            <TextInput
-                text="ololo"
-                placeholder="Введите номер гидрокостюма"
-            />
-            <Button
-                text="click"
-                onClick={this.tickCounter}
-            />
             <Text style={styles.instructions}>
               Double tap R on your keyboard to reload,{'\n'}
               Shake or press menu button for dev menu
               {this.state.count}
             </Text>
           </View>
-);
+        );
     }
 }
 
