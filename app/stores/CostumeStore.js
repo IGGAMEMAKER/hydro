@@ -9,7 +9,8 @@ import {
     DISPATCHER_FLUSH_COSTUME_OWNER,
     DISPATCHER_COSTUME_WASH_INSIDE,
     DISPATCHER_SWITCH_COSTUME_SIZE,
-    DISPATCHER_SWITCH_COSTUME_LOCATION
+    DISPATCHER_SWITCH_COSTUME_LOCATION,
+    DISPATCHER_SWITCH_COSTUME_COMPOSITION
 } from '../constants/constants';
 
 let _costumes = {
@@ -61,6 +62,10 @@ type PayloadType = {
   error: ?Object
 }
 
+const recordToHistory = (id, tag, data) => {
+    _costumes[id].history.push({ tag, data });
+}
+
 Dispatcher.register((p: PayloadType) => {
   switch (p.type) {
     case DISPATCHER_COSTUME_ADD:
@@ -74,17 +79,26 @@ Dispatcher.register((p: PayloadType) => {
         _costumes[p.id].owner = p.owner;
         _costumes[p.id].companyOwner = p.companyOwner;
 
+        recordToHistory(p.id, DISPATCHER_SWITCH_COSTUME_OWNER, { owner: p.owner, companyOwner: p.companyOwner })
         store.emitChange();
         break;
     case DISPATCHER_FLUSH_COSTUME_OWNER:
         _costumes[p.id].owner = null;
         _costumes[p.id].companyOwner = null;
 
+        recordToHistory(p.id, DISPATCHER_FLUSH_COSTUME_OWNER, { })
         store.emitChange();
         break;
     case DISPATCHER_COSTUME_WASH_INSIDE:
         _costumes[p.id].wasWashedInside = new Date();
 
+        recordToHistory(p.id, DISPATCHER_COSTUME_WASH_INSIDE, { date: new Date() })
+        store.emitChange();
+        break;
+    case DISPATCHER_SWITCH_COSTUME_COMPOSITION:
+        _costumes[p.id].composition = p.composition;
+
+        recordToHistory(p.id, DISPATCHER_SWITCH_COSTUME_COMPOSITION, { composition: p.composition })
         store.emitChange();
         break;
     case DISPATCHER_SWITCH_COSTUME_SIZE:
@@ -98,6 +112,7 @@ Dispatcher.register((p: PayloadType) => {
         if (_costumes[p.id].location !== p.location) {
             _costumes[p.id].location = p.location;
 
+            recordToHistory(p.id, DISPATCHER_SWITCH_COSTUME_LOCATION, { location: p.location })
             store.emitChange();
         }
         break;

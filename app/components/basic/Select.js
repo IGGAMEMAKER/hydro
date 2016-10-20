@@ -26,7 +26,7 @@ export default class SelectComponent extends Component {
 
 // { width: 100, height: 50 }
         return (
-            <View style={{ width: 100, }}>
+            <View style={{ width: 150, }}>
                 <Picker
                     selectedValue={props.selectedValue}
                     onValueChange={props.onChange}

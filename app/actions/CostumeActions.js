@@ -6,7 +6,8 @@ import {
     DISPATCHER_FLUSH_COSTUME_OWNER,
     DISPATCHER_COSTUME_WASH_INSIDE,
     DISPATCHER_SWITCH_COSTUME_SIZE,
-    DISPATCHER_SWITCH_COSTUME_LOCATION
+    DISPATCHER_SWITCH_COSTUME_LOCATION,
+    DISPATCHER_SWITCH_COSTUME_COMPOSITION
 } from '../constants/constants';
 
 export default {
@@ -65,6 +66,14 @@ export default {
             type: DISPATCHER_SWITCH_COSTUME_LOCATION,
             id,
             location
+        })
+    },
+
+    saveCompositionText: (id, composition) => {
+        Dispatcher.dispatch({
+            type: DISPATCHER_SWITCH_COSTUME_COMPOSITION,
+            id,
+            composition
         })
     }
 }

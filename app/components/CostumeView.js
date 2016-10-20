@@ -13,6 +13,7 @@ import actions from '../actions/CostumeActions';
 
 const MODE_SWITCH_OWNER = 'MODE_SWITCH_OWNER';
 const MODE_CERTIFICATION = 'MODE_CERTIFICATION';
+const MODE_EDIT_COMPOSITION = 'MODE_EDIT_COMPOSITION';
 
 export default class CostumeView extends Component {
     state = {
@@ -156,6 +157,24 @@ export default class CostumeView extends Component {
         }
     }
 
+    onCostumeCompositionChange = (text) => {
+        const changes = this.state.changes;
+        changes.composition = text;
+
+        this.setState({
+            mode: MODE_EDIT_COMPOSITION,
+            changes
+        });
+    }
+
+    saveCompositionText = (id) = {
+        return (value) => {
+            actions.saveCompositionText(id, value);
+
+            this.disableEditing();
+        }
+    }
+
     renderCostumeInfo = () => {
         const props = this.props;
         const state = this.state;
@@ -216,6 +235,11 @@ export default class CostumeView extends Component {
                 <View style={styles.container}>
                     <Text style={styles.label}>Комплектность: </Text>
                     <Text style={styles.text}>{props.data.composition}</Text>
+                    <Input
+                        style={styles.text}
+                        text={state.changes.composition? state.changes.composition : props.data.composition}
+                        onChange={this.onCostumeCompositionChange}
+                    />
                 </View>
 
                 <View style={styles.container}>
@@ -235,8 +259,6 @@ export default class CostumeView extends Component {
                 </View>
                 <Button style={styles.minorButton} text="Провести техосмотр" onClick={this.startCertificationProcess} />
 
-
-                <Text>{props.id}</Text>
                 <Button
                     onClick={props.onBackButtonPressed}
                     text="Вернуться к списку гидрокостюмов"
