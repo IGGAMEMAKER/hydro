@@ -4,14 +4,17 @@ import {
   StyleSheet,
   Text,
   View,
-  ViewGroup
+  ViewGroup,
+  ScrollView,
 } from 'react-native';
 
 import Button from './basic/Button';
+import Input from './basic/TextInput';
 
 type PropsType = {
     costumes: Array,
     onChooseCostume: Function,
+    onDisplayNewCostumeForm: Function,
 }
 
 export default class CostumeList extends Component {
@@ -21,7 +24,6 @@ export default class CostumeList extends Component {
 //            </ViewGroup>
 //        );
 //    }
-
     render() {
         const props: PropsType = this.props;
         // {'\n'}
@@ -36,10 +38,11 @@ export default class CostumeList extends Component {
         ));
 
         return (
-            <View>
-                <Text>Все костюмы</Text>
+            <ScrollView>
+                <Button onClick={props.onDisplayNewCostumeForm} text="Добавить новый гидрокостюм" />
+                <Text style={styles.container}>Все костюмы</Text>
                 {costumeList}
-            </View>
+            </ScrollView>
         );
     }
 }
@@ -50,6 +53,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    textAlign: 'center',
+    fontSize: 23,
+    paddingTop: 15,
+    paddingBottom: 15
   },
   welcome: {
     fontSize: 20,

@@ -7,17 +7,23 @@ import {
 
 import * as ReactNative from 'react-native';
 const Input = ReactNative.TextInput;
-//type PropsType = {
-//    placeholder: String,
-//    text: String,
-//    onChange: Function
-//}
+type PropsType = {
+    placeholder: String,
+    text: String,
+    onChange: Function,
+    style: ?Object,
+    mergeStyles: boolean,
+}
 
 export default class TextInput extends Component {
   render() {
-    const props = this.props;
+    const props: PropsType = this.props;
     console.log('Extended Class TextInput');
 
+    let style = { height: 40, width: 140 };
+    if (props.style) {
+        style = props.mergeStyles? Object.assign(style, props.style): props.style;
+    }
     // props
     // text: String
     // placeholder: String
@@ -25,7 +31,8 @@ export default class TextInput extends Component {
     return (
         <Input
             placeholder={props.placeholder}
-            style={{ height: 40, width: 140 }}
+            style={style}
+            onChange={props.onChange}
         >{props.text}
         </Input>
     )

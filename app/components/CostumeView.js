@@ -7,8 +7,6 @@ import {
 
 import Button from './basic/Button';
 
-//type
-
 export default class CostumeView extends Component {
     render() {
         const props = this.props;

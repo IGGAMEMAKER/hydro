@@ -23,10 +23,12 @@ import TestStore from './app/stores/testStore';
 import {
     MODE_INITIAL_TABLE_VIEW,
     MODE_COSTUME_EDITOR,
+    MODE_COSTUME_ADDING
 } from './app/constants/constants';
 
 import CostumeList from './app/components/CostumeList';
 import CostumeView from './app/components/CostumeView';
+import CostumeAddingForm from './app/components/CostumeAddingForm';
 
 export default class AwesomeProject extends Component {
     state = {
@@ -79,6 +81,20 @@ export default class AwesomeProject extends Component {
         });
     }
 
+    displayNewCostumeForm = () => {
+        this.setState({
+            mode: MODE_COSTUME_ADDING,
+            selectedCostumeId: null
+        });
+    }
+
+    backToMainMenu = () => {
+        this.setState({
+            mode: MODE_INITIAL_TABLE_VIEW,
+            selectedCostumeId: null
+        });
+    }
+
     render() {
         const state = this.state;
 
@@ -98,6 +114,7 @@ export default class AwesomeProject extends Component {
                 <CostumeList
                     costumes={costumes}
                     onChooseCostume={this.selectCostume}
+                    onDisplayNewCostumeForm={this.displayNewCostumeForm}
                 />
             );
         }
@@ -108,9 +125,15 @@ export default class AwesomeProject extends Component {
                 <CostumeView
                     id={id}
                     data={this.getCostumeById(id)}
-                    onBackButtonPressed={() => {
-                        this.setState({ mode: MODE_INITIAL_TABLE_VIEW, selectedCostumeId: null })
-                    }}
+                    onBackButtonPressed={this.backToMainMenu}
+                />
+            );
+        }
+
+        if (state.mode === MODE_COSTUME_ADDING) {
+            return (
+                <CostumeAddingForm
+                    onBackButtonPressed={this.backToMainMenu}
                 />
             );
         }
