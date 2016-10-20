@@ -15,6 +15,10 @@ export default class CostumeView extends Component {
         return (
             <View>
                 <View style={styles.container}>
+                    <Text style={styles.center}>Гидрокостюм №{props.id} </Text>
+                </View>
+
+                <View style={styles.container}>
                     <Text style={styles.label}>Размер: </Text>
                     <Text style={styles.text}>{props.data.size}</Text>
                 </View>
@@ -27,6 +31,11 @@ export default class CostumeView extends Component {
                 <View style={styles.container}>
                     <Text style={styles.label}>Владелец: </Text>
                     <Text style={styles.text}>{props.data.owner} ({props.data.companyOwner})</Text>
+                </View>
+
+                <View style={styles.container}>
+                    <Text style={styles.label}>Комплектность: </Text>
+                    <Text style={styles.text}>{props.data.composition}</Text>
                 </View>
 
                 <Text>{JSON.stringify(props.data)}</Text>
@@ -45,6 +54,11 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         marginBottom: 12
+    },
+    center: {
+        justifyContent: 'center',
+        fontSize: 24,
+        height: 30
     },
     label: {
 //        width: 225,

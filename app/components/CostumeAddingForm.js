@@ -27,6 +27,10 @@ export default class CostumeAdding extends Component {
     onCostumeSizeChange = (text) => {
         this.setState({ size: text })
     }
+
+    onCostumeCompositionChange = (text) => {
+        this.setState({ composition: text })
+    }
     render() {
         const props = this.props;
         const { size, composition, newCostumeId } = this.state;
@@ -65,6 +69,7 @@ export default class CostumeAdding extends Component {
                 <Input
                     placeholder="Укажите комплектность костюма"
                     style={{width: 300}}
+                    onChange={this.onCostumeCompositionChange}
                     mergeStyles
                     text={composition}
                 />
