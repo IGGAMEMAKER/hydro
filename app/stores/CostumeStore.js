@@ -5,7 +5,8 @@ const CHANGE_EVENT = 'CHANGE_EVENT';
 
 import {
     DISPATCHER_COSTUME_ADD,
-    DISPATCHER_SWITCH_COSTUME_OWNER
+    DISPATCHER_SWITCH_COSTUME_OWNER,
+    DISPATCHER_FLUSH_COSTUME_OWNER
 } from '../constants/constants';
 
 let _costumes = {
@@ -69,6 +70,13 @@ Dispatcher.register((p: PayloadType) => {
         _costumes[p.id].companyOwner = p.companyOwner;
 
         store.emitChange();
+        break;
+    case DISPATCHER_FLUSH_COSTUME_OWNER:
+        _costumes[p.id].owner = null;
+        _costumes[p.id].companyOwner = null;
+
+        store.emitChange();
+        break;
     default:
         console.log('costumeStore.js Dispatcher.register worked, but no Payload Type', p)
       break;

@@ -2,7 +2,8 @@ import Dispatcher from '../dispatcher';
 
 import {
     DISPATCHER_COSTUME_ADD,
-    DISPATCHER_SWITCH_COSTUME_OWNER
+    DISPATCHER_SWITCH_COSTUME_OWNER,
+    DISPATCHER_FLUSH_COSTUME_OWNER
 } from '../constants/constants';
 
 export default {
@@ -32,6 +33,12 @@ export default {
             id,
             owner,
             companyOwner
+        })
+    },
+    flushCostumeOwner: (id) => {
+        Dispatcher.dispatch({
+            type: DISPATCHER_FLUSH_COSTUME_OWNER,
+            id
         })
     }
 }

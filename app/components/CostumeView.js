@@ -31,6 +31,12 @@ export default class CostumeView extends Component {
         });
     }
 
+    flushOwner = () => {
+        actions.flushCostumeOwner(this.props.id);
+
+        this.disableEditing();
+    }
+
     onOwnerSwitch = (value) => {
         console.log('onOwnerSwitch', this.state.changes);
         const changes = this.state.changes;
@@ -73,7 +79,12 @@ export default class CostumeView extends Component {
             );
         }
 
-        return <Button style={{ height: 20 }} onClick={this.switchOwner} text="Сменить владельца" />;
+        return (
+            <View>
+                <Button style={{ height: 20 }} onClick={this.switchOwner} text="Сменить владельца" />
+                <Button style={{ height: 20, color: 'pomegranate' }} onClick={this.flushOwner} text="Возврат костюма" />
+            </View>
+        );
     }
 
     render() {
@@ -98,7 +109,14 @@ export default class CostumeView extends Component {
 
                 <View style={styles.container}>
                     <Text style={styles.label}>Владелец: </Text>
-                    <Text style={styles.text}>{props.data.owner} ({props.data.companyOwner})</Text>
+                    <Text style={styles.text}>
+                        {
+                            props.data.owner?
+                                `${props.data.owner} (${props.data.companyOwner})`
+                                :
+                                'Свободен'
+                        }
+                    </Text>
                 </View>
                 <View style={{ marginLeft: 25 }}>{this.renderOwnerSwitchingForm(props, state)}</View>
 
