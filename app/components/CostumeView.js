@@ -86,9 +86,13 @@ export default class CostumeView extends Component {
         }
 
         return (
-            <View>
-                <Button style={{ height: 20 }} onClick={this.switchOwner} text="Сменить владельца" />
-                <Button style={{ height: 20, color: 'pomegranate' }} onClick={this.flushOwner} text="Возврат костюма" />
+            <View style={{ flexDirection: 'row' }}>
+                <Button
+                    style={{ height: 20, width: 350, marginRight: 25 }}
+                    onClick={this.switchOwner} text="Сменить владельца" />
+                <Button
+                    style={{ height: 20, color: 'pomegranate', width: 150 }}
+                    onClick={this.flushOwner} text="Возврат костюма" />
             </View>
         );
     }
