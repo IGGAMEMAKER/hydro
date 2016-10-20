@@ -10,7 +10,7 @@ const Input = ReactNative.TextInput;
 type PropsType = {
     placeholder: String,
     text: String,
-    onChange: Function,
+    onChangeText: Function,
     style: ?Object,
     mergeStyles: boolean,
 }
@@ -18,7 +18,6 @@ type PropsType = {
 export default class TextInput extends Component {
   render() {
     const props: PropsType = this.props;
-    console.log('Extended Class TextInput');
 
     let style = { height: 40, width: 140 };
     if (props.style) {
@@ -32,7 +31,8 @@ export default class TextInput extends Component {
         <Input
             placeholder={props.placeholder}
             style={style}
-            onChange={props.onChange}
+//            onChange={props.onChange}
+            onChangeText={props.onChange}
         >{props.text}
         </Input>
     )

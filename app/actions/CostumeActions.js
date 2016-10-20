@@ -15,10 +15,13 @@ export default {
         })
     },
 
-    addCostume: (costume) => {
+    addCostume: (costume, id) => {
+        console.log('CostumeActions.js addCostume', costume, id);
+
         Dispatcher.dispatch({
             type: DISPATCHER_COSTUME_ADD,
-            costume
+            costume,
+            id
         })
     }
 }

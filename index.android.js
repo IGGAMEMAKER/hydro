@@ -17,8 +17,8 @@ import {
 import TextInput from './app/components/basic/TextInput';
 import Button from './app/components/basic/Button';
 
-import TestAction from './app/actions/testAction';
-import TestStore from './app/stores/testStore';
+//import TestAction from './app/actions/testAction';
+//import TestStore from './app/stores/testStore';
 
 import actions from './app/actions/CostumeActions';
 import store from './app/stores/CostumeStore';
@@ -42,15 +42,15 @@ export default class AwesomeProject extends Component {
 
     componentWillMount() {
         console.log('componentWillMount');
-        TestStore.addChangeListener(() => {
-            this.setState({
-                count: TestStore.getTestValue()
-            })
-        })
+//        TestStore.addChangeListener(() => {
+//            this.setState({
+//                count: TestStore.getTestValue()
+//            })
+//        })
     }
 
     tickCounter = () => {
-        TestAction.test();
+//        TestAction.test();
     }
 
     getCostumes = () => {
@@ -83,8 +83,8 @@ export default class AwesomeProject extends Component {
         });
     }
 
-    addCostume = (costume) => {
-        actions.addCostume(costume);
+    addCostume = (costume, id) => {
+        actions.addCostume(costume, id);
 
         this.backToMainMenu();
     }

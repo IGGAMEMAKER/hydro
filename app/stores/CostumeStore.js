@@ -7,13 +7,15 @@ import {
     DISPATCHER_COSTUME_ADD
 } from '../constants/constants';
 
-const _costumes = {
+let _costumes = {
     '123': {
          size: 2,
          owner: 'Михалыч',
          companyOwner: 'ООО Лукоморье',
-         wasWashedInside: new Date(1, 2, 2000),
-         location: 'участок 1'
+         wasWashedInside: new Date(2000, 2, 10),
+         location: 'участок 1',
+         wasCertifiedDate: new Date(2001, 2, 10)
+         isCertifiedTillDate: new Date(2002, 2, 10),
     },
     '120': {
         size: 22,
@@ -21,6 +23,8 @@ const _costumes = {
         companyOwner: 'ООО Лукоморье',
         wasWashedInside: new Date(1, 2, 2007),
         location: 'участок 1'
+        wasCertifiedDate: new Date(2004, 2, 10)
+        isCertifiedTillDate: new Date(2005, 2, 10),
     }
 }
 
@@ -54,7 +58,10 @@ Dispatcher.register((p: PayloadType) => {
   switch (p.type) {
     case DISPATCHER_COSTUME_ADD:
         const costume = p.costume;
+        const id = p.id;
         console.log('new costume CostumeStore.js', costume);
+
+        _costumes[id] = Object.assign({}, costume);
         store.emitChange();
         break;
     default:
