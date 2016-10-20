@@ -7,14 +7,79 @@ import {
 } from 'react-native';
 
 import Button from './basic/Button';
+import Input from './basic/TextInput';
+import actions from '../actions/CostumeActions';
+
+const MODE_SWITCH_OWNER = 'MODE_SWITCH_OWNER';
 
 export default class CostumeView extends Component {
+    state = {
+        mode: null,
+        changes: {},
+    }
+
+    isOwnerSwitchingMode = () => {
+        return this.state.mode === MODE_SWITCH_OWNER;
+    }
+    switchOwner = () => {
+        this.setState({
+            mode: MODE_SWITCH_OWNER,
+            changes: {
+                owner: this.props.owner,
+                companyOwner: this.props.companyOwner,
+            }
+        });
+    }
+
+    onOwnerSwitch = (value) => {
+        const changes = this.state.changes;
+        changes['owner'] = value;
+        this.setState({ changes });
+    }
+    onCompanyOwnerSwitch = (value) => {
+        const changes = this.state.changes;
+        changes['companyOwner'] = value;
+        this.setState({ changes });
+    }
+
+    saveChangesOwner = () => {
+        const changes = this.state.changes;
+        actions.switchCostumeOwner(this.props.id, changes.owner, changes.companyOwner);
+
+        this.disableEditing();
+    }
+
+    disableEditing = () => { this.setState({ mode: null }) }
+
+    renderOwnerSwitchingForm = (props, state) => {
+        if (this.isOwnerSwitchingMode()) {
+            return (
+                <View style={{}}>
+                    <Text>ФИО владельца</Text>
+                    <Input
+                        text={props.data.owner}
+                        onChange={this.onOwnerSwitch}
+                    />
+                    <Text>Компания</Text>
+                    <Input
+                        text={props.data.companyOwner}
+                        onChange={this.onCompanyOwnerSwitch}
+                    />
+                    <Button text="Сохранить изменения" onClick={this.saveChangesOwner} />
+                </View>
+            );
+        }
+
+        return <Button style={{ height: 20 }} onClick={this.switchOwner} text="Сменить владельца" />;
+    }
+
     render() {
         const props = this.props;
+        const state = this.state;
 
         return (
             <View>
-                <View style={styles.container}>
+                <View style={styles.center}>
                     <Text style={styles.center}>Гидрокостюм №{props.id} </Text>
                 </View>
 
@@ -32,6 +97,7 @@ export default class CostumeView extends Component {
                     <Text style={styles.label}>Владелец: </Text>
                     <Text style={styles.text}>{props.data.owner} ({props.data.companyOwner})</Text>
                 </View>
+                <View style={{ marginLeft: 25 }}>{this.renderOwnerSwitchingForm(props, state)}</View>
 
                 <View style={styles.container}>
                     <Text style={styles.label}>Комплектность: </Text>
@@ -56,9 +122,12 @@ const styles = StyleSheet.create({
         marginBottom: 12
     },
     center: {
+        flex: 1,
+        flexDirection: 'column',
         justifyContent: 'center',
+        alignItems: 'center',
         fontSize: 24,
-        height: 30
+        height: 30,
     },
     label: {
 //        width: 225,

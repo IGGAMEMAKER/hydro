@@ -10,15 +10,29 @@ const Btn = Button;
 type PropsType = {
     onClick: Function,
     text: String,
-    action: boolean
+    action: boolean,
+    style: Object,
 }
 export default class ButtonMock extends Component {
     render() {
         const props: PropsType = this.props;
+
+        let style = {};
+
+        if (props.action) {
+            style = styles.action;
+        } else {
+            if (props.style) {
+                style = props.style;
+            } else {
+                style = styles.primary;
+            }
+        }
         return (
             <Button
                 onPress={props.onClick}
-                style={props.action ? styles.action : styles.primary}
+//                style={props.action ? styles.action : styles.primary}
+                style={style}
             >
                 {props.text}
             </Button>

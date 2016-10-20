@@ -4,7 +4,8 @@ import Dispatcher from '../dispatcher';
 const CHANGE_EVENT = 'CHANGE_EVENT';
 
 import {
-    DISPATCHER_COSTUME_ADD
+    DISPATCHER_COSTUME_ADD,
+    DISPATCHER_SWITCH_COSTUME_OWNER
 } from '../constants/constants';
 
 let _costumes = {
@@ -58,12 +59,16 @@ Dispatcher.register((p: PayloadType) => {
   switch (p.type) {
     case DISPATCHER_COSTUME_ADD:
         const costume = p.costume;
-        const id = p.id;
         console.log('new costume CostumeStore.js', costume);
 
-        _costumes[id] = Object.assign({}, costume);
+        _costumes[p.id] = Object.assign({}, costume);
         store.emitChange();
         break;
+    case DISPATCHER_SWITCH_COSTUME_OWNER:
+        _costumes[p.id].owner = p.owner;
+        _costumes[p.id].companyOwner = p.companyOwner;
+
+        store.emitChange();
     default:
         console.log('costumeStore.js Dispatcher.register worked, but no Payload Type', p)
       break;
