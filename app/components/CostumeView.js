@@ -25,18 +25,20 @@ export default class CostumeView extends Component {
         this.setState({
             mode: MODE_SWITCH_OWNER,
             changes: {
-                owner: this.props.owner,
-                companyOwner: this.props.companyOwner,
+                owner: this.props.data.owner,
+                companyOwner: this.props.data.companyOwner,
             }
         });
     }
 
     onOwnerSwitch = (value) => {
+        console.log('onOwnerSwitch', this.state.changes);
         const changes = this.state.changes;
         changes['owner'] = value;
         this.setState({ changes });
     }
     onCompanyOwnerSwitch = (value) => {
+        console.log('onOwnerSwitch', this.state.changes);
         const changes = this.state.changes;
         changes['companyOwner'] = value;
         this.setState({ changes });
@@ -44,6 +46,7 @@ export default class CostumeView extends Component {
 
     saveChangesOwner = () => {
         const changes = this.state.changes;
+        console.log('saveChangesOwner CostumeView.js', changes);
         actions.switchCostumeOwner(this.props.id, changes.owner, changes.companyOwner);
 
         this.disableEditing();
