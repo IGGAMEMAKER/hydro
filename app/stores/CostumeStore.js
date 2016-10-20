@@ -7,12 +7,13 @@ import {
     DISPATCHER_COSTUME_ADD,
     DISPATCHER_SWITCH_COSTUME_OWNER,
     DISPATCHER_FLUSH_COSTUME_OWNER,
-    DISPATCHER_COSTUME_WASH_INSIDE
+    DISPATCHER_COSTUME_WASH_INSIDE,
+    DISPATCHER_SWITCH_COSTUME_SIZE
 } from '../constants/constants';
 
 let _costumes = {
     '123': {
-         size: 2,
+         size: 'l',
          owner: 'Михалыч',
          companyOwner: 'ООО Лукоморье',
          wasWashedInside: new Date(2000, 2, 10),
@@ -21,7 +22,7 @@ let _costumes = {
          isCertifiedTillDate: new Date(2002, 2, 10),
     },
     '120': {
-        size: 22,
+        size: 'xl',
         owner: 'Петрович',
         companyOwner: 'ООО Лукоморье',
         wasWashedInside: new Date(2007, 2, 1),
@@ -80,6 +81,11 @@ Dispatcher.register((p: PayloadType) => {
         break;
     case DISPATCHER_COSTUME_WASH_INSIDE:
         _costumes[p.id].wasWashedInside = new Date();
+
+        store.emitChange();
+        break;
+    case DISPATCHER_SWITCH_COSTUME_SIZE:
+        _costumes[p.id].size = p.size;
 
         store.emitChange();
         break;

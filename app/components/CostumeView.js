@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import Button from './basic/Button';
+import Select from './basic/Select';
 import Input from './basic/TextInput';
 import actions from '../actions/CostumeActions';
 
@@ -35,8 +36,6 @@ export default class CostumeView extends Component {
             }
         });
     }
-
-
 
     flushOwner = () => {
         actions.flushCostumeOwner(this.props.id);
@@ -100,7 +99,7 @@ export default class CostumeView extends Component {
                         text={props.data.companyOwner}
                         onChange={this.onCompanyOwnerSwitch}
                     />
-                    <View style={{marginBottom: 15}}>
+                    <View style={{ marginBottom: 15 }}>
                         <Button text="Сохранить изменения" onClick={this.saveChangesOwner} />
                     </View>
                     <Button text="Отменить изменения" onClick={this.rejectChangesOwner} />
@@ -144,21 +143,39 @@ export default class CostumeView extends Component {
 //        return JSON.stringify(date);
     }
 
-    render() {
+    switchCostumeSize = (id) => {
+        return (value) => {
+            actions.switchCostumeSize(id, value);
+
+            this.disableEditing();
+        }
+    }
+
+    renderCostumeInfo = () => {
         const props = this.props;
         const state = this.state;
 
         const formatDate = this.formatDate;
 
+        costumeSizeOptions = [
+            { label: 'm', value: 'm'},
+            { label: 'l', value: 'l'},
+            { label: 's', value: 's'},
+            { label: 'xl', value: 'xl'},
+        ];
+
         return (
             <View>
-                <View style={styles.center}>
-                    <Text style={styles.center}>Гидрокостюм №{props.id} </Text>
-                </View>
-
                 <View style={styles.container}>
-                    <Text style={styles.label}>Размер: </Text>
-                    <Text style={styles.text}>{props.data.size}</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.label}>Размер: </Text>
+                        <Text style={styles.text}>{props.data.size}</Text>
+                        <Select
+                            options={costumeSizeOptions}
+                            selectedValue={props.data.size}
+                            onChange={this.switchCostumeSize(props.id)}
+                        />
+                    </View>
                 </View>
 
                 <View style={styles.container}>
@@ -209,6 +226,25 @@ export default class CostumeView extends Component {
                 ></Button>
             </View>
         );
+    }
+
+    renderCostumeHistory = () => {
+        return <Text>costume history</Text>
+    }
+
+    render() {
+        const props = this.props;
+        return (
+            <View>
+                <View style={styles.center}>
+                    <Text style={styles.center}>Гидрокостюм №{props.id} </Text>
+                </View>
+                <View style={{ flexDirection: 'row'}}>
+                    <View>{this.renderCostumeInfo()}</View>
+                    <View>{this.renderCostumeHistory()}</View>
+                </View>
+            </View>
+        )
     }
 }
 //<Text>{JSON.stringify(props.data)}</Text>
