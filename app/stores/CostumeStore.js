@@ -14,7 +14,7 @@ let _costumes = {
          companyOwner: 'ООО Лукоморье',
          wasWashedInside: new Date(2000, 2, 10),
          location: 'участок 1',
-         wasCertifiedDate: new Date(2001, 2, 10)
+         wasCertifiedDate: new Date(2001, 2, 10),
          isCertifiedTillDate: new Date(2002, 2, 10),
     },
     '120': {
@@ -22,8 +22,8 @@ let _costumes = {
         owner: 'Петрович',
         companyOwner: 'ООО Лукоморье',
         wasWashedInside: new Date(1, 2, 2007),
-        location: 'участок 1'
-        wasCertifiedDate: new Date(2004, 2, 10)
+        location: 'участок 1',
+        wasCertifiedDate: new Date(2004, 2, 10),
         isCertifiedTillDate: new Date(2005, 2, 10),
     }
 }

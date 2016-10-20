@@ -27,15 +27,22 @@ export default class CostumeList extends Component {
     render() {
         const props: PropsType = this.props;
         // {'\n'}
-        const costumeList = Object.keys(props.costumes).map(key => (
-            <View>
-                <Text>№ {key}</Text>
-                <Button
-                    onClick={() => { props.onChooseCostume(key) }}
-                    text="Подробнее"
-                />
-            </View>
-        ));
+        const costumeList = Object.keys(props.costumes).map(key => {
+            const owner = props.costumes[key].owner;
+            const isFree = !owner;
+            return (
+                <View>
+                    <Text>№ {key}</Text>
+                    <Text style={isFree? { color: 'green' }: {}}>
+                        {isFree? 'Свободен': `Владелец: ${owner}`}
+                    </Text>
+                    <Button
+                        onClick={() => { props.onChooseCostume(key) }}
+                        text="Подробнее"
+                    />
+                </View>
+            );
+        });
 
         return (
             <ScrollView>
