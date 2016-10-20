@@ -85,9 +85,11 @@ Dispatcher.register((p: PayloadType) => {
         store.emitChange();
         break;
     case DISPATCHER_SWITCH_COSTUME_SIZE:
-        _costumes[p.id].size = p.size;
+        if (_costumes[p.id].size !== p.size) {
+            _costumes[p.id].size = p.size;
 
-        store.emitChange();
+            store.emitChange();
+        }
         break;
     default:
         console.log('costumeStore.js Dispatcher.register worked, but no Payload Type', p)

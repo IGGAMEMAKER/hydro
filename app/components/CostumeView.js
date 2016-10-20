@@ -119,8 +119,6 @@ export default class CostumeView extends Component {
         );
     }
 
-
-
     formatDate = (date) => {
 //
         const options = {
@@ -169,12 +167,13 @@ export default class CostumeView extends Component {
                 <View style={styles.container}>
                     <View style={{ flexDirection: 'row' }}>
                         <Text style={styles.label}>Размер: </Text>
-                        <Text style={styles.text}>{props.data.size}</Text>
-                        <Select
-                            options={costumeSizeOptions}
-                            selectedValue={props.data.size}
-                            onChange={this.switchCostumeSize(props.id)}
-                        />
+                        <View style={{ marginTop: -15 }}>
+                                            <Select
+                                                options={costumeSizeOptions}
+                                                selectedValue={props.data.size}
+                                                onChange={this.switchCostumeSize(props.id)}
+                                            />
+                        </View>
                     </View>
                 </View>
 
@@ -234,13 +233,14 @@ export default class CostumeView extends Component {
 
     render() {
         const props = this.props;
+        // { borderRight: 2, borderStyle: 'solid', borderColor: 'black' }
         return (
             <View>
                 <View style={styles.center}>
                     <Text style={styles.center}>Гидрокостюм №{props.id} </Text>
                 </View>
                 <View style={{ flexDirection: 'row'}}>
-                    <View>{this.renderCostumeInfo()}</View>
+                    <View style={{}}>{this.renderCostumeInfo()}</View>
                     <View>{this.renderCostumeHistory()}</View>
                 </View>
             </View>
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
         height: 22
     },
     text: {
-        width: 400,
+//        width: 400,
 //        flex: 1, flexDirection: 'row',
         fontSize: 16,
         height: 22
