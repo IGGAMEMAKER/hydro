@@ -10,6 +10,7 @@ const Btn = Button;
 type PropsType = {
     onClick: Function,
     text: String,
+    action: boolean
 }
 export default class ButtonMock extends Component {
     render() {
@@ -17,7 +18,7 @@ export default class ButtonMock extends Component {
         return (
             <Button
                 onPress={props.onClick}
-                style={styles.primary}
+                style={props.action ? styles.action : styles.primary}
             >
                 {props.text}
             </Button>
@@ -28,6 +29,26 @@ export default class ButtonMock extends Component {
 const styles = StyleSheet.create({
     primary: {
         backgroundColor: 'powderblue',
+        padding: 25,
+
+        paddingLeft: 25,
+        paddingRight: 25,
+        paddingBottom: 15,
+        paddingTop: 15
+    },
+    action: {
+//        backgroundColor: 'seagreen',
+        backgroundColor: 'tomato',
+        color: 'white',
+        padding: 25,
+
+        paddingLeft: 25,
+        paddingRight: 25,
+        paddingBottom: 15,
+        paddingTop: 15
+    },
+    navigation: {
+        backgroundColor: 'green',
         padding: 25,
 
         paddingLeft: 25,

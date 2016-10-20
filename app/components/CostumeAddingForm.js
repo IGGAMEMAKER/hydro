@@ -20,6 +20,7 @@ export default class CostumeAdding extends Component {
                     style={{width: 300}}
                     mergeStyles
                 />
+                <Button action onClick={props.onBackButtonPressed} text="Добавить гидрокостюм"/>
 
                 <Button onClick={props.onBackButtonPressed} text="Вернуться к списку гидрокостюмов"/>
             </View>
