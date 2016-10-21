@@ -45,8 +45,10 @@ export default class CostumeList extends Component {
         });
 
         return (
-            <ScrollView>
-                <Button onClick={props.onDisplayNewCostumeForm} text="Добавить новый гидрокостюм" />
+            <ScrollView style={{ padding: 15 }}>
+                <View style={{ marginBottom: 15 }}>
+                    <Button onClick={props.onDisplayNewCostumeForm} text="Добавить новый гидрокостюм" />
+                </View>
                 <Text style={styles.container}>Все костюмы</Text>
                 {costumeList}
             </ScrollView>

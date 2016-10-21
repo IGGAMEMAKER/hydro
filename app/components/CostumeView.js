@@ -92,9 +92,10 @@ export default class CostumeView extends Component {
     }
 
     startCertificationProcess = () => {
-        this.setState({
-            mode: MODE_CERTIFICATION
-        })
+//        this.setState({
+//            mode: MODE_CERTIFICATION
+//        })
+        this.props.onCertificationButtonPressed();
     }
 
     disableEditing = () => { this.setState({ mode: null }) }
@@ -306,41 +307,43 @@ export default class CostumeView extends Component {
         );
     }
 
-    renderHistoryRecordComponent = (record) => {
+    getHistoryRecordPhrase = (record) => {
         const showDate = (date) => {
             return `(${this.formatDate(date)})`;
         }
-        let text = '';
+
         switch (record.tag) {
             case DISPATCHER_SWITCH_COSTUME_OWNER:
-                text = `Смена владельца: ${record.data.owner} ${showDate(record.data.date)}`;
+                return `Смена владельца: ${record.data.owner} ${showDate(record.data.date)}`;
                 break;
             case DISPATCHER_FLUSH_COSTUME_OWNER:
-                text = `Возврат костюма ${showDate(record.data.date)}`;
+                return `Возврат костюма ${showDate(record.data.date)}`;
                 break;
             case DISPATCHER_COSTUME_WASH_INSIDE:
-                text = `Стирка внутренней подкладки ${showDate(record.data.date)}`;
+                return `Стирка внутренней подкладки ${showDate(record.data.date)}`;
                 break;
             case DISPATCHER_COSTUME_REPAIR:
-                text = `Ремонт гидрокостюма ${showDate(record.data.date)}`;
+                return `Ремонт гидрокостюма ${showDate(record.data.date)}`;
                 break;
             case DISPATCHER_COSTUME_DISINFECT:
-                text = `Продезинфицировано ${showDate(record.data.date)}`;
+                return `Продезинфицировано ${showDate(record.data.date)}`;
                 break;
             case DISPATCHER_SWITCH_COSTUME_SIZE:
-                text = ``;
+                return ``;
                 break;
             case DISPATCHER_SWITCH_COSTUME_LOCATION:
-                text = `Смена местоположения: ${record.data.location} ${showDate(record.data.date)}`;
+                return `Смена местоположения: ${record.data.location} ${showDate(record.data.date)}`;
                 break;
             case DISPATCHER_SWITCH_COSTUME_COMPOSITION:
-                text = `Смена комплектации состава: ${record.data.composition} ${showDate(record.data.date)}`;
+                return `Смена комплектации состава: ${record.data.composition} ${showDate(record.data.date)}`;
                 break;
         }
+    }
 
+    renderHistoryRecordComponent = (record) => {
         return (
             <View style={{ marginBottom: 15 }}>
-                <Text>{text}</Text>
+                <Text>{this.getHistoryRecordPhrase(record)}</Text>
             </View>
         );
     }

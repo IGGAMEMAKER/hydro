@@ -23,11 +23,13 @@ import store from './app/stores/CostumeStore';
 import {
     MODE_INITIAL_TABLE_VIEW,
     MODE_COSTUME_EDITOR,
-    MODE_COSTUME_ADDING
+    MODE_COSTUME_ADDING,
+    MODE_COSTUME_CERTIFY
 } from './app/constants/constants';
 
 import CostumeList from './app/components/CostumeList';
 import CostumeView from './app/components/CostumeView';
+import CostumeCertification from './app/components/CostumeCertification';
 import CostumeAddingForm from './app/components/CostumeAddingForm';
 
 export default class AwesomeProject extends Component {
@@ -76,6 +78,13 @@ export default class AwesomeProject extends Component {
         });
     }
 
+    toCertificationMenu = (id) => {
+        this.setState({
+            mode: MODE_COSTUME_CERTIFY,
+            selectedCostumeId: id
+        })
+    }
+
     addCostume = (costume, id) => {
         actions.addCostume(costume, id);
 
@@ -104,6 +113,7 @@ export default class AwesomeProject extends Component {
                     id={id}
                     data={this.getCostumeById(id)}
                     onBackButtonPressed={this.backToMainMenu}
+                    onCertificationButtonPressed={() => { this.toCertificationMenu(id); }}
                 />
             );
         }
@@ -113,6 +123,15 @@ export default class AwesomeProject extends Component {
                 <CostumeAddingForm
                     onBackButtonPressed={this.backToMainMenu}
                     onAddCostumePressed={this.addCostume}
+                />
+            );
+        }
+
+        if (state.mode === MODE_COSTUME_CERTIFY) {
+            return (
+                <CostumeCertification
+                    id={state.selectedCostumeId}
+                    onBackButtonPressed={this.backToCostumeEditor}
                 />
             );
         }
