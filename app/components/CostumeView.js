@@ -364,8 +364,8 @@ export default class CostumeView extends Component {
                     <Text style={styles.center}>Гидрокостюм №{props.id} </Text>
                 </View>
                 <View style={{ flexDirection: 'row'}}>
-                    <View>{this.renderCostumeInfo()}</View>
-                    <View>{this.renderCostumeHistory(props.data)}</View>
+                    <View style={{ marginLeft: 15 }}>{this.renderCostumeInfo()}</View>
+                    <View style={{ marginLeft: 15 }}>{this.renderCostumeHistory(props.data)}</View>
                 </View>
             </ScrollView>
         )
@@ -376,7 +376,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
-        marginBottom: 12
+        marginBottom: 5
     },
     center: {
         flex: 1,
@@ -403,7 +403,8 @@ const styles = StyleSheet.create({
     minorButton: {
         height: 20,
         width: 350,
-        marginRight: 25
+        marginRight: 25,
+        marginBottom: 15
     },
 
     columnLabel: {
