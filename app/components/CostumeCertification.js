@@ -34,7 +34,8 @@ export default class CostumeCertification extends Component {
         }
     }
     state = {
-        checkboxes: [1,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0],
+//        checkboxes: [1,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0],
+        checkboxes: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 //        checkboxes: [0,0],
         day: null,
         month: null,
@@ -90,18 +91,31 @@ export default class CostumeCertification extends Component {
 
         return (
             <ScrollView>
-                <Text style={{ fontSize: 22, marginBottom: 12 }}>Сертификация гидрокостюма</Text>
+                <Text style={{ fontSize: 22, marginBottom: 12 }}>
+                    {
+                        editable? 'Сертификация гидрокостюма': 'Последний техосмотр гидрокостюма'
+                    }
+                </Text>
                 {this.renderCostumeCertificationTests(state.checkboxes, editable)}
 
-                <Text>Дата сертификации (сегодня): {dateFormatter(new Date())}</Text>
-                <Text>Сертификация действительна до:</Text>
-                <Input onChange={this.onYearChange} style={{ width: 200 }} placeholder="Год" />
-                <Input onChange={this.onMonthChange} style={{ width: 200 }} placeholder="Месяц" />
-                <Input onChange={this.onDayChange} style={{ width: 200 }} placeholder="День" />
+                {
+                    editable?
+                        <View>
+                            <Text>Дата сертификации (сегодня): {dateFormatter(new Date())}</Text>
+                            <Text>Сертификация действительна до:</Text>
 
-                <View style={{ marginBottom: 12 }}>
-                    <Button onClick={this.submitCertification} text="Сохранить результаты сертификации" />
-                </View>
+                            <Input onChange={this.onYearChange} style={{ width: 200 }} placeholder="Год" />
+                            <Input onChange={this.onMonthChange} style={{ width: 200 }} placeholder="Месяц" />
+                            <Input onChange={this.onDayChange} style={{ width: 200 }} placeholder="День" />
+
+                            <View style={{ marginBottom: 12 }}>
+                                <Button onClick={this.submitCertification} text="Сохранить результаты сертификации" />
+                            </View>
+                        </View>
+                        :
+                        <Text></Text>
+                }
+
                 <View style={{ marginBottom: 12 }}>
                     <Button onClick={this.props.onBackButtonPressed} text="Вернуться в главное меню" />
                 </View>

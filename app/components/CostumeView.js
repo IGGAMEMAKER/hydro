@@ -307,7 +307,7 @@ export default class CostumeView extends Component {
                     <Text style={styles.text}>{formatDate(props.data.isCertifiedTillDate)}</Text>
                 </View>
                 <Button style={styles.minorButton} text="Провести техосмотр" onClick={this.startCertificationProcess} />
-                <Button style={{}} text="Просмотреть результаты техосмотра" onClick={this.props.onWatchCertification} />
+                <Button style={{ marginTop: 12 }} text="Просмотреть результаты техосмотра" onClick={this.props.onWatchCertification} />
 
                 <Button
                     onClick={props.onBackButtonPressed}
@@ -346,7 +346,7 @@ export default class CostumeView extends Component {
                 break;
             case DISPATCHER_COSTUME_CERTIFICATION:
 //                certification
-                return `Проведение сертификации: с ${record.data.date} до ${showDate(record.data.expires)}`;
+                return `Проведение сертификации: с ${showDate(record.data.date)} до ${showDate(record.data.expires)}`;
                 break;
             case DISPATCHER_SWITCH_COSTUME_COMPOSITION:
                 return `Смена комплектации состава: ${record.data.composition} ${showDate(record.data.date)}`;
