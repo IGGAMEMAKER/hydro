@@ -16,6 +16,8 @@ const MODE_SWITCH_OWNER = 'MODE_SWITCH_OWNER';
 const MODE_CERTIFICATION = 'MODE_CERTIFICATION';
 const MODE_EDIT_COMPOSITION = 'MODE_EDIT_COMPOSITION';
 
+import dateFormatter from '../helpers/date-formatter';
+
 import {
     DISPATCHER_COSTUME_ADD,
     DISPATCHER_SWITCH_COSTUME_OWNER,
@@ -135,6 +137,7 @@ export default class CostumeView extends Component {
     }
 
     formatDate = (date) => {
+        return dateFormatter(date);
 //
         const options = {
 //          era: 'long',
