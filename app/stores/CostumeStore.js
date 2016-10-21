@@ -11,7 +11,8 @@ import {
     DISPATCHER_SWITCH_COSTUME_SIZE,
     DISPATCHER_SWITCH_COSTUME_LOCATION,
     DISPATCHER_SWITCH_COSTUME_COMPOSITION,
-    DISPATCHER_COSTUME_DISINFECT
+    DISPATCHER_COSTUME_DISINFECT,
+    DISPATCHER_COSTUME_REPAIR
 } from '../constants/constants';
 
 let _costumes = {
@@ -25,6 +26,7 @@ let _costumes = {
          isCertifiedTillDate: new Date(2002, 2, 10),
          history: [],
          disinfectionDate: new Date(1998, 2, 4),
+         repairDate: new Date(1999, 2, 4),
     },
     '120': {
          size: 'xl',
@@ -35,7 +37,9 @@ let _costumes = {
          wasCertifiedDate: new Date(2004, 2, 10),
          isCertifiedTillDate: new Date(2005, 2, 10),
          history: [],
-         disinfectionDate: new Date(2008, 2, 4)
+         disinfectionDate: new Date(2008, 2, 4),
+         repairDate: new Date(2009, 5, 14)
+
     }
 }
 
@@ -98,6 +102,12 @@ Dispatcher.register((p: PayloadType) => {
         _costumes[p.id].wasWashedInside = new Date();
 
         recordToHistory(p.id, DISPATCHER_COSTUME_WASH_INSIDE, { date: new Date() })
+        store.emitChange();
+        break;
+    case DISPATCHER_COSTUME_REPAIR:
+        _costumes[p.id].repairDate = new Date();
+
+        recordToHistory(p.id, DISPATCHER_COSTUME_REPAIR, { date: new Date() })
         store.emitChange();
         break;
     case DISPATCHER_COSTUME_DISINFECT:

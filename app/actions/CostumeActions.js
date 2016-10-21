@@ -8,7 +8,8 @@ import {
     DISPATCHER_SWITCH_COSTUME_SIZE,
     DISPATCHER_SWITCH_COSTUME_LOCATION,
     DISPATCHER_SWITCH_COSTUME_COMPOSITION,
-    DISPATCHER_COSTUME_DISINFECT
+    DISPATCHER_COSTUME_DISINFECT,
+    DISPATCHER_COSTUME_REPAIR
 } from '../constants/constants';
 
 export default {
@@ -82,6 +83,13 @@ export default {
             type: DISPATCHER_COSTUME_DISINFECT,
             id,
             date: new Date(),
+        })
+    },
+
+    repairCostume: (id) => {
+        Dispatcher.dispatch({
+            type: DISPATCHER_COSTUME_REPAIR,
+            id
         })
     }
 }

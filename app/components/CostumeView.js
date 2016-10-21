@@ -24,7 +24,8 @@ import {
     DISPATCHER_SWITCH_COSTUME_SIZE,
     DISPATCHER_SWITCH_COSTUME_LOCATION,
     DISPATCHER_SWITCH_COSTUME_COMPOSITION,
-    DISPATCHER_COSTUME_DISINFECT
+    DISPATCHER_COSTUME_DISINFECT,
+    DISPATCHER_COSTUME_REPAIR
 } from '../constants/constants';
 
 export default class CostumeView extends Component {
@@ -194,6 +195,12 @@ export default class CostumeView extends Component {
         this.disableEditing();
     }
 
+    repairCostume = () => {
+        actions.repairCostume(this.props.id);
+
+        this.disableEditing();
+    }
+
     renderCostumeInfo = () => {
         const props = this.props;
         const state = this.state;
@@ -272,7 +279,13 @@ export default class CostumeView extends Component {
                     <Text style={styles.label}>Дата дезинфекции: </Text>
                     <Text style={styles.text}>{formatDate(props.data.disinfectionDate)}</Text>
                 </View>
-                <Button style={styles.minorButton} text="Дезинфицировать сейчас" onClick={this.disinfectCostume} />
+                <Button style={styles.minorButton} text="Дезинфицировать" onClick={this.disinfectCostume} />
+
+                <View style={styles.container}>
+                    <Text style={styles.label}>Отремонтировано: </Text>
+                    <Text style={styles.text}>{formatDate(props.data.repairDate)}</Text>
+                </View>
+                <Button style={styles.minorButton} text="Ремонтировать" onClick={this.repairCostume} />
 
                 <View style={styles.container}>
                     <Text style={styles.label}>Дата проведения сертификации (тех. осмотра??): </Text>
@@ -307,6 +320,9 @@ export default class CostumeView extends Component {
                 break;
             case DISPATCHER_COSTUME_WASH_INSIDE:
                 text = `Стирка внутренней подкладки ${showDate(record.data.date)}`;
+                break;
+            case DISPATCHER_COSTUME_REPAIR:
+                text = `Ремонт гидрокостюма ${showDate(record.data.date)}`;
                 break;
             case DISPATCHER_COSTUME_DISINFECT:
                 text = `Продезинфицировано ${showDate(record.data.date)}`;
