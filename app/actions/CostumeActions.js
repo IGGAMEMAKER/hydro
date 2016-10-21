@@ -93,7 +93,7 @@ export default {
             id
         })
     },
-    submitCertification: (id) => {
+    submitCertification: (id, checkboxes, day, month, year) => {
         Dispatcher.dispatch({
             type: DISPATCHER_COSTUME_CERTIFICATION,
             id,

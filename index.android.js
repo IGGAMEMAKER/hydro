@@ -77,6 +77,12 @@ export default class AwesomeProject extends Component {
             selectedCostumeId: null
         });
     }
+    backToCostumeEditor = () => {
+        this.setState({
+            mode: MODE_COSTUME_EDITOR,
+//            selectedCostumeId: null
+        });
+    }
 
     toCertificationMenu = (id) => {
         this.setState({
@@ -131,7 +137,8 @@ export default class AwesomeProject extends Component {
             return (
                 <CostumeCertification
                     id={state.selectedCostumeId}
-                    onBackButtonPressed={this.backToCostumeEditor}
+                    onBackButtonPressed={this.backToMainMenu}
+                    onSubmitCertification={this.backToCostumeEditor}
                 />
             );
         }

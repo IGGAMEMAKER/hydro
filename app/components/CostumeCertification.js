@@ -85,7 +85,10 @@ export default class CostumeCertification extends Component {
                 <Input onChange={this.onMonthChange} style={{ width: 200 }} placeholder="Месяц" />
                 <Input onChange={this.onDayChange} style={{ width: 200 }} placeholder="День" />
 
-                <Button onClick={this.submitCertification} text="Сохранить результаты сертификации" />
+                <View style={{ marginBottom: 12 }}>
+                    <Button onClick={this.submitCertification} text="Сохранить результаты сертификации" />
+                </View>
+                <Button onClick={this.props.onBackButtonPressed} text="Вернуться в главное меню" />
             </ScrollView>
         );
 //                <Input onChange= style={{ width: 200 }} placeholder="Комментарий к проверке" />
