@@ -152,7 +152,7 @@ Dispatcher.register((p: PayloadType) => {
         recordToHistory(p.id, DISPATCHER_COSTUME_CERTIFICATION, {
             certification: p.checkboxes,
             date: new Date(),
-            exprires: new Date(p.year, p.month - 1, p.day)
+            expires: new Date(p.year, p.month - 1, p.day)
         })
         store.emitChange();
         break;

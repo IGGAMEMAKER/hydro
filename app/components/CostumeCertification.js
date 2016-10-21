@@ -47,8 +47,8 @@ export default class CostumeCertification extends Component {
 
         this.props.onSubmitCertification(this.props.id);
     }
-    render() {
-        const state = this.state;
+
+    renderCostumeCertificationTests = (checkboxes, editable) => {
         const words = [
             'Отметить на сервисной карте серийный номер.',
             'Убедиться в том, что карман HPL и антенный модуль пусты и не повреждены. С радио-маяком следует обращаться согласно установленной процедуре.',
@@ -69,16 +69,30 @@ export default class CostumeCertification extends Component {
              'Снять дыхательную систему и вставить заглушку в респиратор, если применимо.',
              'Проверить липучки и петли страховки.'
         ];
+        return words.map((w, i) => {
+            let component = <Text>{checkboxes[i] === 1 ? 'Да': 'Нет'}</Text>;
+
+            if (editable) {
+                component = <Checkbox isChecked={!!checkboxes[i]} />;
+            }
+            return (
+               <View>
+                   <Text>{w}</Text>
+                   {component}
+               </View>
+           )
+       })
+    }
+
+    render() {
+        const state = this.state;
+        const editable = this.props.editable;
 
         return (
             <ScrollView>
                 <Text style={{ fontSize: 22, marginBottom: 12 }}>Сертификация гидрокостюма</Text>
-                {words.map((w, i) => (
-                    <View>
-                        <Text>{w}</Text>
-                        <Checkbox isChecked={!!state.checkboxes[i]} />
-                    </View>
-                ))}
+                {this.renderCostumeCertificationTests(state.checkboxes, editable)}
+
                 <Text>Дата сертификации (сегодня): {dateFormatter(new Date())}</Text>
                 <Text>Сертификация действительна до:</Text>
                 <Input onChange={this.onYearChange} style={{ width: 200 }} placeholder="Год" />
@@ -88,7 +102,9 @@ export default class CostumeCertification extends Component {
                 <View style={{ marginBottom: 12 }}>
                     <Button onClick={this.submitCertification} text="Сохранить результаты сертификации" />
                 </View>
-                <Button onClick={this.props.onBackButtonPressed} text="Вернуться в главное меню" />
+                <View style={{ marginBottom: 12 }}>
+                    <Button onClick={this.props.onBackButtonPressed} text="Вернуться в главное меню" />
+                </View>
             </ScrollView>
         );
 //                <Input onChange= style={{ width: 200 }} placeholder="Комментарий к проверке" />

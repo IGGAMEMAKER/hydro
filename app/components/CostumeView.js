@@ -27,7 +27,8 @@ import {
     DISPATCHER_SWITCH_COSTUME_LOCATION,
     DISPATCHER_SWITCH_COSTUME_COMPOSITION,
     DISPATCHER_COSTUME_DISINFECT,
-    DISPATCHER_COSTUME_REPAIR
+    DISPATCHER_COSTUME_REPAIR,
+    DISPATCHER_COSTUME_CERTIFICATION
 } from '../constants/constants';
 
 export default class CostumeView extends Component {
@@ -306,6 +307,7 @@ export default class CostumeView extends Component {
                     <Text style={styles.text}>{formatDate(props.data.isCertifiedTillDate)}</Text>
                 </View>
                 <Button style={styles.minorButton} text="Провести техосмотр" onClick={this.startCertificationProcess} />
+                <Button style={{}} text="Просмотреть результаты техосмотра" onClick={this.props.onWatchCertification} />
 
                 <Button
                     onClick={props.onBackButtonPressed}
@@ -341,6 +343,10 @@ export default class CostumeView extends Component {
                 break;
             case DISPATCHER_SWITCH_COSTUME_LOCATION:
                 return `Смена местоположения: ${record.data.location} ${showDate(record.data.date)}`;
+                break;
+            case DISPATCHER_COSTUME_CERTIFICATION:
+//                certification
+                return `Проведение сертификации: с ${record.data.date} до ${showDate(record.data.expires)}`;
                 break;
             case DISPATCHER_SWITCH_COSTUME_COMPOSITION:
                 return `Смена комплектации состава: ${record.data.composition} ${showDate(record.data.date)}`;

@@ -24,7 +24,8 @@ import {
     MODE_INITIAL_TABLE_VIEW,
     MODE_COSTUME_EDITOR,
     MODE_COSTUME_ADDING,
-    MODE_COSTUME_CERTIFY
+    MODE_COSTUME_CERTIFY,
+    MODE_COSTUME_CERTIFY_NO_EDITING,
 } from './app/constants/constants';
 
 import CostumeList from './app/components/CostumeList';
@@ -90,6 +91,12 @@ export default class AwesomeProject extends Component {
             selectedCostumeId: id
         })
     }
+    toCertificationWithNoEditing = (id) => {
+        this.setState({
+            mode: MODE_COSTUME_CERTIFY_NO_EDITING,
+            selectedCostumeId: id
+        })
+    }
 
     addCostume = (costume, id) => {
         actions.addCostume(costume, id);
@@ -120,6 +127,7 @@ export default class AwesomeProject extends Component {
                     data={this.getCostumeById(id)}
                     onBackButtonPressed={this.backToMainMenu}
                     onCertificationButtonPressed={() => { this.toCertificationMenu(id); }}
+                    onWatchCertification={() => { this.toCertificationWithNoEditing(id) }}
                 />
             );
         }
@@ -134,6 +142,16 @@ export default class AwesomeProject extends Component {
         }
 
         if (state.mode === MODE_COSTUME_CERTIFY) {
+            return (
+                <CostumeCertification
+                    id={state.selectedCostumeId}
+                    onBackButtonPressed={this.backToMainMenu}
+                    onSubmitCertification={this.backToCostumeEditor}
+                    editing
+                />
+            );
+        }
+        if (state.mode === MODE_COSTUME_CERTIFY_NO_EDITING) {
             return (
                 <CostumeCertification
                     id={state.selectedCostumeId}
