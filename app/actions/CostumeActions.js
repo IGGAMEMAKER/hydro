@@ -7,7 +7,8 @@ import {
     DISPATCHER_COSTUME_WASH_INSIDE,
     DISPATCHER_SWITCH_COSTUME_SIZE,
     DISPATCHER_SWITCH_COSTUME_LOCATION,
-    DISPATCHER_SWITCH_COSTUME_COMPOSITION
+    DISPATCHER_SWITCH_COSTUME_COMPOSITION,
+    DISPATCHER_COSTUME_DISINFECT
 } from '../constants/constants';
 
 export default {
@@ -74,6 +75,13 @@ export default {
             type: DISPATCHER_SWITCH_COSTUME_COMPOSITION,
             id,
             composition
+        })
+    },
+    disinfectCostume: (id) => {
+        Dispatcher.dispatch({
+            type: DISPATCHER_COSTUME_DISINFECT,
+            id,
+            date: new Date(),
         })
     }
 }

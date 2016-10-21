@@ -10,7 +10,8 @@ import {
     DISPATCHER_COSTUME_WASH_INSIDE,
     DISPATCHER_SWITCH_COSTUME_SIZE,
     DISPATCHER_SWITCH_COSTUME_LOCATION,
-    DISPATCHER_SWITCH_COSTUME_COMPOSITION
+    DISPATCHER_SWITCH_COSTUME_COMPOSITION,
+    DISPATCHER_COSTUME_DISINFECT
 } from '../constants/constants';
 
 let _costumes = {
@@ -23,16 +24,18 @@ let _costumes = {
          wasCertifiedDate: new Date(2001, 2, 10),
          isCertifiedTillDate: new Date(2002, 2, 10),
          history: [],
+         disinfectionDate: new Date(1998, 2, 4),
     },
     '120': {
-        size: 'xl',
-        owner: 'Петрович',
-        companyOwner: 'ООО Лукоморье',
-        wasWashedInside: new Date(2007, 2, 1),
-        location: 'участок 1',
-        wasCertifiedDate: new Date(2004, 2, 10),
-        isCertifiedTillDate: new Date(2005, 2, 10),
-        history: [],
+         size: 'xl',
+         owner: 'Петрович',
+         companyOwner: 'ООО Лукоморье',
+         wasWashedInside: new Date(2007, 2, 1),
+         location: 'участок 1',
+         wasCertifiedDate: new Date(2004, 2, 10),
+         isCertifiedTillDate: new Date(2005, 2, 10),
+         history: [],
+         disinfectionDate: new Date(2008, 2, 4)
     }
 }
 
@@ -95,6 +98,12 @@ Dispatcher.register((p: PayloadType) => {
         _costumes[p.id].wasWashedInside = new Date();
 
         recordToHistory(p.id, DISPATCHER_COSTUME_WASH_INSIDE, { date: new Date() })
+        store.emitChange();
+        break;
+    case DISPATCHER_COSTUME_DISINFECT:
+        _costumes[p.id].disinfectionDate = new Date();
+
+        recordToHistory(p.id, DISPATCHER_COSTUME_DISINFECT, { date: new Date() })
         store.emitChange();
         break;
     case DISPATCHER_SWITCH_COSTUME_COMPOSITION:

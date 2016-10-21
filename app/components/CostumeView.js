@@ -23,7 +23,8 @@ import {
     DISPATCHER_COSTUME_WASH_INSIDE,
     DISPATCHER_SWITCH_COSTUME_SIZE,
     DISPATCHER_SWITCH_COSTUME_LOCATION,
-    DISPATCHER_SWITCH_COSTUME_COMPOSITION
+    DISPATCHER_SWITCH_COSTUME_COMPOSITION,
+    DISPATCHER_COSTUME_DISINFECT
 } from '../constants/constants';
 
 export default class CostumeView extends Component {
@@ -186,6 +187,13 @@ export default class CostumeView extends Component {
         }
     }
 
+    disinfectCostume = () => {
+        const props = this.props;
+
+        actions.disinfectCostume(props.id);
+        this.disableEditing();
+    }
+
     renderCostumeInfo = () => {
         const props = this.props;
         const state = this.state;
@@ -261,6 +269,12 @@ export default class CostumeView extends Component {
                 <Button style={styles.minorButton} text="Постирать сейчас" onClick={this.washInsides} />
 
                 <View style={styles.container}>
+                    <Text style={styles.label}>Дата дезинфекции: </Text>
+                    <Text style={styles.text}>{formatDate(props.data.disinfectionDate)}</Text>
+                </View>
+                <Button style={styles.minorButton} text="Дезинфицировать сейчас" onClick={this.disinfectCostume} />
+
+                <View style={styles.container}>
                     <Text style={styles.label}>Дата проведения сертификации (тех. осмотра??): </Text>
                     <Text style={styles.text}>{formatDate(props.data.wasCertifiedDate)}</Text>
                 </View>
@@ -286,7 +300,7 @@ export default class CostumeView extends Component {
         let text = '';
         switch (record.tag) {
             case DISPATCHER_SWITCH_COSTUME_OWNER:
-                text = `Смена владельца: ${record.data.owner}`;
+                text = `Смена владельца: ${record.data.owner} ${showDate(record.data.date)}`;
                 break;
             case DISPATCHER_FLUSH_COSTUME_OWNER:
                 text = `Возврат костюма ${showDate(record.data.date)}`;
@@ -294,14 +308,17 @@ export default class CostumeView extends Component {
             case DISPATCHER_COSTUME_WASH_INSIDE:
                 text = `Стирка внутренней подкладки ${showDate(record.data.date)}`;
                 break;
+            case DISPATCHER_COSTUME_DISINFECT:
+                text = `Продезинфицировано ${showDate(record.data.date)}`;
+                break;
             case DISPATCHER_SWITCH_COSTUME_SIZE:
                 text = ``;
                 break;
             case DISPATCHER_SWITCH_COSTUME_LOCATION:
-                text = `Смена местоположения: ${record.data.location}`;
+                text = `Смена местоположения: ${record.data.location} ${showDate(record.data.date)}`;
                 break;
             case DISPATCHER_SWITCH_COSTUME_COMPOSITION:
-                text = `Смена комплектации состава: ${record.data.composition}`;
+                text = `Смена комплектации состава: ${record.data.composition} ${showDate(record.data.date)}`;
                 break;
         }
 
@@ -326,7 +343,7 @@ export default class CostumeView extends Component {
         const props = this.props;
         // { borderRight: 2, borderStyle: 'solid', borderColor: 'black' }
         return (
-            <View>
+            <ScrollView>
                 <View style={styles.center}>
                     <Text style={styles.center}>Гидрокостюм №{props.id} </Text>
                 </View>
@@ -334,7 +351,7 @@ export default class CostumeView extends Component {
                     <View>{this.renderCostumeInfo()}</View>
                     <View>{this.renderCostumeHistory(props.data)}</View>
                 </View>
-            </View>
+            </ScrollView>
         )
     }
 }
