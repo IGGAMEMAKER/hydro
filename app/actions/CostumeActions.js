@@ -9,7 +9,8 @@ import {
     DISPATCHER_SWITCH_COSTUME_LOCATION,
     DISPATCHER_SWITCH_COSTUME_COMPOSITION,
     DISPATCHER_COSTUME_DISINFECT,
-    DISPATCHER_COSTUME_REPAIR
+    DISPATCHER_COSTUME_REPAIR,
+    DISPATCHER_COSTUME_CERTIFICATION
 } from '../constants/constants';
 
 export default {
@@ -90,6 +91,14 @@ export default {
         Dispatcher.dispatch({
             type: DISPATCHER_COSTUME_REPAIR,
             id
+        })
+    },
+    submitCertification: (id) => {
+        Dispatcher.dispatch({
+            type: DISPATCHER_COSTUME_CERTIFICATION,
+            id,
+            checkboxes,
+            day, month, year
         })
     }
 }

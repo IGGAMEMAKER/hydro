@@ -12,7 +12,8 @@ import {
     DISPATCHER_SWITCH_COSTUME_LOCATION,
     DISPATCHER_SWITCH_COSTUME_COMPOSITION,
     DISPATCHER_COSTUME_DISINFECT,
-    DISPATCHER_COSTUME_REPAIR
+    DISPATCHER_COSTUME_REPAIR,
+    DISPATCHER_COSTUME_CERTIFICATION
 } from '../constants/constants';
 
 let _costumes = {
@@ -24,6 +25,7 @@ let _costumes = {
          location: 'участок 1',
          wasCertifiedDate: new Date(2001, 2, 10),
          isCertifiedTillDate: new Date(2002, 2, 10),
+         certification: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
          history: [],
          disinfectionDate: new Date(1998, 2, 4),
          repairDate: new Date(1999, 2, 4),
@@ -36,6 +38,7 @@ let _costumes = {
          location: 'участок 1',
          wasCertifiedDate: new Date(2004, 2, 10),
          isCertifiedTillDate: new Date(2005, 2, 10),
+         certification: [0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1],
          history: [],
          disinfectionDate: new Date(2008, 2, 4),
          repairDate: new Date(2009, 5, 14)
@@ -140,6 +143,9 @@ Dispatcher.register((p: PayloadType) => {
             })
             store.emitChange();
         }
+        break;
+    case DISPATCHER_COSTUME_CERTIFICATION:
+
         break;
     default:
         console.log('costumeStore.js Dispatcher.register worked, but no Payload Type', p)

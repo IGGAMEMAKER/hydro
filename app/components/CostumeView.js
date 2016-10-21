@@ -175,13 +175,16 @@ export default class CostumeView extends Component {
     }
 
     onCostumeCompositionChange = (text) => {
+        console.log('onCostumeCompositionChange', text)
         const changes = this.state.changes;
         changes.composition = text;
+        console.log('onCostumeCompositionChange', changes)
 
         this.setState({
             mode: MODE_EDIT_COMPOSITION,
             changes
         });
+        console.log('saved', this.state.changes);
     }
 
     saveCompositionText = (id) => {
@@ -265,10 +268,12 @@ export default class CostumeView extends Component {
 
                 <View style={styles.container}>
                     <Text style={styles.label}>Комплектность: </Text>
-                    <Text style={styles.text}>{props.data.composition}</Text>
+                </View>
+                <View>
                     <Input
-                        style={styles.text}
-                        text={state.changes.composition? state.changes.composition : props.data.composition}
+                        placeholder="Укажите комплектность набора"
+                        text={`Костюм1 + спас средство`}
+                        style={{ height: 50 }}
                         onChange={this.onCostumeCompositionChange}
                     />
                 </View>
