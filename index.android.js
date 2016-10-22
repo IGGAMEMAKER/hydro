@@ -109,6 +109,8 @@ export default class AwesomeProject extends Component {
 
         const costumes = this.getCostumes();
 
+        const id = state.selectedCostumeId;
+
         if (state.mode === MODE_INITIAL_TABLE_VIEW) {
             return (
                 <CostumeList
@@ -120,7 +122,6 @@ export default class AwesomeProject extends Component {
         }
 
         if (state.mode === MODE_COSTUME_EDITOR) {
-            const id = state.selectedCostumeId;
             return (
                 <CostumeView
                     id={id}
@@ -144,19 +145,20 @@ export default class AwesomeProject extends Component {
         if (state.mode === MODE_COSTUME_CERTIFY) {
             return (
                 <CostumeCertification
-                    id={state.selectedCostumeId}
+                    id={id}
                     onBackButtonPressed={this.backToMainMenu}
                     onSubmitCertification={this.backToCostumeEditor}
-                    editing
+                    editable
                 />
             );
         }
         if (state.mode === MODE_COSTUME_CERTIFY_NO_EDITING) {
             return (
                 <CostumeCertification
-                    id={state.selectedCostumeId}
+                    id={id}
                     onBackButtonPressed={this.backToMainMenu}
                     onSubmitCertification={this.backToCostumeEditor}
+                    costume={this.getCostumeById(id)}
                 />
             );
         }

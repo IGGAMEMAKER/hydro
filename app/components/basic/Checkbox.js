@@ -21,9 +21,9 @@ export default class CheckBox extends Component {
         return (
             <View>
                 <Select
-                    selectedValue={props.isChecked? 'yes': 'no'}
                     options={options}
-                    onChange={props.onChange}
+                    selectedValue={props.isChecked? 'yes' : 'no'}
+                    onChange={(value) => { props.onChange(value === 'yes' ? 1 : 0); }}
                 />
             </View>
         );

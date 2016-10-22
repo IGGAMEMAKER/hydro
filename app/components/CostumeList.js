@@ -27,11 +27,11 @@ export default class CostumeList extends Component {
     render() {
         const props: PropsType = this.props;
         // {'\n'}
-        const costumeList = Object.keys(props.costumes).map(key => {
+        const costumeList = Object.keys(props.costumes).map((key, i) => {
             const owner = props.costumes[key].owner;
             const isFree = !owner;
             return (
-                <View>
+                <View key={i}>
                     <Text>№ {key}</Text>
                     <Text style={isFree? { color: 'green' }: {}}>
                         {isFree? 'Свободен': `Владелец: ${owner}`}

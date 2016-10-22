@@ -426,9 +426,9 @@ const styles = StyleSheet.create({
 
     columnLabel: {
         fontSize: 20,
-                flex: 1,
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 })
