@@ -115,17 +115,15 @@ export default class AwesomeProject extends Component {
 
         if (state.mode === MODE_INITIAL_TABLE_VIEW) {
             return (
-                <View style={{ width: 300, height: 1000, marginLeft: 150 }}>
+                <ScrollView style={{ width: 300, height: 1000, marginLeft: 150 }}>
                     <Text> TTTT </Text>
                     <PDFCreator />
-                </View>
-            );
-            return (
-                <CostumeList
-                    costumes={costumes}
-                    onChooseCostume={this.selectCostume}
-                    onDisplayNewCostumeForm={this.displayNewCostumeForm}
-                />
+                    <CostumeList
+                        costumes={costumes}
+                        onChooseCostume={this.selectCostume}
+                        onDisplayNewCostumeForm={this.displayNewCostumeForm}
+                    />
+                </ScrollView>
             );
         }
 
