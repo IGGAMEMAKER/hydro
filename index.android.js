@@ -14,6 +14,8 @@ import {
 } from 'react-native';
 //  TextInput,
 
+import PDFCreator from './app/components/PDFCreator';
+
 import TextInput from './app/components/basic/TextInput';
 import Button from './app/components/basic/Button';
 
@@ -112,6 +114,12 @@ export default class AwesomeProject extends Component {
         const id = state.selectedCostumeId;
 
         if (state.mode === MODE_INITIAL_TABLE_VIEW) {
+            return (
+                <View style={{ width: 300, height: 1000, marginLeft: 150 }}>
+                    <Text> TTTT </Text>
+                    <PDFCreator />
+                </View>
+            );
             return (
                 <CostumeList
                     costumes={costumes}

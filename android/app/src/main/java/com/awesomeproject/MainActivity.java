@@ -1,6 +1,8 @@
 package com.awesomeproject;
 
 import com.facebook.react.ReactActivity;
+import com.keyee.pdfview.PDFView;
+import com.parkerdan.htmltopdf.RNHTMLtoPDFPackage;
 
 public class MainActivity extends ReactActivity {
 
@@ -11,5 +13,16 @@ public class MainActivity extends ReactActivity {
     @Override
     protected String getMainComponentName() {
         return "AwesomeProject";
+    }
+
+    @Override
+    protected List<ReactPackage> getPackages() {
+        return Arrays.<ReactPackage>asList(
+//                new PDFView(), // <------ add here
+//                new MainReactPackage()
+
+                new MainReactPackage(),
+                new RNHTMLtoPDFPackage()
+        );
     }
 }

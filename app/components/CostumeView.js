@@ -176,48 +176,24 @@ export default class CostumeView extends Component {
     }
 
     onCostumeCompositionChange = (text) => {
-        console.log('onCostumeCompositionChange', text)
-
         const changes = this.state.changes;
         changes.composition = text;
-
-        console.log('onCostumeCompositionChange', changes)
 
         this.setState({
             mode: MODE_EDIT_COMPOSITION,
             changes
         });
-        console.log('saved', this.state.changes);
     }
-
-//    saveCompositionText = (id) => {
-//        return () => {
-//            const value = this.state.changes.composition;
-//            console.log('saveCompositionText CostumeView.js', id, value);
-//            actions.saveCompositionText(id, value);
-//
-//            this.disableEditing();
-//        }
-//    }
 
     saveCompositionText = id => () => {
         const value = this.state.changes.composition;
-        console.log('saveCompositionText CostumeView.js', id, value);
         actions.saveCompositionText(id, value);
 
         this.disableEditing();
     }
 
-//    saveCompositionText = id => value => {
-//        actions.saveCompositionText(id, value);
-//
-//        this.disableEditing();
-//    }
-
     disinfectCostume = () => {
-        const props = this.props;
-
-        actions.disinfectCostume(props.id);
+        actions.disinfectCostume(this.props.id);
         this.disableEditing();
     }
 
