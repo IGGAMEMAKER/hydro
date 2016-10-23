@@ -18,7 +18,7 @@ import {
 export default class SelectComponent extends Component {
     render() {
         const props = this.props;
-        const options = props.options.map(o => <Picker.Item label={o.label} value={o.value} />)
+        const options = props.options.map((o, i) => <Picker.Item key={i} label={o.label} value={o.value} />)
 //                    optionListRef={this._getOptionList.bind(this)}
 //                    onSelect={this._canada.bind(this)}>
 

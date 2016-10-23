@@ -177,8 +177,10 @@ export default class CostumeView extends Component {
 
     onCostumeCompositionChange = (text) => {
         console.log('onCostumeCompositionChange', text)
+
         const changes = this.state.changes;
         changes.composition = text;
+
         console.log('onCostumeCompositionChange', changes)
 
         this.setState({
@@ -188,13 +190,29 @@ export default class CostumeView extends Component {
         console.log('saved', this.state.changes);
     }
 
-    saveCompositionText = (id) => {
-        return (value) => {
-            actions.saveCompositionText(id, value);
+//    saveCompositionText = (id) => {
+//        return () => {
+//            const value = this.state.changes.composition;
+//            console.log('saveCompositionText CostumeView.js', id, value);
+//            actions.saveCompositionText(id, value);
+//
+//            this.disableEditing();
+//        }
+//    }
 
-            this.disableEditing();
-        }
+    saveCompositionText = id => () => {
+        const value = this.state.changes.composition;
+        console.log('saveCompositionText CostumeView.js', id, value);
+        actions.saveCompositionText(id, value);
+
+        this.disableEditing();
     }
+
+//    saveCompositionText = id => value => {
+//        actions.saveCompositionText(id, value);
+//
+//        this.disableEditing();
+//    }
 
     disinfectCostume = () => {
         const props = this.props;
@@ -268,14 +286,19 @@ export default class CostumeView extends Component {
                 <View style={{ marginLeft: 25 }}>{this.renderOwnerSwitchingForm(props, state)}</View>
 
                 <View style={styles.container}>
-                    <Text style={styles.label}>Комплектность: </Text>
+                    <Text style={styles.label}>Комплектность: {props.data.composition}</Text>
                 </View>
                 <View>
                     <Input
                         placeholder="Укажите комплектность набора"
-                        text={`Костюм1 + спас средство`}
+                        text={state.changes.composition? state.changes.composition: props.data.composition}
                         style={{ height: 50 }}
                         onChange={this.onCostumeCompositionChange}
+                    />
+                    <Button
+                        style={styles.minorButton}
+                        text="Сохранить комплектность"
+                        onClick={this.saveCompositionText(props.id)}
                     />
                 </View>
 
@@ -354,9 +377,9 @@ export default class CostumeView extends Component {
         }
     }
 
-    renderHistoryRecordComponent = (record) => {
+    renderHistoryRecordComponent = (record, i) => {
         return (
-            <View style={{ marginBottom: 15 }}>
+            <View style={{ marginBottom: 15 }} key={i}>
                 <Text>{this.getHistoryRecordPhrase(record)}</Text>
             </View>
         );
