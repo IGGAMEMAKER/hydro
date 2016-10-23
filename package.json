@@ -19,6 +19,7 @@
     "react-native-dropdown": "0.0.6",
     "react-native-html-to-pdf": "^0.2.0",
     "react-native-pdf-view": "^0.3.2",
+    "react-native-sqlite-storage": "^3.1.2",
     "realm": "^0.14.3",
     "stream": "0.0.2"
   },

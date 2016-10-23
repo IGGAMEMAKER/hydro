@@ -4,6 +4,10 @@ import com.facebook.react.ReactActivity;
 import com.keyee.pdfview.PDFView;
 import com.parkerdan.htmltopdf.RNHTMLtoPDFPackage;
 
+import io.realm.react.RealmReactPackage;
+
+import org.pgsqlite.SQLitePluginPackage;
+
 public class MainActivity extends ReactActivity {
 
     /**
@@ -15,14 +19,13 @@ public class MainActivity extends ReactActivity {
         return "AwesomeProject";
     }
 
+//                new PDFView(), // <------ add here
     @Override
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
-//                new PDFView(), // <------ add here
-//                new MainReactPackage()
-
+                new SQLitePluginPackage(),
                 new MainReactPackage(),
-                new RNHTMLtoPDFPackage()
+                new RealmReactPackage()
         );
     }
 }

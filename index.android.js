@@ -10,9 +10,12 @@ import {
   StyleSheet,
   Text,
   View,
-  ViewGroup
+  ScrollView,
+  ViewGroup,
+
+  AsyncStorage
 } from 'react-native';
-//  TextInput,
+var STORAGE_KEY = '@AsyncStorageExample:key';
 
 import PDFCreator from './app/components/PDFCreator';
 
@@ -21,6 +24,11 @@ import Button from './app/components/basic/Button';
 
 import actions from './app/actions/CostumeActions';
 import store from './app/stores/CostumeStore';
+
+
+//import Realm from 'realm';
+//var SQLite = require('react-native-sqlite-storage')
+
 
 import {
     MODE_INITIAL_TABLE_VIEW,
@@ -49,8 +57,30 @@ export default class AwesomeProject extends Component {
 //                count: TestStore.getTestValue()
 //            })
 //        })
+        this._loadInitialState().done();
+
+        setTimeout(async () => {
+            AsyncStorage.setItem(STORAGE_KEY, 'OLOLOLO');
+        }, 0);
     }
 
+      _loadInitialState = async () => {
+        try {
+          var value = await AsyncStorage.getItem(STORAGE_KEY);
+          if (value !== null){
+            this.setState({ value });
+            this._appendMessage('Recovered selection from disk: ' + value);
+          } else {
+            this._appendMessage('Initialized with no selection on disk.');
+          }
+        } catch (error) {
+          this._appendMessage('AsyncStorage error: ' + error.message);
+        }
+      };
+
+    _appendMessage = message => {
+        console.log('_appendMessage', message);
+    }
     getCostumes = () => {
         return store.getCostumes();
     }
@@ -113,11 +143,25 @@ export default class AwesomeProject extends Component {
 
         const id = state.selectedCostumeId;
 
+
+//        let realm = new Realm({
+//            schema: [{name: 'Dog', properties: {name: 'string'}}]
+//        });
+//
+//        realm.write(() => {
+//            realm.create('Dog', {name: 'Rex'});
+//        });
+
+//                    <PDFCreator />
         if (state.mode === MODE_INITIAL_TABLE_VIEW) {
             return (
-                <ScrollView style={{ width: 300, height: 1000, marginLeft: 150 }}>
+                <ScrollView style={{ width: 500, height: 1000, marginLeft: 150 }}>
                     <Text> TTTT </Text>
-                    <PDFCreator />
+                    <View style={styles.container}>
+                           <Text style={styles.welcome}>
+                             Count of Dogs in Realm: {"realm.objects('Dog').length"}
+                           </Text>
+                    </View>
                     <CostumeList
                         costumes={costumes}
                         onChooseCostume={this.selectCostume}
