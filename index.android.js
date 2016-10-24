@@ -56,7 +56,8 @@ export default class AwesomeProject extends Component {
 
     componentWillMount() {
         console.log('componentWillMount');
-        csv.write();
+//        csv.write();
+        csv.readFile();
 //        TestStore.addChangeListener(() => {
 //            this.setState({
 //                count: TestStore.getTestValue()
