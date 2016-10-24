@@ -8,7 +8,9 @@ import {
     WebView
 } from 'react-native';
 
+import fs from 'fs';
 //import PDFDocument from 'pdfkit';
+var PDFDocument = require('pdfkit')
 //import blobStream from 'blob-stream';
 //const doc = new PDFDocument();
 
@@ -75,48 +77,6 @@ export default class PDF extends Component {
         );
     }
 }
-
-
-
-//
-//'use strict';
-//
-//import React,{
-//    Component
-//} from 'react';
-//
-//import {
-//    StyleSheet,
-//    View
-//} from 'react-native';
-//
-//import PDFView from 'react-native-pdf-view';
-//
-//export default class PDF extends Component {
-//    constructor(props) {
-//        super(props);
-//    }
-//
-////                         src={"sdcard/pdffile.pdf"}
-//    render(){
-//        return (
-//            <PDFView ref={(pdf)=>{this.pdfView = pdf;}}
-//                path={'https://www.mathworks.com/moler/random.pdf'}
-//                onLoadComplete = {(pageCount) => {
-//                    this.pdfView.setNativeProps({
-//                        zoom: 1.5
-//                    });
-//                }}
-//                style={styles.pdf}
-//            />
-//        );
-//    }
-//}
-//var styles = StyleSheet.create({
-//    pdf: {
-//        flex:1
-//    }
-//});
 
 
 //var React = require('react-native');

@@ -17,7 +17,10 @@ import {
 } from 'react-native';
 var STORAGE_KEY = '@AsyncStorageExample:key';
 
-import PDFCreator from './app/components/PDFCreator';
+//import PDFCreator from './app/components/PDFCreator';
+//import PDFCreator from './app/components/react-native-pdf-viewer';
+//import PDFCreator from './app/components/pdf-viewer';
+//import PDFCreator from './app/components/pdf-creator';
 
 import TextInput from './app/components/basic/TextInput';
 import Button from './app/components/basic/Button';
@@ -25,6 +28,7 @@ import Button from './app/components/basic/Button';
 import actions from './app/actions/CostumeActions';
 import store from './app/stores/CostumeStore';
 
+import csv from './app/helpers/CSV-creator';
 
 //import Realm from 'realm';
 //var SQLite = require('react-native-sqlite-storage')
@@ -52,6 +56,7 @@ export default class AwesomeProject extends Component {
 
     componentWillMount() {
         console.log('componentWillMount');
+        csv.write();
 //        TestStore.addChangeListener(() => {
 //            this.setState({
 //                count: TestStore.getTestValue()
@@ -157,11 +162,6 @@ export default class AwesomeProject extends Component {
             return (
                 <ScrollView style={{ width: 500, height: 1000, marginLeft: 150 }}>
                     <Text> TTTT </Text>
-                    <View style={styles.container}>
-                           <Text style={styles.welcome}>
-                             Count of Dogs in Realm: {"realm.objects('Dog').length"}
-                           </Text>
-                    </View>
                     <CostumeList
                         costumes={costumes}
                         onChooseCostume={this.selectCostume}

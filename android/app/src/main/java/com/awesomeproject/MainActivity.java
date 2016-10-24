@@ -1,12 +1,18 @@
 package com.awesomeproject;
 
 import com.facebook.react.ReactActivity;
-import com.keyee.pdfview.PDFView;
-import com.parkerdan.htmltopdf.RNHTMLtoPDFPackage;
+import com.rnfs.RNFSPackage;
+import com.facebook.react.ReactPackage;
+import com.facebook.react.shell.MainReactPackage;
 
-import io.realm.react.RealmReactPackage;
+import java.util.Arrays;
+import java.util.List;
+//import com.keyee.pdfview.PDFView;
+//import com.parkerdan.htmltopdf.RNHTMLtoPDFPackage;
 
-import org.pgsqlite.SQLitePluginPackage;
+//import io.realm.react.RealmReactPackage;
+
+//import org.pgsqlite.SQLitePluginPackage;
 
 public class MainActivity extends ReactActivity {
 
@@ -20,12 +26,13 @@ public class MainActivity extends ReactActivity {
     }
 
 //                new PDFView(), // <------ add here
-    @Override
-    protected List<ReactPackage> getPackages() {
-        return Arrays.<ReactPackage>asList(
-                new SQLitePluginPackage(),
-                new MainReactPackage(),
-                new RealmReactPackage()
-        );
-    }
+//                new SQLitePluginPackage(),
+//                new RealmReactPackage()
+//    @Override
+//    protected List<ReactPackage> getPackages() {
+//        return Arrays.<ReactPackage>asList(
+//                new MainReactPackage(),
+//                new RNFSPackage()
+//        );
+//    }
 }

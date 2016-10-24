@@ -4,6 +4,11 @@ import Dispatcher from '../dispatcher';
 const CHANGE_EVENT = 'CHANGE_EVENT';
 
 import {
+  AsyncStorage
+} from 'react-native';
+var STORAGE_KEY = '@AsyncStorageExample:key';
+
+import {
     DISPATCHER_COSTUME_ADD,
     DISPATCHER_SWITCH_COSTUME_OWNER,
     DISPATCHER_FLUSH_COSTUME_OWNER,
