@@ -224,9 +224,9 @@ export default class CostumeView extends Component {
 //        ];
 
         locationOptions = [
-            { label: 'участок 1', value: 'участок 1'},
-            { label: 'участок 2', value: 'участок 2'},
-            { label: 'участок 3', value: 'участок 3'},
+            { label: 'база ГНШ', value: 'база ГНШ'},
+            { label: 'платформа МЛСП', value: 'платформа МЛСП'},
+            { label: 'на сертификации (г.Архангельск)', value: 'на сертификации (г.Архангельск)'},
         ]
 
         return (
