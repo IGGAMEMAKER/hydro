@@ -89,6 +89,10 @@ export default class Report extends Component {
         const usages = this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER));
         const certified = this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_COSTUME_CERTIFICATION));
         const repaired = this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_COSTUME_REPAIR));
+
+        const washed = history.filter(h => h.tag === DISPATCHER_COSTUME_WASH_INSIDE);
+        const disinfected = history.filter(h => h.tag === DISPATCHER_COSTUME_DISINFECT);
+        const composed = history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_COMPOSITION);
 //        const usages = history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER);
 
 //        console.log('ReportView.js usages', usages, history);
@@ -113,6 +117,12 @@ export default class Report extends Component {
                 <Text> Отремонтировано </Text>
                 <Text>{JSON.stringify(repaired.byId)}</Text>
                 <Text>{JSON.stringify(repaired.bySize)}</Text>
+                <Text> Постирано внутренней части </Text>
+                <Text>{washed.length}</Text>
+                <Text> Дезинфицировано </Text>
+                <Text>{disinfected.length}</Text>
+                <Text> Доукомплектовано в комплектность </Text>
+                <Text>{composed.length}</Text>
             </View>
         )
     }
