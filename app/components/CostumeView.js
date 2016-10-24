@@ -17,6 +17,7 @@ const MODE_CERTIFICATION = 'MODE_CERTIFICATION';
 const MODE_EDIT_COMPOSITION = 'MODE_EDIT_COMPOSITION';
 
 import dateFormatter from '../helpers/date-formatter';
+import { clothSizes } from '../helpers/cloth-sizes';
 
 import {
     DISPATCHER_COSTUME_ADD,
@@ -209,12 +210,18 @@ export default class CostumeView extends Component {
 
         const formatDate = this.formatDate;
 
-        costumeSizeOptions = [
-            { label: 'm', value: 'm'},
-            { label: 'l', value: 'l'},
-            { label: 's', value: 's'},
-            { label: 'xl', value: 'xl'},
-        ];
+        costumeSizeOptions = clothSizes;
+//        costumeSizeOptions = [
+//            { label: 'SW', value: 'SW'},
+//            { label: 'MW', value: 'MW'},
+//            { label: 'S', value: 'S'},
+//            { label: 'M', value: 'M'},
+//            { label: 'L', value: 'L'},
+//            { label: 'XL', value: 'XL'},
+//            { label: 'XXL', value: 'XXL'},
+//            { label: 'XXXL', value: 'XXXL'},
+//            { label: 'XXXXL', value: 'XXXXL'},
+//        ];
 
         locationOptions = [
             { label: 'участок 1', value: 'участок 1'},

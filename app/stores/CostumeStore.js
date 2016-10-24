@@ -23,7 +23,7 @@ import {
 
 let _costumes = {
     '123': {
-         size: 'l',
+         size: 'XL',
          owner: 'Михалыч',
          companyOwner: 'ООО Лукоморье',
          wasWashedInside: new Date(2000, 2, 10),
@@ -36,7 +36,7 @@ let _costumes = {
          repairDate: new Date(1999, 2, 4),
     },
     '120': {
-         size: 'xl',
+         size: 'XXXL',
          owner: 'Петрович',
          companyOwner: 'ООО Лукоморье',
          wasWashedInside: new Date(2007, 2, 1),
@@ -50,6 +50,8 @@ let _costumes = {
 
     }
 }
+
+let history = [];
 
 class TestStore extends EventEmitter {
   addChangeListener(c: Function) {
@@ -67,6 +69,10 @@ class TestStore extends EventEmitter {
   getCostumes() {
     return _costumes;
   }
+
+  getHistory() {
+    return history;
+  }
 }
 
 const store: TestStore = new TestStore();
@@ -79,6 +85,8 @@ type PayloadType = {
 
 const recordToHistory = (id, tag, data) => {
     _costumes[id].history.push({ tag, data });
+
+    history.push({ id, tag, data, date: new Date() });
 }
 
 Dispatcher.register((p: PayloadType) => {

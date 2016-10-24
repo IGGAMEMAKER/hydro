@@ -24,6 +24,7 @@ var STORAGE_KEY = '@AsyncStorageExample:key';
 
 import TextInput from './app/components/basic/TextInput';
 import Button from './app/components/basic/Button';
+import ReportView from './app/components/ReportView';
 
 import actions from './app/actions/CostumeActions';
 import store from './app/stores/CostumeStore';
@@ -40,6 +41,7 @@ import {
     MODE_COSTUME_ADDING,
     MODE_COSTUME_CERTIFY,
     MODE_COSTUME_CERTIFY_NO_EDITING,
+    MODE_REPORT,
 } from './app/constants/constants';
 
 import CostumeList from './app/components/CostumeList';
@@ -160,13 +162,15 @@ export default class AwesomeProject extends Component {
 
 //                    <PDFCreator />
         if (state.mode === MODE_INITIAL_TABLE_VIEW) {
+//            style={{ width: 500, height: 1000, marginLeft: 150 }}
             return (
-                <ScrollView style={{ width: 500, height: 1000, marginLeft: 150 }}>
+                <ScrollView>
                     <Text> TTTT </Text>
                     <CostumeList
                         costumes={costumes}
                         onChooseCostume={this.selectCostume}
                         onDisplayNewCostumeForm={this.displayNewCostumeForm}
+                        onReportModeSet={() => { this.setState({ mode: MODE_REPORT }); }}
                     />
                 </ScrollView>
             );
@@ -212,6 +216,12 @@ export default class AwesomeProject extends Component {
                     costume={this.getCostumeById(id)}
                 />
             );
+        }
+
+        if (state.mode === MODE_REPORT) {
+            return <ReportView
+                onBackButtonPressed={this.backToMainMenu}
+            />
         }
 
         return (

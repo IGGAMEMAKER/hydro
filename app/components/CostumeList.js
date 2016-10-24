@@ -49,6 +49,9 @@ export default class CostumeList extends Component {
                 <View style={{ marginBottom: 15 }}>
                     <Button onClick={props.onDisplayNewCostumeForm} text="Добавить новый гидрокостюм" />
                 </View>
+                <View style={{ marginBottom: 15 }}>
+                    <Button onClick={props.onReportModeSet} text="Создание отчёта" />
+                </View>
                 <Text style={styles.container}>Все костюмы</Text>
                 {costumeList}
             </ScrollView>

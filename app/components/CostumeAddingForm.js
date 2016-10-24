@@ -7,8 +7,10 @@ import {
 
 import Input from './basic/TextInput';
 import Button from './basic/Button';
+import Select from './basic/Select';
 
 import actions from '../actions/CostumeActions';
+import { clothSizes } from '../helpers/cloth-sizes';
 
 export default class CostumeAdding extends Component {
     state = {
@@ -50,6 +52,13 @@ export default class CostumeAdding extends Component {
         }
 
 //        console.log('render CostumeAddingForm', newCostumeId, newCostume);
+//                <Input
+//                    placeholder="Введите размер костюма"
+//                    style={{width: 300}}
+//                    onChange={this.onCostumeSizeChange}
+//                    mergeStyles
+//                    text={size}
+//                />
         return (
             <View>
                 <Text>Добавить новый гидрокостюм</Text>
@@ -60,12 +69,11 @@ export default class CostumeAdding extends Component {
                     mergeStyles
                     text={newCostumeId}
                 />
-                <Input
-                    placeholder="Введите размер костюма"
-                    style={{width: 300}}
+                <Text>Выберите размер костюма: </Text>
+                <Select
+                    options={clothSizes}
                     onChange={this.onCostumeSizeChange}
-                    mergeStyles
-                    text={size}
+                    selectedValue={size}
                 />
                 <Input
                     placeholder="Укажите комплектность костюма"
