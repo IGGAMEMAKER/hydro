@@ -43,10 +43,14 @@ export default class Report extends Component {
     }
 
     componentWillMount() {
+        console.log('updateData componentWillMount', store.getHistory(), store.getCostumes())
         store.addChangeListener(this.updateData)
+
+        this.updateData()
     }
 
     updateData = () => {
+        console.log('updateData Report', store.getHistory(), store.getCostumes())
         this.setState({ data: store.getHistory(), costumes: store.getCostumes() });
     }
 
@@ -70,6 +74,7 @@ export default class Report extends Component {
 
         const usages = history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER);
 
+        console.log('ReportView.js usages', usages, history);
         const usagesBySize = Object.assign({}, blankSizeList);
         const usagesById = this.getCostumeIdList(); // or {}
 
@@ -90,8 +95,8 @@ export default class Report extends Component {
     reportSummary = () => {
 
     }
-    render() {
 
+    render() {
         return (
             <ScrollView>
                 <Button onClick={this.props.onBackButtonPressed} text="Назад" />
