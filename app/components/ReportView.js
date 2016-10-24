@@ -69,25 +69,50 @@ export default class Report extends Component {
         return list;
     }
 
-    reportByPeriod = () => {
-        const history = this.state.data;
+    getBySizeAndId = (usages) => {
+//        const usages = history.filter(filter);
 
-        const usages = history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER);
-
-        console.log('ReportView.js usages', usages, history);
         const usagesBySize = Object.assign({}, blankSizeList);
         const usagesById = this.getCostumeIdList(); // or {}
 
-        usages.forEach(u => {
-            const id = u.id;
+        usages.forEach(h => {
+            const id = h.id;
             usagesBySize[this.getCostumeSizeById(id)]++
             usagesById[id]++;
         })
 
+        return { bySize: usagesBySize, byId: usagesById };
+    }
+    reportByPeriod = () => {
+        const history = this.state.data;
+
+        const usages = this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER));
+        const certified = this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_COSTUME_CERTIFICATION));
+        const repaired = this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_COSTUME_REPAIR));
+//        const usages = history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER);
+
+//        console.log('ReportView.js usages', usages, history);
+//        const usagesBySize = Object.assign({}, blankSizeList);
+//        const usagesById = this.getCostumeIdList(); // or {}
+//        const usagesByUser = {};
+//
+//        usages.forEach(h => {
+//            const id = h.id;
+//            usagesBySize[this.getCostumeSizeById(id)]++
+//            usagesById[id]++;
+//        })
+
         return (
             <View>
-                <Text>{JSON.stringify(usagesById)}</Text>
-                <Text>{JSON.stringify(usagesBySize)}</Text>
+                <Text> Использовано </Text>
+                <Text>{JSON.stringify(usages.byId)}</Text>
+                <Text>{JSON.stringify(usages.bySize)}</Text>
+                <Text> Сертифицировано </Text>
+                <Text>{JSON.stringify(certified.byId)}</Text>
+                <Text>{JSON.stringify(certified.bySize)}</Text>
+                <Text> Отремонтировано </Text>
+                <Text>{JSON.stringify(repaired.byId)}</Text>
+                <Text>{JSON.stringify(repaired.bySize)}</Text>
             </View>
         )
     }
