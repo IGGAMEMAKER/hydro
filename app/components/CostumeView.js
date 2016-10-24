@@ -231,6 +231,10 @@ export default class CostumeView extends Component {
 
         return (
             <View>
+                <Button
+                    onClick={props.onBackButtonPressed}
+                    text="Вернуться к списку гидрокостюмов"
+                ></Button>
                 <Text style={styles.columnLabel}>Общая информация</Text>
                 <View style={styles.container}>
                     <Text style={styles.label}>Размер: </Text>

@@ -83,6 +83,41 @@ export default class Report extends Component {
 
         return { bySize: usagesBySize, byId: usagesById };
     }
+
+    getUserUsagesById = (history) => {
+        const obj = {};
+        history.forEach(h => {
+            const id = h.id;
+            const { owner, companyOwner } = h.data;
+            const item = { owner, companyOwner };
+            if (!obj[id]) {
+                obj[id] = [item];
+            } else {
+                obj[id].push(item);
+            }
+        })
+
+        return obj;
+    }
+
+    renderUserUsages = (userUsages) => {
+        return Object.keys(userUsages).map(id => {
+            const users = userUsages[id].map((u, i) => {
+                    console.log('u', u, i);
+                  return (
+                      <Text key={i}>{u.owner} ({u.companyOwner})</Text>
+                  )
+              })
+            return (
+                <View>
+                    <Text>{id}</Text>
+                    <View style={{ marginLeft: 12 }}>
+                        {users}
+                    </View>
+                </View>
+            );
+        })
+    }
     reportByPeriod = () => {
         const history = this.state.data;
 
@@ -93,6 +128,8 @@ export default class Report extends Component {
         const washed = history.filter(h => h.tag === DISPATCHER_COSTUME_WASH_INSIDE);
         const disinfected = history.filter(h => h.tag === DISPATCHER_COSTUME_DISINFECT);
         const composed = history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_COMPOSITION);
+
+        const userUsages = this.getUserUsagesById(history);
 //        const usages = history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER);
 
 //        console.log('ReportView.js usages', usages, history);
@@ -105,12 +142,18 @@ export default class Report extends Component {
 //            usagesBySize[this.getCostumeSizeById(id)]++
 //            usagesById[id]++;
 //        })
+        ///                     <Text>{JSON.stringify(userUsages)}</Text>
 
         return (
             <View>
                 <Text> Использовано </Text>
                 <Text>{JSON.stringify(usages.byId)}</Text>
                 <Text>{JSON.stringify(usages.bySize)}</Text>
+                <View style={{ marginLeft: 15 }}>
+                    <Text> Использовано по фамилиям</Text>
+                    {this.renderUserUsages(userUsages)}
+                </View>
+
                 <Text> Сертифицировано </Text>
                 <Text>{JSON.stringify(certified.byId)}</Text>
                 <Text>{JSON.stringify(certified.bySize)}</Text>
