@@ -355,13 +355,15 @@ export default class CostumeView extends Component {
                 <View style={{ marginLeft: 25 }}>{this.renderOwnerSwitchingForm(props, state)}</View>
 
                 {this.renderDivider()}
-                {this.renderCertificationTab(props, formatDate)}
-                {this.renderDivider()}
 
                 {this.renderCompositionInfo(props, state)}
+                {this.renderDivider()}
 
                 {this.renderClickableActions(props, formatDate)}
+                {this.renderDivider()}
 
+                {this.renderCertificationTab(props, formatDate)}
+                {this.renderDivider()}
 
                 <Button style={styles.minorButton} text="Провести техосмотр" onClick={this.props.onCertificationButtonPressed} />
                 <Button style={{ marginTop: 12, opacity: 0 }} text="Просмотреть результаты техосмотра" onClick={this.props.onWatchCertification} />

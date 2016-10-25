@@ -16,6 +16,8 @@ import {
   AsyncStorage
 } from 'react-native';
 var STORAGE_KEY = '@AsyncStorageExample:key';
+var STORAGE_COSTUMES = '@STORAGE_COSTUMES';
+var STORAGE_HISTORY = '@STORAGE_HISTORY';
 
 //import PDFCreator from './app/components/PDFCreator';
 //import PDFCreator from './app/components/react-native-pdf-viewer';
@@ -60,21 +62,16 @@ export default class AwesomeProject extends Component {
         console.log('componentWillMount');
 //        csv.write();
         csv.readFile();
-//        TestStore.addChangeListener(() => {
-//            this.setState({
-//                count: TestStore.getTestValue()
-//            })
-//        })
-        this._loadInitialState().done();
+//        this._loadInitialState().done();
 
         setTimeout(async () => {
-            AsyncStorage.setItem(STORAGE_KEY, 'OLOLOLO');
+//            AsyncStorage.setItem(STORAGE_KEY, 'OLOLOLO');
         }, 0);
     }
 
       _loadInitialState = async () => {
         try {
-          var value = await AsyncStorage.getItem(STORAGE_KEY);
+          var value = await AsyncStorage.getItem(STORAGE_COSTUMES);
           if (value !== null){
             this.setState({ value });
             this._appendMessage('Recovered selection from disk: ' + value);

@@ -6,7 +6,10 @@ const CHANGE_EVENT = 'CHANGE_EVENT';
 import {
   AsyncStorage
 } from 'react-native';
+
 var STORAGE_KEY = '@AsyncStorageExample:key';
+var STORAGE_COSTUMES = '@STORAGE_COSTUMES';
+var STORAGE_HISTORY = '@STORAGE_HISTORY';
 
 import {
     DISPATCHER_COSTUME_ADD,
@@ -52,7 +55,8 @@ let _costumes = {
     }
 }
 
-let history = [];
+let _history = [];
+
 
 class CostumeStore extends EventEmitter {
   addChangeListener(c: Function) {
@@ -72,7 +76,7 @@ class CostumeStore extends EventEmitter {
   }
 
   getHistory() {
-    return history;
+    return _history;
   }
 }
 
@@ -87,14 +91,74 @@ type PayloadType = {
 const recordToHistory = (id, tag, data) => {
     _costumes[id].history.push({ tag, data });
 
-    history.push({ id, tag, data, date: new Date() });
+    _history.push({ id, tag, data, date: new Date() });
+
+    saveToDB();
 }
 
-const saveChanges = () => {
-    store.emitChange();
-    // rewrite to db
-    // _costumes and history
+const saveToDB = async () => {
+    // rewrite to AsyncStorage
+    // _costumes and _history
+
+    console.log('saveToDB', STORAGE_HISTORY, _history, _costumes);
+    AsyncStorage.setItem(STORAGE_HISTORY, JSON.stringify(_history));
+    AsyncStorage.setItem(STORAGE_COSTUMES, JSON.stringify(_costumes));
+
+    reload();
 }
+
+const reload = (time) => {
+//    this.setTimeout(() => { store.emitChange() }, time || 1000);
+}
+
+const _appendMessage = message => {
+    console.log('_appendMessage', message);
+}
+
+const loadDataFromDB = async () => {
+    try {
+      var value = await AsyncStorage.getItem(STORAGE_COSTUMES);
+      if (value !== null){
+        _costumes = JSON.parse(value);
+        _appendMessage('Recovered STORAGE_COSTUMES from disk: ' + value);
+      } else {
+        _appendMessage('Initialized with no STORAGE_COSTUMES on disk.');
+      }
+    } catch (error) {
+      _appendMessage('AsyncStorage STORAGE_COSTUMES error: ' + error.message);
+    }
+
+    try {
+      value = await AsyncStorage.getItem(STORAGE_HISTORY);
+      if (value !== null){
+        _history = JSON.parse(value);
+        _appendMessage('Recovered STORAGE_HISTORY from disk: ' + value);
+      } else {
+        _appendMessage('Initialized with no STORAGE_HISTORY on disk.');
+      }
+    } catch (error) {
+      _appendMessage('AsyncStorage STORAGE_HISTORY error: ' + error.message);
+    }
+
+    store.emitChange();
+}
+
+const initialize = async () => {
+    // load data from async storage to
+    // _costumes and _history variables
+    loadDataFromDB().done();
+}
+
+const saveToFile = () => {
+    // write _costumes and _history to /sdcard/download/HydroBackup.js
+}
+
+const loadFromFile = () => {
+    // read costumes and h from /sdcard/download/HydroBackup.js
+    // and write to _costumes and _history
+}
+
+initialize();
 
 Dispatcher.register((p: PayloadType) => {
   switch (p.type) {
@@ -103,6 +167,8 @@ Dispatcher.register((p: PayloadType) => {
         console.log('new costume CostumeStore.js', costume);
 
         _costumes[p.id] = Object.assign({}, costume);
+
+        saveToDB();
         store.emitChange();
         break;
     case DISPATCHER_SWITCH_COSTUME_OWNER:
