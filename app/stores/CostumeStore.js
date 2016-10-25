@@ -1,6 +1,8 @@
 import { EventEmitter } from 'events';
 import Dispatcher from '../dispatcher';
 
+import backup from '../helpers/backup';
+
 const CHANGE_EVENT = 'CHANGE_EVENT';
 
 import {
@@ -13,16 +15,18 @@ var STORAGE_HISTORY = '@STORAGE_HISTORY';
 
 import {
     DISPATCHER_COSTUME_ADD,
-    DISPATCHER_SWITCH_COSTUME_OWNER,
     DISPATCHER_FLUSH_COSTUME_OWNER,
-    DISPATCHER_COSTUME_WASH_INSIDE,
+    DISPATCHER_SWITCH_COSTUME_OWNER,
     DISPATCHER_SWITCH_COSTUME_SIZE,
     DISPATCHER_SWITCH_COSTUME_LOCATION,
     DISPATCHER_SWITCH_COSTUME_COMPOSITION,
+    DISPATCHER_COSTUME_WASH_INSIDE,
     DISPATCHER_COSTUME_DISINFECT,
     DISPATCHER_COSTUME_REPAIR,
     DISPATCHER_COSTUME_CERTIFICATION,
-    DISPATCHER_COSTUME_CERTIFICATION_EXPIRATION
+    DISPATCHER_COSTUME_CERTIFICATION_EXPIRATION,
+
+    DISPATCHER_IMPORT_DB
 } from '../constants/constants';
 
 let _costumes = {
@@ -88,21 +92,21 @@ type PayloadType = {
   error: ?Object
 }
 
-const recordToHistory = (id, tag, data) => {
+const recordToHistory = async (id, tag, data) => {
     _costumes[id].history.push({ tag, data });
 
     _history.push({ id, tag, data, date: new Date() });
 
-    saveToDB();
+    updateDB();
 }
 
-const saveToDB = async () => {
+const updateDB = async () => {
     // rewrite to AsyncStorage
     // _costumes and _history
 
-    console.log('saveToDB', STORAGE_HISTORY, _history, _costumes);
-    AsyncStorage.setItem(STORAGE_HISTORY, JSON.stringify(_history));
-    AsyncStorage.setItem(STORAGE_COSTUMES, JSON.stringify(_costumes));
+//    console.log('updateDB', STORAGE_HISTORY, _history, _costumes);
+    await AsyncStorage.setItem(STORAGE_HISTORY, JSON.stringify(_history));
+    await AsyncStorage.setItem(STORAGE_COSTUMES, JSON.stringify(_costumes));
 
     reload();
 }
@@ -112,7 +116,7 @@ const reload = (time) => {
 }
 
 const _appendMessage = message => {
-    console.log('_appendMessage', message);
+//    console.log('_appendMessage', message);
 }
 
 const loadDataFromDB = async () => {
@@ -149,26 +153,44 @@ const initialize = async () => {
     loadDataFromDB().done();
 }
 
-const saveToFile = () => {
-    // write _costumes and _history to /sdcard/download/HydroBackup.js
-}
+//const saveToFile = () => {
+//    // write _costumes and _history to /sdcard/download/hydro-backup.js
+//    backup.make(_history, _costumes).then(result => { console.log('saveToFile', result); loadFromFile() });
+//}
 
-const loadFromFile = () => {
-    // read costumes and h from /sdcard/download/HydroBackup.js
-    // and write to _costumes and _history
-}
+//const loadFromFile = () => {
+//    // read costumes and h from /sdcard/download/hydro-backup.js
+//    // and write to _costumes and _history
+//
+//    backup.read()
+//    .then(file => {
+//
+//    })
+//}
 
 initialize();
 
 Dispatcher.register((p: PayloadType) => {
   switch (p.type) {
+    case DISPATCHER_IMPORT_DB:
+        const file = JSON.parse(p.file);
+
+        _costumes = file.costumes;
+        _history = file.history;
+
+        updateDB();
+        this.setTimeout(() => {
+
+            store.emitChange();
+        }, 5000);
+        break;
     case DISPATCHER_COSTUME_ADD:
         const costume = p.costume;
         console.log('new costume CostumeStore.js', costume);
 
         _costumes[p.id] = Object.assign({}, costume);
 
-        saveToDB();
+        updateDB();
         store.emitChange();
         break;
     case DISPATCHER_SWITCH_COSTUME_OWNER:

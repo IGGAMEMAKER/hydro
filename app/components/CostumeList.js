@@ -11,6 +11,9 @@ import {
 import Button from './basic/Button';
 import Input from './basic/TextInput';
 
+import actions from '../actions/CostumeActions';
+import store from '../stores/CostumeStore';
+
 type PropsType = {
     costumes: Array,
     onChooseCostume: Function,
@@ -18,12 +21,6 @@ type PropsType = {
 }
 
 export default class CostumeList extends Component {
-//    render() {
-//        return (
-//            <ViewGroup>
-//            </ViewGroup>
-//        );
-//    }
     render() {
         const props: PropsType = this.props;
         // {'\n'}
@@ -52,8 +49,19 @@ export default class CostumeList extends Component {
                 <View style={{ marginBottom: 15 }}>
                     <Button onClick={props.onReportModeSet} text="Создание отчёта" />
                 </View>
+
                 <Text style={styles.container}>Все костюмы</Text>
                 {costumeList}
+
+                <View style={{ marginBottom: 15, marginTop: 35 }}>
+                    <Text>База данных приложения будет заполнена из файла /sdcard/download/hydro-backup.js </Text>
+                    <Text> ОСТОРОЖНО, ДАННУЮ ОПЕРАЦИЮ НЕЛЬЗЯ ОТМЕНИТЬ </Text>
+                    <Button onClick={actions.importDB} text="Импортировать базу данных" />
+                </View>
+                <View style={{ marginBottom: 15 }}>
+                    <Text>База данных приложения будет сохранена в файл /sdcard/download/hydro-backup.js </Text>
+                    <Button onClick={() => { actions.saveDB(store.getHistory(), props.costumes)}} text="Экспортировать базу данных" />
+                </View>
             </ScrollView>
         );
     }

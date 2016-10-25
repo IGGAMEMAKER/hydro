@@ -1,4 +1,5 @@
 import Dispatcher from '../dispatcher';
+import backup from '../helpers/backup';
 
 import {
     DISPATCHER_COSTUME_ADD,
@@ -11,7 +12,9 @@ import {
     DISPATCHER_COSTUME_DISINFECT,
     DISPATCHER_COSTUME_REPAIR,
     DISPATCHER_COSTUME_CERTIFICATION,
-    DISPATCHER_COSTUME_CERTIFICATION_EXPIRATION
+    DISPATCHER_COSTUME_CERTIFICATION_EXPIRATION,
+
+    DISPATCHER_IMPORT_DB
 } from '../constants/constants';
 
 export default {
@@ -23,6 +26,22 @@ export default {
                 msg: 'ololo'
             }
         })
+    },
+
+    importDB: () => {
+        backup.read()
+            .then(file => {
+                console.log('backup.read');
+                Dispatcher.dispatch({
+                    type: DISPATCHER_IMPORT_DB,
+                    file
+                })
+            })
+            .catch(err => { console.log('importDB in CostumeActions.js', err); });
+    },
+
+    saveDB: async (_history, _costumes) => {
+        backup.make(_history, _costumes);
     },
 
     addCostume: (costume, id) => {

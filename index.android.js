@@ -72,7 +72,7 @@ export default class AwesomeProject extends Component {
       _loadInitialState = async () => {
         try {
           var value = await AsyncStorage.getItem(STORAGE_COSTUMES);
-          if (value !== null){
+          if (value !== null) {
             this.setState({ value });
             this._appendMessage('Recovered selection from disk: ' + value);
           } else {
