@@ -19,10 +19,8 @@ export default class DatePicker extends Component {
     }
 
     componentWillMount() {
-        const date = this.props.date;
-        if (date) {
-            this.setState({ day: date.getDate(), month: date.getMonth() + 1, year: date.getFullYear })
-        }
+        let date = this.props.date? this.props.date: new Date();
+        this.setState({ day: date.getDate(), month: date.getMonth() + 1, year: date.getFullYear })
     }
 
     onDayChange = (value) => {
@@ -40,14 +38,16 @@ export default class DatePicker extends Component {
 
     onDateChange = () => {
         const { day, month, year } = this.state;
+        console.log('onDateChange DatePicker.js', this.state, this.props);
         this.props.onChange(new Date(year, month - 1, day));
     }
     render() {
+        const style = { width: 200 };
         return (
             <View>
-                <Input onChange={this.onYearChange} style={{ width: 200 }} placeholder="Год" />
-                <Input onChange={this.onMonthChange} style={{ width: 200 }} placeholder="Месяц" />
-                <Input onChange={this.onDayChange} style={{ width: 200 }} placeholder="День" />
+                <Input onChange={this.onYearChange} style={style} placeholder="Год" />
+                <Input onChange={this.onMonthChange} style={style} placeholder="Месяц" />
+                <Input onChange={this.onDayChange} style={style} placeholder="День" />
             </View>
         );
     }

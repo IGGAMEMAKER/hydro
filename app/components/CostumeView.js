@@ -201,91 +201,75 @@ export default class CostumeView extends Component {
         this.disableEditing();
     }
 
-    renderCostumeInfo = () => {
-        const props = this.props;
-        const state = this.state;
+    renderMainInfo = (props) => {
+        const costumeSizeOptions = clothSizes;
+        //        costumeSizeOptions = [
+        //            { label: 'SW', value: 'SW'},
+        //            { label: 'MW', value: 'MW'},
+        //            { label: 'S', value: 'S'},
+        //            { label: 'M', value: 'M'},
+        //            { label: 'L', value: 'L'},
+        //            { label: 'XL', value: 'XL'},
+        //            { label: 'XXL', value: 'XXL'},
+        //            { label: 'XXXL', value: 'XXXL'},
+        //            { label: 'XXXXL', value: 'XXXXL'},
+        //        ];
+        return (
+            <View style={styles.container}>
+                <Text style={styles.label}>Размер: </Text>
+                <View style={{ marginTop: -15 }}>
+                    <Select
+                        options={costumeSizeOptions}
+                        selectedValue={props.data.size}
+                        onChange={this.switchCostumeSize(props.id)}
+                    />
+                </View>
+            </View>
+        );
+    }
 
-        const formatDate = this.formatDate;
-
-        costumeSizeOptions = clothSizes;
-//        costumeSizeOptions = [
-//            { label: 'SW', value: 'SW'},
-//            { label: 'MW', value: 'MW'},
-//            { label: 'S', value: 'S'},
-//            { label: 'M', value: 'M'},
-//            { label: 'L', value: 'L'},
-//            { label: 'XL', value: 'XL'},
-//            { label: 'XXL', value: 'XXL'},
-//            { label: 'XXXL', value: 'XXXL'},
-//            { label: 'XXXXL', value: 'XXXXL'},
-//        ];
-
-        locationOptions = [
+    renderLocation = (props) => {
+        const locationOptions = [
             { label: 'база ГНШ', value: 'база ГНШ'},
             { label: 'платформа МЛСП', value: 'платформа МЛСП'},
             { label: 'на сертификации (г.Архангельск)', value: 'на сертификации (г.Архангельск)'},
         ]
+        return (
+            <View style={styles.container}>
+                <Text style={styles.label}>Местоположение: </Text>
+                <Text style={styles.text}>{props.data.location}</Text>
+                <View style={{ marginTop: -15 }}>
+                    <Select
+                        options={locationOptions}
+                        selectedValue={props.data.location}
+                        onChange={this.switchCostumeLocation(props.id)}
+                    />
+                </View>
+            </View>
+        );
+    }
 
+    renderCompositionInfo = (props, state) => {
         return (
             <View>
+                <Input
+                    placeholder="Укажите комплектность набора"
+                    text={state.changes.composition? state.changes.composition: props.data.composition}
+                    style={{ height: 50 }}
+                    onChange={this.onCostumeCompositionChange}
+                />
                 <Button
-                    onClick={props.onBackButtonPressed}
-                    text="Вернуться к списку гидрокостюмов"
-                ></Button>
-                <Text style={styles.columnLabel}>Общая информация</Text>
-                <View style={styles.container}>
-                    <Text style={styles.label}>Размер: </Text>
-                    <View style={{ marginTop: -15 }}>
-                        <Select
-                            options={costumeSizeOptions}
-                            selectedValue={props.data.size}
-                            onChange={this.switchCostumeSize(props.id)}
-                        />
-                    </View>
-                </View>
+                    style={styles.minorButton}
+                    text="Сохранить комплектность"
+                    onClick={this.saveCompositionText(props.id)}
+                />
+            </View>
+        );
+    }
 
-                <View style={styles.container}>
-                    <Text style={styles.label}>Местоположение: </Text>
-                    <Text style={styles.text}>{props.data.location}</Text>
-                    <View style={{ marginTop: -15 }}>
-                        <Select
-                            options={locationOptions}
-                            selectedValue={props.data.location}
-                            onChange={this.switchCostumeLocation(props.id)}
-                        />
-                    </View>
-                </View>
-
-                <View style={styles.container}>
-                    <Text style={styles.label}>Владелец: </Text>
-                    <Text style={styles.text}>
-                        {
-                            props.data.owner?
-                                `${props.data.owner} (${props.data.companyOwner || 'Компания не указана'})`
-                                :
-                                'Свободен'
-                        }
-                    </Text>
-                </View>
-                <View style={{ marginLeft: 25 }}>{this.renderOwnerSwitchingForm(props, state)}</View>
-
-                <View style={styles.container}>
-                    <Text style={styles.label}>Комплектность: {props.data.composition}</Text>
-                </View>
-                <View>
-                    <Input
-                        placeholder="Укажите комплектность набора"
-                        text={state.changes.composition? state.changes.composition: props.data.composition}
-                        style={{ height: 50 }}
-                        onChange={this.onCostumeCompositionChange}
-                    />
-                    <Button
-                        style={styles.minorButton}
-                        text="Сохранить комплектность"
-                        onClick={this.saveCompositionText(props.id)}
-                    />
-                </View>
-
+    renderClickableActions = (props, formatDate) => {
+        return (
+            <View>
                 <View style={styles.container}>
                     <Text style={styles.label}>Дата стирки внутренней подкладки: </Text>
                     <Text style={styles.text}>{formatDate(props.data.wasWashedInside)}</Text>
@@ -304,7 +288,13 @@ export default class CostumeView extends Component {
                 </View>
                 <Button style={styles.minorButton} text="Ремонтировать" onClick={this.repairCostume} />
 
+            </View>
+        );
+    }
 
+    renderCertificationTab = (props, formatDate) => {
+        return (
+            <View>
                 <View style={styles.container}>
                     <Text style={styles.label}>Дата проведения сертификации: </Text>
                     <Text style={styles.text}>{formatDate(props.data.wasCertifiedDate)}</Text>
@@ -316,9 +306,53 @@ export default class CostumeView extends Component {
                 </View>
 
                 <View style={styles.container}>
-                    <Text>Провести сертификацию </Text>
+                    <View>
+                        <Text>Провести сертификацию </Text>
+                    </View>
                     <DatePicker onChange={this.onCertificationTillChanged} />
                 </View>
+            </View>
+        );
+    }
+    renderCostumeInfo = () => {
+        const props = this.props;
+        const state = this.state;
+
+        const formatDate = this.formatDate;
+
+        return (
+            <View>
+                <Button
+                    onClick={props.onBackButtonPressed}
+                    text="Вернуться к списку гидрокостюмов"
+                ></Button>
+                <Text style={styles.columnLabel}>Общая информация</Text>
+                {this.renderMainInfo(props)}
+
+                {this.renderLocation(props)}
+
+                <View style={styles.container}>
+                    <Text style={styles.label}>Владелец: </Text>
+                    <Text style={styles.text}>
+                        {
+                            props.data.owner?
+                                `${props.data.owner} (${props.data.companyOwner || 'Компания не указана'})`
+                                :
+                                'Свободен'
+                        }
+                    </Text>
+                </View>
+                <View style={{ marginLeft: 25 }}>{this.renderOwnerSwitchingForm(props, state)}</View>
+
+                <View style={styles.container}>
+                    <Text style={styles.label}>Комплектность: {props.data.composition}</Text>
+                </View>
+                {this.renderCertificationTab(props, formatDate)}
+
+                {this.renderCompositionInfo(props, state)}
+
+                {this.renderClickableActions(props, formatDate)}
+
 
 
                 <Button style={styles.minorButton} text="Провести техосмотр" onClick={this.props.onCertificationButtonPressed} />
