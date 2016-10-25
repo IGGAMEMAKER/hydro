@@ -212,18 +212,29 @@ export default class Report extends Component {
         return { users, companies };
     }
 
-    renderSummaryByOwnersAndCompanyOwners = (users, companies) => {
+    renderSummaryByOwnersAndCompanyOwners = (history) => {
+        const { users, companies } = this.getSummaryByOwnersAndCompanyOwners(history);
 
+        return (
+            <View>
+                <Text>По ФИО</Text>
+                <Text>{JSON.stringify(users)}</Text>
+                <Text>По компаниям</Text>
+                <Text>{JSON.stringify(companies)}</Text>
+            </View>
+        );
     }
     reportSummary = () => {
         const history = this.state.data;
         const costumes = this.state.costumes;
 
         const sizeStat = this.getSummaryStatBySize(costumes);
+
         return (
             <View>
                 <Text> Суммарный Отчёт </Text>
                 <Text>{JSON.stringify(sizeStat)}</Text>
+                {this.renderSummaryByOwnersAndCompanyOwners(history)}
             </View>
         );
     }
