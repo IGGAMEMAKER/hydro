@@ -77,7 +77,12 @@ export default class CostumeCertification extends Component {
     render() {
         const state = this.state;
         const editable = this.props.editable;
-
+//                            <Text>Дата сертификации (сегодня): {dateFormatter(new Date())}</Text>
+//                            <Text>Сертификация действительна до:</Text>
+//
+//                            <Input onChange={this.onYearChange} style={{ width: 200 }} placeholder="Год" />
+//                            <Input onChange={this.onMonthChange} style={{ width: 200 }} placeholder="Месяц" />
+//                            <Input onChange={this.onDayChange} style={{ width: 200 }} placeholder="День" />
         return (
             <ScrollView>
                 <Text style={{ fontSize: 22, marginBottom: 12 }}>
@@ -86,25 +91,16 @@ export default class CostumeCertification extends Component {
                     }
                 </Text>
                 {this.renderCostumeCertificationTests(state.checkboxes, editable)}
-
                 {
                     editable?
                         <View>
-                            <Text>Дата сертификации (сегодня): {dateFormatter(new Date())}</Text>
-                            <Text>Сертификация действительна до:</Text>
-
-                            <Input onChange={this.onYearChange} style={{ width: 200 }} placeholder="Год" />
-                            <Input onChange={this.onMonthChange} style={{ width: 200 }} placeholder="Месяц" />
-                            <Input onChange={this.onDayChange} style={{ width: 200 }} placeholder="День" />
-
-                            <View style={{ marginBottom: 12 }}>
+                            <View style={{ marginBottom: 12, display: editable? 'block': 'none' }}>
                                 <Button onClick={this.submitCertification} text="Сохранить результаты сертификации" />
                             </View>
                         </View>
                         :
                         <Text></Text>
                 }
-
                 <View style={{ marginBottom: 12 }}>
                     <Button onClick={this.props.onBackButtonPressed} text="Вернуться в главное меню" />
                 </View>

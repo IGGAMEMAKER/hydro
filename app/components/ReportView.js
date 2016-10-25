@@ -27,7 +27,8 @@ import {
     DISPATCHER_SWITCH_COSTUME_COMPOSITION,
     DISPATCHER_COSTUME_DISINFECT,
     DISPATCHER_COSTUME_REPAIR,
-    DISPATCHER_COSTUME_CERTIFICATION
+    DISPATCHER_COSTUME_CERTIFICATION,
+    DISPATCHER_COSTUME_CERTIFICATION_EXPIRATION
 } from '../constants/constants';
 
 export default class Report extends Component {
@@ -122,7 +123,7 @@ export default class Report extends Component {
         const history = this.state.data;
 
         const usages = this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER));
-        const certified = this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_COSTUME_CERTIFICATION));
+        const certified = this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_COSTUME_CERTIFICATION_EXPIRATION));
         const repaired = this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_COSTUME_REPAIR));
 
         const washed = history.filter(h => h.tag === DISPATCHER_COSTUME_WASH_INSIDE);

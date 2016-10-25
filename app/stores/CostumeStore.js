@@ -18,7 +18,8 @@ import {
     DISPATCHER_SWITCH_COSTUME_COMPOSITION,
     DISPATCHER_COSTUME_DISINFECT,
     DISPATCHER_COSTUME_REPAIR,
-    DISPATCHER_COSTUME_CERTIFICATION
+    DISPATCHER_COSTUME_CERTIFICATION,
+    DISPATCHER_COSTUME_CERTIFICATION_EXPIRATION
 } from '../constants/constants';
 
 let _costumes = {
@@ -53,7 +54,7 @@ let _costumes = {
 
 let history = [];
 
-class TestStore extends EventEmitter {
+class CostumeStore extends EventEmitter {
   addChangeListener(c: Function) {
     this.addListener(CHANGE_EVENT, c);
   }
@@ -75,7 +76,7 @@ class TestStore extends EventEmitter {
   }
 }
 
-const store: TestStore = new TestStore();
+const store: CostumeStore = new CostumeStore();
 
 type PayloadType = {
   type: string,
@@ -87,6 +88,12 @@ const recordToHistory = (id, tag, data) => {
     _costumes[id].history.push({ tag, data });
 
     history.push({ id, tag, data, date: new Date() });
+}
+
+const saveChanges = () => {
+    store.emitChange();
+    // rewrite to db
+    // _costumes and history
 }
 
 Dispatcher.register((p: PayloadType) => {
@@ -157,15 +164,24 @@ Dispatcher.register((p: PayloadType) => {
             store.emitChange();
         }
         break;
-    case DISPATCHER_COSTUME_CERTIFICATION:
-        _costumes[p.id].wasCertifiedDate = new Date();
-        _costumes[p.id].isCertifiedTillDate = new Date(p.year, p.month - 1, p.day);
+    case DISPATCHER_COSTUME_CERTIFICATION: // it is not certification no more. It is techCheck
         _costumes[p.id].certification = p.checkboxes;
+        _costumes[p.id].certificationDate = new Date();
 
         recordToHistory(p.id, DISPATCHER_COSTUME_CERTIFICATION, {
             certification: p.checkboxes,
             date: new Date(),
-            expires: new Date(p.year, p.month - 1, p.day)
+        })
+        store.emitChange();
+        break;
+    case DISPATCHER_COSTUME_CERTIFICATION_EXPIRATION:
+        _costumes[p.id].wasCertifiedDate = new Date();
+        _costumes[p.id].isCertifiedTillDate = p.date;
+
+        recordToHistory(p.id, DISPATCHER_COSTUME_CERTIFICATION_EXPIRATION, {
+            certification: p.checkboxes,
+            date: new Date(),
+            expires: p.date
         })
         store.emitChange();
         break;

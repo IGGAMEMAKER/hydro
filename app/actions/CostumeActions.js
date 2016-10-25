@@ -10,7 +10,8 @@ import {
     DISPATCHER_SWITCH_COSTUME_COMPOSITION,
     DISPATCHER_COSTUME_DISINFECT,
     DISPATCHER_COSTUME_REPAIR,
-    DISPATCHER_COSTUME_CERTIFICATION
+    DISPATCHER_COSTUME_CERTIFICATION,
+    DISPATCHER_COSTUME_CERTIFICATION_EXPIRATION
 } from '../constants/constants';
 
 export default {
@@ -42,6 +43,7 @@ export default {
             companyOwner
         })
     },
+
     flushCostumeOwner: (id) => {
         Dispatcher.dispatch({
             type: DISPATCHER_FLUSH_COSTUME_OWNER,
@@ -79,6 +81,15 @@ export default {
             composition
         })
     },
+
+    saveCertificationExpirationDate: (id, date) => {
+        Dispatcher.dispatch({
+            type: DISPATCHER_COSTUME_CERTIFICATION_EXPIRATION,
+            id,
+            date
+        })
+    },
+
     disinfectCostume: (id) => {
         Dispatcher.dispatch({
             type: DISPATCHER_COSTUME_DISINFECT,

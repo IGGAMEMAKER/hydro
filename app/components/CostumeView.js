@@ -10,6 +10,7 @@ import {
 import Button from './basic/Button';
 import Select from './basic/Select';
 import Input from './basic/TextInput';
+import DatePicker from './basic/DatePicker';
 import actions from '../actions/CostumeActions';
 
 const MODE_SWITCH_OWNER = 'MODE_SWITCH_OWNER';
@@ -17,20 +18,8 @@ const MODE_CERTIFICATION = 'MODE_CERTIFICATION';
 const MODE_EDIT_COMPOSITION = 'MODE_EDIT_COMPOSITION';
 
 import dateFormatter from '../helpers/date-formatter';
+import historyRecordPhrase from '../helpers/history-record-phrase';
 import { clothSizes } from '../helpers/cloth-sizes';
-
-import {
-    DISPATCHER_COSTUME_ADD,
-    DISPATCHER_SWITCH_COSTUME_OWNER,
-    DISPATCHER_FLUSH_COSTUME_OWNER,
-    DISPATCHER_COSTUME_WASH_INSIDE,
-    DISPATCHER_SWITCH_COSTUME_SIZE,
-    DISPATCHER_SWITCH_COSTUME_LOCATION,
-    DISPATCHER_SWITCH_COSTUME_COMPOSITION,
-    DISPATCHER_COSTUME_DISINFECT,
-    DISPATCHER_COSTUME_REPAIR,
-    DISPATCHER_COSTUME_CERTIFICATION
-} from '../constants/constants';
 
 export default class CostumeView extends Component {
     state = {
@@ -93,13 +82,6 @@ export default class CostumeView extends Component {
         actions.washInsides(this.props.id);
 
         this.disableEditing();
-    }
-
-    startCertificationProcess = () => {
-//        this.setState({
-//            mode: MODE_CERTIFICATION
-//        })
-        this.props.onCertificationButtonPressed();
     }
 
     disableEditing = () => { this.setState({ mode: null }) }
@@ -200,6 +182,21 @@ export default class CostumeView extends Component {
 
     repairCostume = () => {
         actions.repairCostume(this.props.id);
+
+        this.disableEditing();
+    }
+
+    onCertificationTillChanged = (date) => {
+        this.setState({
+            mode: MODE_CERTIFICATION,
+            changes: {
+                date
+            }
+        });
+    }
+
+    saveCertificationExpirationDate = () => {
+        actions.saveCertificationExpirationDate(this.changes.date);
 
         this.disableEditing();
     }
@@ -307,8 +304,9 @@ export default class CostumeView extends Component {
                 </View>
                 <Button style={styles.minorButton} text="Ремонтировать" onClick={this.repairCostume} />
 
+
                 <View style={styles.container}>
-                    <Text style={styles.label}>Дата проведения сертификации (тех. осмотра??): </Text>
+                    <Text style={styles.label}>Дата проведения сертификации: </Text>
                     <Text style={styles.text}>{formatDate(props.data.wasCertifiedDate)}</Text>
                 </View>
 
@@ -316,8 +314,15 @@ export default class CostumeView extends Component {
                     <Text style={styles.label}>Сертификация действительна до: </Text>
                     <Text style={styles.text}>{formatDate(props.data.isCertifiedTillDate)}</Text>
                 </View>
-                <Button style={styles.minorButton} text="Провести техосмотр" onClick={this.startCertificationProcess} />
-                <Button style={{ marginTop: 12 }} text="Просмотреть результаты техосмотра" onClick={this.props.onWatchCertification} />
+
+                <View style={styles.container}>
+                    <Text>Провести сертификацию </Text>
+                    <DatePicker onChange={this.onCertificationTillChanged} />
+                </View>
+
+
+                <Button style={styles.minorButton} text="Провести техосмотр" onClick={this.props.onCertificationButtonPressed} />
+                <Button style={{ marginTop: 12, opacity: 0 }} text="Просмотреть результаты техосмотра" onClick={this.props.onWatchCertification} />
 
                 <Button
                     onClick={props.onBackButtonPressed}
@@ -328,40 +333,7 @@ export default class CostumeView extends Component {
     }
 
     getHistoryRecordPhrase = (record) => {
-        const showDate = (date) => {
-            return `(${this.formatDate(date)})`;
-        }
-
-        switch (record.tag) {
-            case DISPATCHER_SWITCH_COSTUME_OWNER:
-                return `Смена владельца: ${record.data.owner} ${showDate(record.data.date)}`;
-                break;
-            case DISPATCHER_FLUSH_COSTUME_OWNER:
-                return `Возврат костюма ${showDate(record.data.date)}`;
-                break;
-            case DISPATCHER_COSTUME_WASH_INSIDE:
-                return `Стирка внутренней подкладки ${showDate(record.data.date)}`;
-                break;
-            case DISPATCHER_COSTUME_REPAIR:
-                return `Ремонт гидрокостюма ${showDate(record.data.date)}`;
-                break;
-            case DISPATCHER_COSTUME_DISINFECT:
-                return `Продезинфицировано ${showDate(record.data.date)}`;
-                break;
-            case DISPATCHER_SWITCH_COSTUME_SIZE:
-                return ``;
-                break;
-            case DISPATCHER_SWITCH_COSTUME_LOCATION:
-                return `Смена местоположения: ${record.data.location} ${showDate(record.data.date)}`;
-                break;
-            case DISPATCHER_COSTUME_CERTIFICATION:
-//                certification
-                return `Проведение сертификации: с ${showDate(record.data.date)} до ${showDate(record.data.expires)}`;
-                break;
-            case DISPATCHER_SWITCH_COSTUME_COMPOSITION:
-                return `Смена комплектации состава: ${record.data.composition} ${showDate(record.data.date)}`;
-                break;
-        }
+        return historyRecordPhrase(record);
     }
 
     renderHistoryRecordComponent = (record, i) => {
