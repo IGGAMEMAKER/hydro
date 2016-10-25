@@ -43,14 +43,12 @@ export default class Report extends Component {
     }
 
     componentWillMount() {
-        console.log('updateData componentWillMount', store.getHistory(), store.getCostumes())
         store.addChangeListener(this.updateData)
 
         this.updateData()
     }
 
     updateData = () => {
-        console.log('updateData Report', store.getHistory(), store.getCostumes())
         this.setState({ data: store.getHistory(), costumes: store.getCostumes() });
     }
 
@@ -146,6 +144,7 @@ export default class Report extends Component {
 
         return (
             <View>
+                <Text> Отчёт за период </Text>
                 <Text> Использовано </Text>
                 <Text>{JSON.stringify(usages.byId)}</Text>
                 <Text>{JSON.stringify(usages.bySize)}</Text>
@@ -169,9 +168,32 @@ export default class Report extends Component {
             </View>
         )
     }
+    getSummaryStatBySize = (costumes) => {
+        const sizes = {};
+        Object.keys(costumes).map(id => {
+            const size = costumes[id].size;
 
+            if (!sizes[size]) {
+                sizes[size] = [id];
+            } else {
+                sizes[size].push(id);
+            }
+
+        })
+
+        return sizes;
+    }
     reportSummary = () => {
+        const history = this.state.data;
+        const costumes = this.state.costumes;
 
+        const sizeStat = this.getSummaryStatBySize(costumes);
+        return (
+            <View>
+                <Text> Суммарный Отчёт </Text>
+                <Text>{JSON.stringify(sizeStat)}</Text>
+            </View>
+        );
     }
 
     render() {
@@ -180,6 +202,7 @@ export default class Report extends Component {
                 <Button onClick={this.props.onBackButtonPressed} text="Назад" />
                 <Text> Создание отчёта за определённый период </Text>
                 {this.reportByPeriod()}
+                {this.reportSummary()}
             </ScrollView>
         );
     }
