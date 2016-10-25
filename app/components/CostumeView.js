@@ -51,13 +51,11 @@ export default class CostumeView extends Component {
     }
 
     onOwnerSwitch = (value) => {
-        console.log('onOwnerSwitch', this.state.changes);
         const changes = this.state.changes;
         changes['owner'] = value;
         this.setState({ changes });
     }
     onCompanyOwnerSwitch = (value) => {
-        console.log('onOwnerSwitch', this.state.changes);
         const changes = this.state.changes;
         changes['companyOwner'] = value;
         this.setState({ changes });
@@ -65,7 +63,6 @@ export default class CostumeView extends Component {
 
     saveChangesOwner = () => {
         const changes = this.state.changes;
-        console.log('saveChangesOwner CostumeView.js', changes);
         actions.switchCostumeOwner(this.props.id, changes.owner, changes.companyOwner);
 
         this.disableEditing();
@@ -107,14 +104,14 @@ export default class CostumeView extends Component {
                 </View>
             );
         }
-
+//style={{ height: 20, color: 'pomegranate', width: 150 }}
         return (
             <View style={{ flexDirection: 'row' }}>
                 <Button
                     style={styles.minorButton}
                     onClick={this.switchOwner} text="Сменить владельца" />
                 <Button
-                    style={{ height: 20, color: 'pomegranate', width: 150 }}
+                    style={{ height: 20, width: 150 }}
                     onClick={this.flushOwner} text="Возврат костюма" />
             </View>
         );
@@ -197,7 +194,7 @@ export default class CostumeView extends Component {
     }
 
     saveCertificationExpirationDate = () => {
-        actions.saveCertificationExpirationDate(this.changes.date);
+        actions.saveCertificationExpirationDate(this.props.id, this.state.changes.date);
 
         this.disableEditing();
     }
