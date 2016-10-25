@@ -250,6 +250,9 @@ export default class CostumeView extends Component {
     renderCompositionInfo = (props, state) => {
         return (
             <View>
+                <View style={styles.container}>
+                    <Text style={styles.label}>Комплектность: {props.data.composition}</Text>
+                </View>
                 <Input
                     placeholder="Укажите комплектность набора"
                     text={state.changes.composition? state.changes.composition: props.data.composition}
@@ -313,6 +316,14 @@ export default class CostumeView extends Component {
             </View>
         );
     }
+
+    renderDivider = () => {
+        return (
+            <View style={{ height: 3, backgroundColor: 'black', marginTop: 5, marginBottom: 5 }}>
+            </View>
+        );
+    }
+
     renderCostumeInfo = () => {
         const props = this.props;
         const state = this.state;
@@ -343,10 +354,9 @@ export default class CostumeView extends Component {
                 </View>
                 <View style={{ marginLeft: 25 }}>{this.renderOwnerSwitchingForm(props, state)}</View>
 
-                <View style={styles.container}>
-                    <Text style={styles.label}>Комплектность: {props.data.composition}</Text>
-                </View>
+                {this.renderDivider()}
                 {this.renderCertificationTab(props, formatDate)}
+                {this.renderDivider()}
 
                 {this.renderCompositionInfo(props, state)}
 
