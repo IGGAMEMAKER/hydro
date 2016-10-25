@@ -187,6 +187,7 @@ export default class CostumeView extends Component {
     }
 
     onCertificationTillChanged = (date) => {
+        console.log('onCertificationTillChanged', date);
         this.setState({
             mode: MODE_CERTIFICATION,
             changes: {
@@ -305,11 +306,12 @@ export default class CostumeView extends Component {
                     <Text style={styles.text}>{formatDate(props.data.isCertifiedTillDate)}</Text>
                 </View>
 
-                <View style={styles.container}>
+                <View style={{}}>
                     <View>
                         <Text>Провести сертификацию </Text>
                     </View>
                     <DatePicker onChange={this.onCertificationTillChanged} />
+                    <Button text="Провести сертификацию" onClick={this.saveCertificationExpirationDate} />
                 </View>
             </View>
         );
@@ -352,7 +354,6 @@ export default class CostumeView extends Component {
                 {this.renderCompositionInfo(props, state)}
 
                 {this.renderClickableActions(props, formatDate)}
-
 
 
                 <Button style={styles.minorButton} text="Провести техосмотр" onClick={this.props.onCertificationButtonPressed} />

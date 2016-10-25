@@ -19,27 +19,29 @@ export default class DatePicker extends Component {
     }
 
     componentWillMount() {
-        let date = this.props.date? this.props.date: new Date();
-        this.setState({ day: date.getDate(), month: date.getMonth() + 1, year: date.getFullYear })
+//        let date = this.props.date? this.props.date: new Date();
+        let date = new Date();
+        this.setState({ day: date.getDate(), month: date.getMonth() + 1, year: date.getFullYear() })
     }
 
     onDayChange = (value) => {
-        this.setState({ day: value })
-        this.onDateChange();
+        this.onDateChange({ day: value });
     }
     onMonthChange = (value) => {
-        this.setState({ month: value })
-        this.onDateChange();
+        this.onDateChange({ month: value });
     }
     onYearChange = (value) => {
-        this.setState({ year: value })
-        this.onDateChange();
+        console.log('year changed', value);
+        this.onDateChange({ year: value });
     }
 
-    onDateChange = () => {
-        const { day, month, year } = this.state;
-        console.log('onDateChange DatePicker.js', this.state, this.props);
+    onDateChange = (change) => {
+        const date = Object.assign({}, this.state, change);
+        const { day, month, year } = date;
+        console.log('onDateChange DatePicker.js', date);
+
         this.props.onChange(new Date(year, month - 1, day));
+        this.setState(date);
     }
     render() {
         const style = { width: 200 };
