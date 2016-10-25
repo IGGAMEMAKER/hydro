@@ -15,6 +15,8 @@ import store from '../stores/CostumeStore';
 
 import { blankSizeList } from '../helpers/cloth-sizes';
 
+import dateFormatter from '../helpers/date-formatter';
+
 import {
     DISPATCHER_COSTUME_ADD,
     DISPATCHER_SWITCH_COSTUME_OWNER,
@@ -184,7 +186,7 @@ export default class Report extends Component {
         return sizes;
     }
 
-    getSummaryByOwnersAndCompanyOwners = (history) => {
+    getSummaryByOwnersAndCompanyOwners = (history, costumes) => {
         const companies = {};
         const users = {};
 
@@ -192,8 +194,9 @@ export default class Report extends Component {
         .filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER)
         .forEach(h => {
             const { companyOwner, owner } = h.data;
-            companyInfoItem = { owner }; // needs more data here! date and etc, size and costume number
-            userInfoItem = { companyOwner }; // same as there
+            const { date, id } = h;
+            companyInfoItem = { owner, date, id, size: costumes[id].size }; // needs more data here! date and etc, size and costume number
+            userInfoItem = { companyOwner, date, id, size: costumes[id].size }; // same as there
 
             // add info to companies list
             if (!companies[companyOwner]) {
@@ -212,8 +215,8 @@ export default class Report extends Component {
         return { users, companies };
     }
 
-    renderSummaryByOwnersAndCompanyOwners = (history) => {
-        const { users, companies } = this.getSummaryByOwnersAndCompanyOwners(history);
+    renderSummaryByOwnersAndCompanyOwners = (history, costumes) => {
+        const { users, companies } = this.getSummaryByOwnersAndCompanyOwners(history, costumes);
 
         return (
             <View>
@@ -234,7 +237,7 @@ export default class Report extends Component {
             <View>
                 <Text> Суммарный Отчёт </Text>
                 <Text>{JSON.stringify(sizeStat)}</Text>
-                {this.renderSummaryByOwnersAndCompanyOwners(history)}
+                {this.renderSummaryByOwnersAndCompanyOwners(history, costumes)}
             </View>
         );
     }
