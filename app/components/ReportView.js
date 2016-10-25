@@ -183,6 +183,38 @@ export default class Report extends Component {
 
         return sizes;
     }
+
+    getSummaryByOwnersAndCompanyOwners = (history) => {
+        const companies = {};
+        const users = {};
+
+        history
+        .filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER)
+        .forEach(h => {
+            const { companyOwner, owner } = h.data;
+            companyInfoItem = { owner }; // needs more data here! date and etc, size and costume number
+            userInfoItem = { companyOwner }; // same as there
+
+            // add info to companies list
+            if (!companies[companyOwner]) {
+                companies[companyOwner] = [companyInfoItem];
+            } else {
+                companies[companyOwner].push(companyInfoItem);
+            }
+
+            if (!users[owner]) {
+                users[owner] = [userInfoItem];
+            } else {
+                users[owner].push(userInfoItem);
+            }
+        })
+
+        return { users, companies };
+    }
+
+    renderSummaryByOwnersAndCompanyOwners = (users, companies) => {
+
+    }
     reportSummary = () => {
         const history = this.state.data;
         const costumes = this.state.costumes;
