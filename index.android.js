@@ -63,30 +63,8 @@ export default class AwesomeProject extends Component {
         console.log('componentWillMount');
 //        csv.write();
         csv.readFile();
-//        this._loadInitialState().done();
-
-        setTimeout(async () => {
-//            AsyncStorage.setItem(STORAGE_KEY, 'OLOLOLO');
-        }, 0);
     }
 
-      _loadInitialState = async () => {
-        try {
-          var value = await AsyncStorage.getItem(STORAGE_COSTUMES);
-          if (value !== null) {
-            this.setState({ value });
-            this._appendMessage('Recovered selection from disk: ' + value);
-          } else {
-            this._appendMessage('Initialized with no selection on disk.');
-          }
-        } catch (error) {
-          this._appendMessage('AsyncStorage error: ' + error.message);
-        }
-      };
-
-    _appendMessage = message => {
-        console.log('_appendMessage', message);
-    }
     getCostumes = () => {
         return store.getCostumes();
     }
@@ -149,16 +127,6 @@ export default class AwesomeProject extends Component {
 
         const id = state.selectedCostumeId;
 
-
-//        let realm = new Realm({
-//            schema: [{name: 'Dog', properties: {name: 'string'}}]
-//        });
-//
-//        realm.write(() => {
-//            realm.create('Dog', {name: 'Rex'});
-//        });
-
-//                    <PDFCreator />
         if (state.mode === MODE_INITIAL_TABLE_VIEW) {
 //            style={{ width: 500, height: 1000, marginLeft: 150 }}
             return (
