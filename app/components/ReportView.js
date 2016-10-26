@@ -31,6 +31,15 @@ import {
     DISPATCHER_COSTUME_CERTIFICATION_EXPIRATION
 } from '../constants/constants';
 
+const offset = {
+    marginTop: 15
+};
+
+const title = {
+    fontSize: 22,
+    textAlign: 'center',
+}
+
 export default class Report extends Component {
     state = {
         startDay: null,
@@ -60,6 +69,8 @@ export default class Report extends Component {
     }
 
     getCostumeSizeById = (id) => {
+        console.log('getCostumeSizeById')
+        Object.keys(this.state.costumes).forEach(i => { console.log(i, ':', this.state.costumes[i].size) });
         return this.state.costumes[id].size;
     }
 
@@ -130,7 +141,7 @@ export default class Report extends Component {
         const disinfected = history.filter(h => h.tag === DISPATCHER_COSTUME_DISINFECT);
         const composed = history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_COMPOSITION);
 
-        const userUsages = this.getUserUsagesById(history);
+        const userUsages = this.getUserUsagesById(history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER));
 //        const usages = history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER);
 
 //        console.log('ReportView.js usages', usages, history);
@@ -156,14 +167,17 @@ export default class Report extends Component {
                     {this.renderUserUsages(userUsages)}
                 </View>
 
-                <Text> Сертифицировано </Text>
+                <Text style={offset}> Сертифицировано </Text>
                 <Text>{JSON.stringify(certified.byId)}</Text>
                 <Text>{JSON.stringify(certified.bySize)}</Text>
-                <Text> Отремонтировано </Text>
+
+                <Text style={offset}> Отремонтировано </Text>
                 <Text>{JSON.stringify(repaired.byId)}</Text>
                 <Text>{JSON.stringify(repaired.bySize)}</Text>
-                <Text> Постирано внутренней части </Text>
+
+                <Text style={offset}> Постирано внутренней части </Text>
                 <Text>{washed.length}</Text>
+
                 <Text> Дезинфицировано </Text>
                 <Text>{disinfected.length}</Text>
                 <Text> Доукомплектовано в комплектность </Text>
@@ -236,7 +250,6 @@ export default class Report extends Component {
 
         return (
             <View>
-                <Text> Суммарный Отчёт </Text>
                 <Text>{JSON.stringify(sizeStat)}</Text>
                 {this.renderSummaryByOwnersAndCompanyOwners(history, costumes)}
             </View>
@@ -247,8 +260,9 @@ export default class Report extends Component {
         return (
             <ScrollView>
                 <Button onClick={this.props.onBackButtonPressed} text="Назад" />
-                <Text> Создание отчёта за определённый период </Text>
+                <Text style={title}> Создание отчёта за определённый период </Text>
                 {this.reportByPeriod()}
+                <Text style={title}> Суммарный Отчёт </Text>
                 {this.reportSummary()}
             </ScrollView>
         );

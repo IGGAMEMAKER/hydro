@@ -16,7 +16,7 @@ export default class CostumeAdding extends Component {
     state = {
         newCostumeId: '',
 
-        size: '',
+        size: 'SW',
         composition: '',
     }
 
