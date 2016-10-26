@@ -110,12 +110,24 @@ export default class Report extends Component {
         let disinfectedText = `Дезинфицировано: ${disinfected.length} ${line}`;
         let composedText = `Доукомплектовано в комплектность: ${composed.length} ${line}`;
 
+        let certifiedText = `Сертифицировано по размерам: `;
+        for (size in certified.bySize) {
+            certifiedText += `${line} ${size}: ${certified.bySize[size]}`;
+        }
+        certifiedText += `${line} Сертифицировано по номерам: `
+        for (size in certified.byId) {
+            certifiedText += `${line} ${size}: ${certified.byId[size]}`;
+        }
+
         let text = `Отчёт за период ${d1} - ${d2}` + line;
         text += str(userUsagesText);
         text += washedText;
         text += disinfectedText;
         text += composedText;
+        text += certifiedText;
         log()
+
+//        console.log(str(certified))
         return text;
     }
 
