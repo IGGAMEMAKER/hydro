@@ -74,6 +74,10 @@ export default class Report extends Component {
         return this.state.costumes[id].size;
     }
 
+    printOwner = (u) => {
+        return `#${u.id} - Владелец: ${u.owner}, выдано: ${u.date}, Размер: ${u.size}`;
+    }
+
     printPeriodReport = () => {
         const tab = ' tab ';
         const line = ' line ';
@@ -149,7 +153,17 @@ export default class Report extends Component {
         }
 
         const totalUsage = this.getSummaryByOwnersAndCompanyOwners(totalHistory, costumes);
+        let totalUsers = `По ФИО: ${line}`;
 
+        for (user in totalUsage.users) {
+//            console.log('iterator', user);
+            totalUsers += `${line} ${user}`;
+            const useList = totalUsage.users[user];
+            useList.forEach(u => {
+                totalUsers += `${line} ${tab} ${this.printOwner(u)}`
+            })
+        }
+//        console.log('totalUsers', totalUsers);
 
         let text = `Отчёт за период ${d1} - ${d2}` + line;
         text += str(userUsagesText);
@@ -158,10 +172,11 @@ export default class Report extends Component {
 //        text += composedText;
 //        text += certifiedText;
 //        text += repairedText;
-        text += costumeText;
-//        log()
+//        text += costumeText;
+        text += totalUsers;
+        log()
 
-        console.log(str(totalUsage))
+//        console.log(str(totalUsage.users))
         return text;
     }
 
@@ -309,8 +324,10 @@ export default class Report extends Component {
         .forEach(h => {
             const { companyOwner, owner } = h.data;
             const { date, id } = h;
-            companyInfoItem = { owner, date, id, size: costumes[id].size }; // needs more data here! date and etc, size and costume number
-            userInfoItem = { companyOwner, date, id, size: costumes[id].size }; // same as there
+            const size = costumes[id].size;
+
+            companyInfoItem = { owner, date, id, size }; // needs more data here! date and etc, size and costume number
+            userInfoItem = { owner: companyOwner, date, id, size }; // same as there
 
             // add info to companies list
             if (!companies[companyOwner]) {
