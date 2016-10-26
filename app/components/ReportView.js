@@ -428,6 +428,7 @@ export default class Report extends Component {
                 <Text style={title}> Создание отчёта за определённый период </Text>
                 {this.renderDatePickers()}
                 <Button onClick={() => { reportSaver.save(report) }} text="Создать отчёт" />
+                <Text>отчёт будет сохранён по пути: /sdcard/download/report.txt</Text>
                 <Text>{report}</Text>
             </ScrollView>
         );
