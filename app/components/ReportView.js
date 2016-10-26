@@ -112,11 +112,20 @@ export default class Report extends Component {
 
         let certifiedText = `Сертифицировано по размерам: `;
         for (size in certified.bySize) {
-            certifiedText += `${line} ${size}: ${certified.bySize[size]}`;
+            certifiedText += `${line} #${size}: ${certified.bySize[size]}`;
         }
         certifiedText += `${line} Сертифицировано по номерам: `
         for (size in certified.byId) {
-            certifiedText += `${line} ${size}: ${certified.byId[size]}`;
+            certifiedText += `${line} #${size}: ${certified.byId[size]}`;
+        }
+
+        let repairedText = `Отремонтировано по размерам: `;
+        for (size in repaired.bySize) {
+            repairedText += `${line} #${size}: ${repaired.bySize[size]}`;
+        }
+        repairedText += `${line} Отремонтировано по номерам: `
+        for (size in repaired.byId) {
+            repairedText += `${line} #${size}: ${repaired.byId[size]}`;
         }
 
         let text = `Отчёт за период ${d1} - ${d2}` + line;
@@ -125,6 +134,7 @@ export default class Report extends Component {
         text += disinfectedText;
         text += composedText;
         text += certifiedText;
+        text += repairedText;
         log()
 
 //        console.log(str(certified))
