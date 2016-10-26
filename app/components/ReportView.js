@@ -69,8 +69,8 @@ export default class Report extends Component {
     }
 
     getCostumeSizeById = (id) => {
-        console.log('getCostumeSizeById')
-        Object.keys(this.state.costumes).forEach(i => { console.log(i, ':', this.state.costumes[i].size) });
+//        console.log('getCostumeSizeById')
+//        Object.keys(this.state.costumes).forEach(i => { console.log(i, ':', this.state.costumes[i].size) });
         return this.state.costumes[id].size;
     }
 
@@ -88,14 +88,15 @@ export default class Report extends Component {
         const d1 = 'вчера';
         const d2 = 'сегодня';
 
-        const history = this.state.data; // FILTER IT BY DATE!!!
+        const totalHistory = this.state.data;
+        const history = totalHistory.filter(q => true); // FILTER IT BY DATE!!!
 
         const usages = this.getPeriodStatUsages(history);
         const certified = this.getPeriodStatCertified(history);
         const repaired = this.getPeriodStatRepaired(history);
 
         const washed = this.getPeriodStatWashed(history);
-        const disinfected = this.getPeriodStatDesinfected(history);
+        const disinfected = this.getPeriodStatDisinfected(history);
         const composed = this.getPeriodStatComposition(history);
 
         const userUsages = this.getPeriodStatUserUsages(history);
@@ -147,6 +148,9 @@ export default class Report extends Component {
             sizeArray.forEach(id => { costumeText += `${line} ${tab} ${id}`})
         }
 
+        const totalUsage = this.getSummaryByOwnersAndCompanyOwners(totalHistory, costumes);
+
+
         let text = `Отчёт за период ${d1} - ${d2}` + line;
         text += str(userUsagesText);
 //        text += washedText;
@@ -155,9 +159,9 @@ export default class Report extends Component {
 //        text += certifiedText;
 //        text += repairedText;
         text += costumeText;
-        log()
+//        log()
 
-        console.log(str(costumeList))
+        console.log(str(totalUsage))
         return text;
     }
 
@@ -218,27 +222,21 @@ export default class Report extends Component {
     getPeriodStatUsages = (history) => {
         return this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER))
     }
-
     getPeriodStatCertified = (history) => {
         return this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_COSTUME_CERTIFICATION_EXPIRATION));
     }
-
     getPeriodStatRepaired = (history) => {
         return this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_COSTUME_REPAIR));
     }
-
     getPeriodStatWashed = (history) => {
         return history.filter(h => h.tag === DISPATCHER_COSTUME_WASH_INSIDE);
     }
-
-    getPeriodStatDesinfected = (history) => {
+    getPeriodStatDisinfected = (history) => {
         return history.filter(h => h.tag === DISPATCHER_COSTUME_DISINFECT);
     }
-
     getPeriodStatComposition = (history) => {
         return history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_COMPOSITION);
     }
-
     getPeriodStatUserUsages = (history) => {
         return this.getUserUsagesById(history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER));
     }
@@ -251,7 +249,7 @@ export default class Report extends Component {
         const repaired = this.getPeriodStatRepaired(history);
 
         const washed = this.getPeriodStatWashed(history);
-        const disinfected = this.getPeriodStatDesinfected(history);
+        const disinfected = this.getPeriodStatDisinfected(history);
         const composed = this.getPeriodStatComposition(history);
 
         const userUsages = this.getPeriodStatUserUsages(history);
