@@ -54,14 +54,15 @@ import CostumeAddingForm from './app/components/CostumeAddingForm';
 export default class AwesomeProject extends Component {
     state = {
         count: 0,
-        mode: MODE_INITIAL_TABLE_VIEW,
+//        mode: MODE_INITIAL_TABLE_VIEW,
+        mode: MODE_REPORT,
         selectedCostumeId: null,
     }
 
     componentWillMount() {
         console.log('componentWillMount');
 //        csv.write();
-        csv.readFile();
+//        csv.readFile();
 //        this._loadInitialState().done();
 
         setTimeout(async () => {

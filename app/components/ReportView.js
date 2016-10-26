@@ -74,6 +74,51 @@ export default class Report extends Component {
         return this.state.costumes[id].size;
     }
 
+    printPeriodReport = () => {
+        const tab = ' tab ';
+        const line = ' line ';
+
+        const log = () => {
+            console.log(text);
+        }
+
+        const str = (obj) => JSON.stringify(obj);
+
+
+        const d1 = 'вчера';
+        const d2 = 'сегодня';
+
+        const history = this.state.data; // FILTER IT BY DATE!!!
+
+        const usages = this.getPeriodStatUsages(history);
+        const certified = this.getPeriodStatCertified(history);
+        const repaired = this.getPeriodStatRepaired(history);
+
+        const washed = this.getPeriodStatWashed(history);
+        const disinfected = this.getPeriodStatDesinfected(history);
+        const composed = this.getPeriodStatComposition(history);
+
+        const userUsages = this.getPeriodStatUserUsages(history);
+
+        let userUsagesText = `Использовано по фамилиям: ${line}`;
+        userUsagesText += Object.keys(userUsages).map(id => {
+            const users = userUsages[id].map((u, i) => `${line} ${tab} * ${u.owner} (${u.companyOwner})`).join();
+            return `${id} ${users} ${line}`;
+        }).join();
+
+        let washedText = `Постирано внутренней части: ${washed.length} ${line}`;
+        let disinfectedText = `Дезинфицировано: ${disinfected.length} ${line}`;
+        let composedText = `Доукомплектовано в комплектность: ${composed.length} ${line}`;
+
+        let text = `Отчёт за период ${d1} - ${d2}` + line;
+        text += str(userUsagesText);
+        text += washedText;
+        text += disinfectedText;
+        text += composedText;
+        log()
+        return text;
+    }
+
     getCostumeIdList = () => {
         const list = {};
         Object.keys(this.state.costumes).forEach(id => { list[id] = 0 });
@@ -115,11 +160,8 @@ export default class Report extends Component {
     renderUserUsages = (userUsages) => {
         return Object.keys(userUsages).map(id => {
             const users = userUsages[id].map((u, i) => {
-                    console.log('u', u, i);
-                  return (
-                      <Text key={i}>{u.owner} ({u.companyOwner})</Text>
-                  )
-              })
+                return <Text key={i}>{u.owner} ({u.companyOwner})</Text>
+            })
             return (
                 <View>
                     <Text>{id}</Text>
@@ -130,31 +172,47 @@ export default class Report extends Component {
             );
         })
     }
-    reportByPeriod = () => {
-        const history = this.state.data;
 
-        const usages = this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER));
-        const certified = this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_COSTUME_CERTIFICATION_EXPIRATION));
-        const repaired = this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_COSTUME_REPAIR));
+    getPeriodStatUsages = (history) => {
+        return this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER))
+    }
 
-        const washed = history.filter(h => h.tag === DISPATCHER_COSTUME_WASH_INSIDE);
-        const disinfected = history.filter(h => h.tag === DISPATCHER_COSTUME_DISINFECT);
-        const composed = history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_COMPOSITION);
+    getPeriodStatCertified = (history) => {
+        return this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_COSTUME_CERTIFICATION_EXPIRATION));
+    }
 
-        const userUsages = this.getUserUsagesById(history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER));
-//        const usages = history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER);
+    getPeriodStatRepaired = (history) => {
+        return this.getBySizeAndId(history.filter(h => h.tag === DISPATCHER_COSTUME_REPAIR));
+    }
 
-//        console.log('ReportView.js usages', usages, history);
-//        const usagesBySize = Object.assign({}, blankSizeList);
-//        const usagesById = this.getCostumeIdList(); // or {}
-//        const usagesByUser = {};
-//
-//        usages.forEach(h => {
-//            const id = h.id;
-//            usagesBySize[this.getCostumeSizeById(id)]++
-//            usagesById[id]++;
-//        })
-        ///                     <Text>{JSON.stringify(userUsages)}</Text>
+    getPeriodStatWashed = (history) => {
+        return history.filter(h => h.tag === DISPATCHER_COSTUME_WASH_INSIDE);
+    }
+
+    getPeriodStatDesinfected = (history) => {
+        return history.filter(h => h.tag === DISPATCHER_COSTUME_DISINFECT);
+    }
+
+    getPeriodStatComposition = (history) => {
+        return history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_COMPOSITION);
+    }
+
+    getPeriodStatUserUsages = (history) => {
+        return this.getUserUsagesById(history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER));
+    }
+
+    renderReportByPeriod = () => {
+        const history = this.state.data; // FILTER IT BY DATE!!!
+
+        const usages = this.getPeriodStatUsages(history);
+        const certified = this.getPeriodStatCertified(history);
+        const repaired = this.getPeriodStatRepaired(history);
+
+        const washed = this.getPeriodStatWashed(history);
+        const disinfected = this.getPeriodStatDesinfected(history);
+        const composed = this.getPeriodStatComposition(history);
+
+        const userUsages = this.getPeriodStatUserUsages(history);
 
         return (
             <View>
@@ -185,6 +243,7 @@ export default class Report extends Component {
             </View>
         )
     }
+
     getSummaryStatBySize = (costumes) => {
         const sizes = {};
         Object.keys(costumes).map(id => {
@@ -242,7 +301,7 @@ export default class Report extends Component {
             </View>
         );
     }
-    reportSummary = () => {
+    renderReportSummary = () => {
         const history = this.state.data;
         const costumes = this.state.costumes;
 
@@ -260,10 +319,11 @@ export default class Report extends Component {
         return (
             <ScrollView>
                 <Button onClick={this.props.onBackButtonPressed} text="Назад" />
+                <Button onClick={this.printPeriodReport} text="Создать отчёт" />
                 <Text style={title}> Создание отчёта за определённый период </Text>
-                {this.reportByPeriod()}
+                {this.renderReportByPeriod()}
                 <Text style={title}> Суммарный Отчёт </Text>
-                {this.reportSummary()}
+                {this.renderReportSummary()}
             </ScrollView>
         );
     }
