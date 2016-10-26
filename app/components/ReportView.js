@@ -74,8 +74,8 @@ export default class Report extends Component {
         return this.state.costumes[id].size;
     }
 
-    printOwner = (u) => {
-        return `#${u.id} - Владелец: ${u.owner}, выдано: ${u.date}, Размер: ${u.size}`;
+    printOwner = (u, isCompany) => {
+        return `#${u.id} - ${isCompany? 'Владелец': 'Компания'}: ${u.owner}, выдано: ${u.date}, Размер: ${u.size}`;
     }
 
     printPeriodReport = () => {
@@ -153,17 +153,24 @@ export default class Report extends Component {
         }
 
         const totalUsage = this.getSummaryByOwnersAndCompanyOwners(totalHistory, costumes);
-        let totalUsers = `По ФИО: ${line}`;
 
+        let totalUsers = `По ФИО: ${line}`;
         for (user in totalUsage.users) {
-//            console.log('iterator', user);
             totalUsers += `${line} ${user}`;
             const useList = totalUsage.users[user];
             useList.forEach(u => {
                 totalUsers += `${line} ${tab} ${this.printOwner(u)}`
             })
         }
-//        console.log('totalUsers', totalUsers);
+
+        let totalCompanies = `По компаниям: ${line}`;
+        for (user in totalUsage.companies) {
+            totalCompanies += `${line} ${user}`;
+            const useList = totalUsage.companies[user];
+            useList.forEach(u => {
+                totalCompanies += `${line} ${tab} ${this.printOwner(u, true)}`
+            })
+        }
 
         let text = `Отчёт за период ${d1} - ${d2}` + line;
         text += str(userUsagesText);
@@ -174,6 +181,7 @@ export default class Report extends Component {
 //        text += repairedText;
 //        text += costumeText;
         text += totalUsers;
+        text += totalCompanies;
         log()
 
 //        console.log(str(totalUsage.users))
