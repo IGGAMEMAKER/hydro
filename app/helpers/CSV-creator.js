@@ -2,7 +2,8 @@ var RNFS = require('react-native-fs');
 
 //var path = RNFS.DocumentDirectoryPath + '/URGE-BURGE-GURGE-test.txt';
 //var path = '/sdcard/URGE-BURGE-GURGE-test.txt';
-var path = '/sdcard/URGE-BURGE-GURGE-test.csv';
+//    var path = '/sdcard/URGE-BURGE-GURGE-test.csv';
+var path = '/sdcard/download/report.txt';
 var backupPath = '/sdcard/download/hydro-costumes-backup.js';
 
 const readFile = () => {

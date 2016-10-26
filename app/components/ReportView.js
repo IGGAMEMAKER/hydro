@@ -15,6 +15,7 @@ import DatePicker from './basic/DatePicker';
 import store from '../stores/CostumeStore';
 
 import { blankSizeList } from '../helpers/cloth-sizes';
+import reportSaver from '../helpers/save-text-report';
 
 import dateFormatter from '../helpers/date-formatter';
 
@@ -137,11 +138,11 @@ export default class Report extends Component {
             usagesText += `${line} #${size}: ${usages.byId[size]}`;
         }
 
-        let washedText = `Постирано внутренней части: ${washed.length} ${line}`;
-        let disinfectedText = `Дезинфицировано: ${disinfected.length} ${line}`;
-        let composedText = `Доукомплектовано в комплектность: ${composed.length} ${line}`;
+        let washedText = `${line} Постирано внутренней части: ${washed.length} ${line}`;
+        let disinfectedText = `${line} Дезинфицировано: ${disinfected.length} ${line}`;
+        let composedText = `${line} Доукомплектовано в комплектность: ${composed.length} ${line}`;
 
-        let certifiedText = `Сертифицировано по размерам: `;
+        let certifiedText = `${line} Сертифицировано по размерам: `;
         for (size in certified.bySize) {
             certifiedText += `${line} #${size}: ${certified.bySize[size]}`;
         }
@@ -150,7 +151,7 @@ export default class Report extends Component {
             certifiedText += `${line} #${size}: ${certified.byId[size]}`;
         }
 
-        let repairedText = `Отремонтировано по размерам: `;
+        let repairedText = `${line} Отремонтировано по размерам: `;
         for (size in repaired.bySize) {
             repairedText += `${line} #${size}: ${repaired.bySize[size]}`;
         }
@@ -198,7 +199,7 @@ export default class Report extends Component {
         text += certifiedText;
         text += repairedText;
 
-        text += `Суммарный отчёт ${line} По размерам: ${line}`;
+        text += `${line} ${line} ${line} СУММАРНЫЙ ОТЧЁТ ${line} По размерам: ${line}`;
         text += costumeText;
 
         text += `${line} По ФИО: ${line}`;
@@ -418,16 +419,16 @@ export default class Report extends Component {
 
     render() {
         const report = this.getReport();
+//                {this.renderReportByPeriod()}
+//                <Text style={title}> Суммарный Отчёт </Text>
+//                {this.renderReportSummary()}
         return (
             <ScrollView>
                 <Button onClick={this.props.onBackButtonPressed} text="Назад" />
                 <Text style={title}> Создание отчёта за определённый период </Text>
                 {this.renderDatePickers()}
-                <Button onClick={this.getReport} text="Создать отчёт" />
+                <Button onClick={() => { reportSaver.save(report) }} text="Создать отчёт" />
                 <Text>{report}</Text>
-                {this.renderReportByPeriod()}
-                <Text style={title}> Суммарный Отчёт </Text>
-                {this.renderReportSummary()}
             </ScrollView>
         );
     }

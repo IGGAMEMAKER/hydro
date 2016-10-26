@@ -62,7 +62,7 @@ export default class AwesomeProject extends Component {
     componentWillMount() {
         console.log('componentWillMount');
 //        csv.write();
-//        csv.readFile();
+        csv.readFile();
 //        this._loadInitialState().done();
 
         setTimeout(async () => {
