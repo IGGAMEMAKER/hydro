@@ -131,7 +131,6 @@ export default class AwesomeProject extends Component {
 //            style={{ width: 500, height: 1000, marginLeft: 150 }}
             return (
                 <ScrollView>
-                    <Text> TTTT </Text>
                     <CostumeList
                         costumes={costumes}
                         onChooseCostume={this.selectCostume}
