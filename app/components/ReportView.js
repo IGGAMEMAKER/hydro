@@ -106,6 +106,15 @@ export default class Report extends Component {
             return `${id} ${users} ${line}`;
         }).join();
 
+        let usagesText = `Использовано по размерам: `;
+        for (size in usages.bySize) {
+            usagesText += `${line} #${size}: ${usages.bySize[size]}`;
+        }
+        usagesText += `${line} Сертифицировано по номерам: `
+        for (size in usages.byId) {
+            usagesText += `${line} #${size}: ${usages.byId[size]}`;
+        }
+
         let washedText = `Постирано внутренней части: ${washed.length} ${line}`;
         let disinfectedText = `Дезинфицировано: ${disinfected.length} ${line}`;
         let composedText = `Доукомплектовано в комплектность: ${composed.length} ${line}`;
@@ -128,16 +137,27 @@ export default class Report extends Component {
             repairedText += `${line} #${size}: ${repaired.byId[size]}`;
         }
 
+        // SUMMARY REPORT
+        const costumes = this.state.costumes;
+        const costumeList = this.getSummaryStatBySize(costumes);
+        let costumeText = `Суммарный отчёт ${line} По размерам: ${line}`;
+        for (size in costumeList) {
+            const sizeArray = costumeList[size];
+            costumeText += `${line} ${size}`;
+            sizeArray.forEach(id => { costumeText += `${line} ${tab} ${id}`})
+        }
+
         let text = `Отчёт за период ${d1} - ${d2}` + line;
         text += str(userUsagesText);
-        text += washedText;
-        text += disinfectedText;
-        text += composedText;
-        text += certifiedText;
-        text += repairedText;
+//        text += washedText;
+//        text += disinfectedText;
+//        text += composedText;
+//        text += certifiedText;
+//        text += repairedText;
+        text += costumeText;
         log()
 
-//        console.log(str(certified))
+        console.log(str(costumeList))
         return text;
     }
 
