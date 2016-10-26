@@ -75,12 +75,13 @@ export default class Report extends Component {
     }
 
     printOwner = (u, isCompany) => {
-        return `#${u.id} - ${isCompany? 'Владелец': 'Компания'}: ${u.owner}, выдано: ${u.date}, Размер: ${u.size}`;
+        return `#${u.id} - ${isCompany? 'Владелец': 'Компания'}: ${u.owner}, выдано: ${dateFormatter(u.date)}, Размер: ${u.size}`;
     }
 
     printPeriodReport = () => {
-        const tab = ' tab ';
-        const line = ' line ';
+        const tab = '     ';
+//        const line = ' line ';
+        const line = '\n';
 
         const log = () => {
             console.log(text);
@@ -105,7 +106,7 @@ export default class Report extends Component {
 
         const userUsages = this.getPeriodStatUserUsages(history);
 
-        let userUsagesText = `Использовано по фамилиям: ${line}`;
+        let userUsagesText = `Использовано по номерам: ${line}`;
         userUsagesText += Object.keys(userUsages).map(id => {
             const users = userUsages[id].map((u, i) => `${line} ${tab} * ${u.owner} (${u.companyOwner})`).join();
             return `${id} ${users} ${line}`;
@@ -145,7 +146,8 @@ export default class Report extends Component {
         // SUMMARY REPORT
         const costumes = this.state.costumes;
         const costumeList = this.getSummaryStatBySize(costumes);
-        let costumeText = `Суммарный отчёт ${line} По размерам: ${line}`;
+
+        let costumeText = '';
         for (size in costumeList) {
             const sizeArray = costumeList[size];
             costumeText += `${line} ${size}`;
@@ -154,7 +156,7 @@ export default class Report extends Component {
 
         const totalUsage = this.getSummaryByOwnersAndCompanyOwners(totalHistory, costumes);
 
-        let totalUsers = `По ФИО: ${line}`;
+        let totalUsers = '';
         for (user in totalUsage.users) {
             totalUsers += `${line} ${user}`;
             const useList = totalUsage.users[user];
@@ -163,7 +165,7 @@ export default class Report extends Component {
             })
         }
 
-        let totalCompanies = `По компаниям: ${line}`;
+        let totalCompanies = '';
         for (user in totalUsage.companies) {
             totalCompanies += `${line} ${user}`;
             const useList = totalUsage.companies[user];
@@ -173,14 +175,19 @@ export default class Report extends Component {
         }
 
         let text = `Отчёт за период ${d1} - ${d2}` + line;
-        text += str(userUsagesText);
-//        text += washedText;
-//        text += disinfectedText;
-//        text += composedText;
-//        text += certifiedText;
-//        text += repairedText;
-//        text += costumeText;
+        text += userUsagesText;
+        text += washedText;
+        text += disinfectedText;
+        text += composedText;
+        text += certifiedText;
+        text += repairedText;
+
+        text += `Суммарный отчёт ${line} По размерам: ${line}`;
+        text += costumeText;
+
+        text += `${line} По ФИО: ${line}`;
         text += totalUsers;
+        text += `${line} По компаниям: ${line}`;
         text += totalCompanies;
         log()
 
