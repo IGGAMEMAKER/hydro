@@ -7,12 +7,6 @@ import com.facebook.react.shell.MainReactPackage;
 
 import java.util.Arrays;
 import java.util.List;
-//import com.keyee.pdfview.PDFView;
-//import com.parkerdan.htmltopdf.RNHTMLtoPDFPackage;
-
-//import io.realm.react.RealmReactPackage;
-
-//import org.pgsqlite.SQLitePluginPackage;
 
 public class MainActivity extends ReactActivity {
 
@@ -24,15 +18,4 @@ public class MainActivity extends ReactActivity {
     protected String getMainComponentName() {
         return "AwesomeProject";
     }
-
-//                new PDFView(), // <------ add here
-//                new SQLitePluginPackage(),
-//                new RealmReactPackage()
-//    @Override
-//    protected List<ReactPackage> getPackages() {
-//        return Arrays.<ReactPackage>asList(
-//                new MainReactPackage(),
-//                new RNFSPackage()
-//        );
-//    }
 }
