@@ -10,6 +10,7 @@ import {
 import Input from './basic/TextInput';
 import Button from './basic/Button';
 import Select from './basic/Select';
+import DatePicker from './basic/DatePicker';
 
 import store from '../stores/CostumeStore';
 
@@ -42,13 +43,8 @@ const title = {
 
 export default class Report extends Component {
     state = {
-        startDay: null,
-        startMonth: null,
-        startYear: null,
-
-        finishDay: null,
-        finishMonth: null,
-        finishYear: null,
+        from: new Date(2016, 1, 1),
+        to: new Date(),
 
         data: [],
         costumes: {},
@@ -64,8 +60,26 @@ export default class Report extends Component {
         this.setState({ data: store.getHistory(), costumes: store.getCostumes() });
     }
 
-    renderDatePicker = () => {
+    onFromChange = (date) => {
+        this.setState({ from: date });
+    }
+    onToChange = (date) => {
+        this.setState({ to: date });
+    }
 
+    renderDatePickers = () => {
+        return (
+            <View style={{ flexDirection: 'row' }}>
+                <View>
+                    <Text>Введите дату начало отчёта</Text>
+                    <DatePicker onChange={this.onFromChange} />
+                </View>
+                <View>
+                    <Text>Введите дату конца отчёта</Text>
+                    <DatePicker onChange={this.onToChange} />
+                </View>
+            </View>
+        );
     }
 
     getCostumeSizeById = (id) => {
@@ -78,7 +92,7 @@ export default class Report extends Component {
         return `#${u.id} - ${isCompany? 'Владелец': 'Компания'}: ${u.owner}, выдано: ${dateFormatter(u.date)}, Размер: ${u.size}`;
     }
 
-    printPeriodReport = () => {
+    getReport = () => {
         const tab = '     ';
 //        const line = ' line ';
         const line = '\n';
@@ -90,11 +104,13 @@ export default class Report extends Component {
         const str = (obj) => JSON.stringify(obj);
 
 
-        const d1 = 'вчера';
-        const d2 = 'сегодня';
+//        const d1 = 'вчера';
+//        const d2 = 'сегодня';
+        const d1 = dateFormatter(this.state.from);
+        const d2 = dateFormatter(this.state.to);
 
         const totalHistory = this.state.data;
-        const history = totalHistory.filter(q => true); // FILTER IT BY DATE!!!
+        const history = totalHistory.filter(this.suitsPeriod); // FILTER IT BY DATE!!!
 
         const usages = this.getPeriodStatUsages(history);
         const certified = this.getPeriodStatCertified(history);
@@ -189,7 +205,7 @@ export default class Report extends Component {
         text += totalUsers;
         text += `${line} По компаниям: ${line}`;
         text += totalCompanies;
-        log()
+//        log()
 
 //        console.log(str(totalUsage.users))
         return text;
@@ -271,8 +287,21 @@ export default class Report extends Component {
         return this.getUserUsagesById(history.filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER));
     }
 
+    compareDates(date1, date2) {
+        return date1.getTime() > date2.getTime();
+    }
+
+    suitsPeriod = (h) => {
+        const d1 = this.state.from;
+        const d2 = this.state.to;
+
+        const date = new Date(h.date);
+        console.log('suits period', d1, d2, h);
+        return this.compareDates(d2, date) && this.compareDates(date, d1);
+    }
+
     renderReportByPeriod = () => {
-        const history = this.state.data; // FILTER IT BY DATE!!!
+        const history = this.state.data.filter(this.suitsPeriod); // FILTER IT BY DATE!!!
 
         const usages = this.getPeriodStatUsages(history);
         const certified = this.getPeriodStatCertified(history);
@@ -388,11 +417,14 @@ export default class Report extends Component {
     }
 
     render() {
+        const report = this.getReport();
         return (
             <ScrollView>
                 <Button onClick={this.props.onBackButtonPressed} text="Назад" />
-                <Button onClick={this.printPeriodReport} text="Создать отчёт" />
                 <Text style={title}> Создание отчёта за определённый период </Text>
+                {this.renderDatePickers()}
+                <Button onClick={this.getReport} text="Создать отчёт" />
+                <Text>{report}</Text>
                 {this.renderReportByPeriod()}
                 <Text style={title}> Суммарный Отчёт </Text>
                 {this.renderReportSummary()}

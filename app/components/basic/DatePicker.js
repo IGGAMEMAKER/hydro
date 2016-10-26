@@ -6,7 +6,6 @@ import {
 
 type PropsType = {
     onChange: Function,
-    date: Date
 }
 
 import Input from './TextInput';
@@ -19,7 +18,6 @@ export default class DatePicker extends Component {
     }
 
     componentWillMount() {
-//        let date = this.props.date? this.props.date: new Date();
         let date = new Date();
         this.setState({ day: date.getDate(), month: date.getMonth() + 1, year: date.getFullYear() })
     }
