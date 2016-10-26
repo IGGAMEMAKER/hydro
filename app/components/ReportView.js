@@ -297,7 +297,7 @@ export default class Report extends Component {
         const d2 = this.state.to;
 
         const date = new Date(h.date);
-        console.log('suits period', d1, d2, h);
+//        console.log('suits period', d1, d2, h);
         return this.compareDates(d2, date) && this.compareDates(date, d1);
     }
 
