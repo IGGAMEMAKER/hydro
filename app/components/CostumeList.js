@@ -28,8 +28,8 @@ export default class CostumeList extends Component {
             const owner = props.costumes[key].owner;
             const isFree = !owner;
 
-            const style = isFree? { color: 'green' }: {};
-            const text = isFree? 'Свободен': `Владелец: ${owner}`;
+            const style = isFree ? { color: 'green' }: {};
+            const text = isFree ? 'Свободен': `Владелец: ${owner}`;
 
             const onChooseCostume = () => { props.onChooseCostume(key) };
 
@@ -42,8 +42,17 @@ export default class CostumeList extends Component {
             );
         }).reverse();
 
+        let array = [];
+        for (let i=0; i< 3000; i++) {
+            array.push(`Троцкий Лев${i} Давидович`);
+        }
+        const familyNames = array; //['oqiwd0as1'].fill('oqiwd0as', 0, 3000).map((s, i) => `${s}${i}`);
+
+//        const matching = familyNames.filter(s => s.includes('oqiwd0as2900'));
+        const matching = familyNames.filter(s => s.includes('Лев2'));
         return (
             <ScrollView style={{ padding: 15 }}>
+                <Text>{JSON.stringify(matching)}</Text>
                 <View style={{ marginBottom: 15 }}>
                     <Button onClick={props.onDisplayNewCostumeForm} text="Добавить новый гидрокостюм" />
                 </View>
@@ -73,7 +82,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+//    backgroundColor: '#F5FCFF',
+    backgroundColor: 'black',
     textAlign: 'center',
     fontSize: 23,
     paddingTop: 15,
