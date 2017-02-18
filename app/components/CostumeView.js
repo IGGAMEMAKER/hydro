@@ -372,6 +372,11 @@ export default class CostumeView extends Component {
                     onClick={props.onBackButtonPressed}
                     text="Вернуться к списку гидрокостюмов"
                 ></Button>
+
+                <Button
+                    onClick={props.onDeleteCostumePressed}
+                    text="Удалить гидрокостюм"
+                ></Button>
             </View>
         );
     }

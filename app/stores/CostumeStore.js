@@ -15,6 +15,8 @@ var STORAGE_HISTORY = '@STORAGE_HISTORY';
 
 import {
     DISPATCHER_COSTUME_ADD,
+    DISPATCHER_COSTUME_REMOVE,
+
     DISPATCHER_FLUSH_COSTUME_OWNER,
     DISPATCHER_SWITCH_COSTUME_OWNER,
     DISPATCHER_SWITCH_COSTUME_SIZE,
@@ -189,6 +191,12 @@ Dispatcher.register((p: PayloadType) => {
         console.log('new costume CostumeStore.js', costume);
 
         _costumes[p.id] = Object.assign({}, costume);
+
+        updateDB();
+        store.emitChange();
+        break;
+    case DISPATCHER_COSTUME_REMOVE:
+        _costumes[p.id].invisible = true;
 
         updateDB();
         store.emitChange();

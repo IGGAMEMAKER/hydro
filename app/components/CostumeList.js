@@ -24,7 +24,9 @@ export default class CostumeList extends Component {
     render() {
         const props: PropsType = this.props;
 
-        const costumeList = Object.keys(props.costumes).map((key, i) => {
+        const costumeList = Object.keys(props.costumes)
+        .filter(key => !props.costumes[key].invisible)
+        .map((key, i) => {
             const owner = props.costumes[key].owner;
             const isFree = !owner;
 
@@ -36,23 +38,24 @@ export default class CostumeList extends Component {
             return (
                 <View key={i}>
                     <Text>№ {key}</Text>
+                    <Text>{JSON.stringify(props.costumes[key])}</Text>
                     <Text style={style}>{text}</Text>
                     <Button onClick={onChooseCostume} text="Подробнее" />
                 </View>
             );
-        }).reverse();
+        }).reverse()
 
-        let array = [];
-        for (let i=0; i< 3000; i++) {
-            array.push(`Троцкий Лев${i} Давидович`);
-        }
-        const familyNames = array; //['oqiwd0as1'].fill('oqiwd0as', 0, 3000).map((s, i) => `${s}${i}`);
+//        let array = [];
+//        for (let i=0; i< 3000*0 + 1; i++) {
+//            array.push(`Троцкий Лев${i} Давидович`);
+//        }
+//        const familyNames = array; //['oqiwd0as1'].fill('oqiwd0as', 0, 3000).map((s, i) => `${s}${i}`);
 
 //        const matching = familyNames.filter(s => s.includes('oqiwd0as2900'));
-        const matching = familyNames.filter(s => s.includes('Лев2'));
+//        const matching = familyNames;//.filter(s => s.includes('Лев2'));
+//                <Text>{JSON.stringify(matching)}</Text>
         return (
             <ScrollView style={{ padding: 15 }}>
-                <Text>{JSON.stringify(matching)}</Text>
                 <View style={{ marginBottom: 15 }}>
                     <Button onClick={props.onDisplayNewCostumeForm} text="Добавить новый гидрокостюм" />
                 </View>

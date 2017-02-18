@@ -3,6 +3,7 @@ import backup from '../helpers/backup';
 
 import {
     DISPATCHER_COSTUME_ADD,
+    DISPATCHER_COSTUME_REMOVE,
     DISPATCHER_SWITCH_COSTUME_OWNER,
     DISPATCHER_FLUSH_COSTUME_OWNER,
     DISPATCHER_COSTUME_WASH_INSIDE,
@@ -50,6 +51,13 @@ export default {
         Dispatcher.dispatch({
             type: DISPATCHER_COSTUME_ADD,
             costume,
+            id
+        })
+    },
+
+    deleteCostume: (id) => {
+        Dispatcher.dispatch({
+            type: DISPATCHER_COSTUME_REMOVE,
             id
         })
     },

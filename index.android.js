@@ -120,6 +120,11 @@ export default class AwesomeProject extends Component {
         this.backToMainMenu();
     }
 
+    deleteCostume = (id) => {
+        actions.deleteCostume(id);
+
+        this.backToMainMenu();
+    }
     render() {
         const state = this.state;
 
@@ -147,6 +152,7 @@ export default class AwesomeProject extends Component {
                     id={id}
                     data={this.getCostumeById(id)}
                     onBackButtonPressed={this.backToMainMenu}
+                    onDeleteCostumePressed={() => { this.deleteCostume(id); }}
                     onCertificationButtonPressed={() => { this.toCertificationMenu(id); }}
                     onWatchCertification={() => { this.toCertificationWithNoEditing(id) }}
                 />
