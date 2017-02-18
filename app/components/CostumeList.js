@@ -23,23 +23,24 @@ type PropsType = {
 export default class CostumeList extends Component {
     render() {
         const props: PropsType = this.props;
-        // {'\n'}
+
         const costumeList = Object.keys(props.costumes).map((key, i) => {
             const owner = props.costumes[key].owner;
             const isFree = !owner;
+
+            const style = isFree? { color: 'green' }: {};
+            const text = isFree? 'Свободен': `Владелец: ${owner}`;
+
+            const onChooseCostume = () => { props.onChooseCostume(key) };
+
             return (
                 <View key={i}>
                     <Text>№ {key}</Text>
-                    <Text style={isFree? { color: 'green' }: {}}>
-                        {isFree? 'Свободен': `Владелец: ${owner}`}
-                    </Text>
-                    <Button
-                        onClick={() => { props.onChooseCostume(key) }}
-                        text="Подробнее"
-                    />
+                    <Text style={style}>{text}</Text>
+                    <Button onClick={onChooseCostume} text="Подробнее" />
                 </View>
             );
-        });
+        }).reverse();
 
         return (
             <ScrollView style={{ padding: 15 }}>
