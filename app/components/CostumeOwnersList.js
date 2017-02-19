@@ -32,9 +32,10 @@ export default class CostumeOwnersList extends Component {
     onSearchWordChange = word => {
         console.log('componentWillMount');
 
-        this.setState({ searchWord: word });
-
-        this.pickOwners();
+        this.setState({
+            searchWord: word,
+            owners: store.getSuitableOwners(word)
+        });
     }
 
     componentWillMount() {
@@ -47,7 +48,6 @@ export default class CostumeOwnersList extends Component {
         const props: PropsType = this.props;
 
         const renderOwner = ((o, i) => {
-//                    <Text style={{ padding: 20 }}>{o.name} Размер: {o.size}</Text>
             return (
                 <View key={i} style={styles.table}>
                     <Text style={styles.td}>{o.name}</Text>
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
 //    backgroundColor: '#F5FCFF',
-    backgroundColor: 'black',
+    backgroundColor: 'white',
     textAlign: 'center',
     fontSize: 23,
     paddingTop: 15,
