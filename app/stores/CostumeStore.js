@@ -95,7 +95,8 @@ class CostumeStore extends EventEmitter {
     if (!word) {
         return owners;
     } else {
-        return owners.filter(o => o.name.includes(word));
+        const search = word.toLowerCase();
+        return owners.filter(o => o.name.toLowerCase().includes(search));
     }
   }
 }
