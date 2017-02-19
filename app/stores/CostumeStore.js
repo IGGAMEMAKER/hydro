@@ -84,6 +84,20 @@ class CostumeStore extends EventEmitter {
   getHistory() {
     return _history;
   }
+
+  getSuitableOwners(word) {
+    let owners = [
+        { name: 'Mikhalich', size: '' },
+        { name: 'Palich', size: '' },
+        { name: 'Nikitich', size: '' }
+    ];
+
+    if (!word) {
+        return owners;
+    } else {
+        return owners.filter(o => o.name.includes(word));
+    }
+  }
 }
 
 const store: CostumeStore = new CostumeStore();

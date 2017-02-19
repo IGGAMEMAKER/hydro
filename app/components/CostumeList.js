@@ -25,35 +25,25 @@ export default class CostumeList extends Component {
         const props: PropsType = this.props;
 
         const costumeList = Object.keys(props.costumes)
-        .filter(key => !props.costumes[key].invisible)
-        .map((key, i) => {
-            const owner = props.costumes[key].owner;
-            const isFree = !owner;
+            .filter(key => !props.costumes[key].invisible)
+            .map((key, i) => {
+                const owner = props.costumes[key].owner;
+                const isFree = !owner;
 
-            const style = isFree ? { color: 'green' }: {};
-            const text = isFree ? 'Свободен': `Владелец: ${owner}`;
+                const style = isFree ? { color: 'green' }: {};
+                const text = isFree ? 'Свободен': `Владелец: ${owner}`;
 
-            const onChooseCostume = () => { props.onChooseCostume(key) };
+                const onChooseCostume = () => { props.onChooseCostume(key) };
 
-            return (
-                <View key={i}>
-                    <Text>№ {key}</Text>
-                    <Text>{JSON.stringify(props.costumes[key])}</Text>
-                    <Text style={style}>{text}</Text>
-                    <Button onClick={onChooseCostume} text="Подробнее" />
-                </View>
-            );
-        }).reverse()
+                return (
+                    <View key={i}>
+                        <Text>№ {key}</Text>
+                        <Text style={style}>{text}</Text>
+                        <Button onClick={onChooseCostume} text="Подробнее" />
+                    </View>
+                );
+            }).reverse()
 
-//        let array = [];
-//        for (let i=0; i< 3000*0 + 1; i++) {
-//            array.push(`Троцкий Лев${i} Давидович`);
-//        }
-//        const familyNames = array; //['oqiwd0as1'].fill('oqiwd0as', 0, 3000).map((s, i) => `${s}${i}`);
-
-//        const matching = familyNames.filter(s => s.includes('oqiwd0as2900'));
-//        const matching = familyNames;//.filter(s => s.includes('Лев2'));
-//                <Text>{JSON.stringify(matching)}</Text>
         return (
             <ScrollView style={{ padding: 15 }}>
                 <View style={{ marginBottom: 15 }}>
@@ -61,6 +51,9 @@ export default class CostumeList extends Component {
                 </View>
                 <View style={{ marginBottom: 15 }}>
                     <Button onClick={props.onReportModeSet} text="Создание отчёта" />
+                </View>
+                <View style={{ marginBottom: 15 }}>
+                    <Button onClick={props.onCostumeOwnersListModeSet} text="Владельцы гидрокостюмов" />
                 </View>
 
                 <Text style={styles.container}>Все костюмы</Text>

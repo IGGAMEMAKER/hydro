@@ -44,9 +44,11 @@ import {
     MODE_COSTUME_CERTIFY,
     MODE_COSTUME_CERTIFY_NO_EDITING,
     MODE_REPORT,
+    MODE_COSTUME_OWNERS_LIST
 } from './app/constants/constants';
 
 import CostumeList from './app/components/CostumeList';
+import CostumeOwnersList from './app/components/CostumeOwnersList';
 import CostumeView from './app/components/CostumeView';
 import CostumeCertification from './app/components/CostumeCertification';
 import CostumeAddingForm from './app/components/CostumeAddingForm';
@@ -141,6 +143,8 @@ export default class AwesomeProject extends Component {
                         onChooseCostume={this.selectCostume}
                         onDisplayNewCostumeForm={this.displayNewCostumeForm}
                         onReportModeSet={() => { this.setState({ mode: MODE_REPORT }); }}
+                        onCostumeOwnersListModeSet={() => { this.setState({ mode: MODE_COSTUME_OWNERS_LIST }); }}
+                        onBackButtonPressed={this.backToMainMenu}
                     />
                 </ScrollView>
             );
@@ -195,10 +199,16 @@ export default class AwesomeProject extends Component {
             />
         }
 
+        if (state.mode === MODE_COSTUME_OWNERS_LIST) {
+            return <CostumeOwnersList
+                onBackButtonPressed={this.backToMainMenu}
+            />
+        }
+
         return (
           <View style={styles.container}>
             <Text style={styles.welcome}>
-              Welcome to React Native! AZAZAZAAAAAAAAAAAAAA
+              Welcome to React Native!
             </Text>
             <Text style={styles.instructions}>
               Double tap R on your keyboard to reload,{'\n'}
