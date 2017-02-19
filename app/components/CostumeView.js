@@ -373,10 +373,12 @@ export default class CostumeView extends Component {
                     text="Вернуться к списку гидрокостюмов"
                 ></Button>
 
-                <Button
-                    onClick={props.onDeleteCostumePressed}
-                    text="Удалить гидрокостюм"
-                ></Button>
+                <View style={styles.offset}>
+                    <Button
+                        onClick={props.onDeleteCostumePressed}
+                        text="Удалить гидрокостюм"
+                    ></Button>
+                </View>
             </View>
         );
     }
@@ -452,6 +454,10 @@ const styles = StyleSheet.create({
         height: 20,
         width: 350,
         marginRight: 25,
+        marginBottom: 15
+    },
+    offset: {
+        marginTop: 25,
         marginBottom: 15
     },
 

@@ -87,10 +87,16 @@ class CostumeStore extends EventEmitter {
 
   getSuitableOwners(word) {
     let owners = [
-        { name: 'Mikhalich', size: '' },
-        { name: 'Palich', size: '' },
-        { name: 'Nikitich', size: '' }
+        { name: 'Mikhalich', size: 'S' },
+        { name: 'Palich', size: 'XXL' },
+        { name: 'Nikitich', size: 'MW' },
+        { name: 'Petrovich', size: 'SW' }
     ];
+
+    for (let i=0; i< 1000; i++) {
+//        owners.push({ name: owners[i % 4].name, size: 'S' });
+        owners.push({ name: `Palich${i}`, size: 'S' });
+    }
 
     if (!word) {
         return owners;

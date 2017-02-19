@@ -20,7 +20,7 @@ type PropsType = {
 export default class CostumeOwnersList extends Component {
     state = {
         owners: [],
-        searchWord: 'ich',
+        searchWord: '',
     }
 
     pickOwners = () => {
@@ -30,8 +30,6 @@ export default class CostumeOwnersList extends Component {
     }
 
     onSearchWordChange = word => {
-        console.log('componentWillMount');
-
         this.setState({
             searchWord: word,
             owners: store.getSuitableOwners(word)
@@ -61,7 +59,6 @@ export default class CostumeOwnersList extends Component {
 
         return (
             <ScrollView style={{ padding: 15 }}>
-                <Text>{searchWord}</Text>
                 <Text></Text>
                 <Input
                     onChange={this.onSearchWordChange}
