@@ -11,6 +11,7 @@ import {
 
 var STORAGE_KEY = '@AsyncStorageExample:key';
 var STORAGE_COSTUMES = '@STORAGE_COSTUMES';
+var STORAGE_COSTUME_OWNERS = '@STORAGE_COSTUME_OWNERS';
 var STORAGE_HISTORY = '@STORAGE_HISTORY';
 
 import {
@@ -63,6 +64,7 @@ let _costumes = {
 
 let _history = [];
 
+let _costumeOwners = [];
 
 class CostumeStore extends EventEmitter {
   addChangeListener(c: Function) {
@@ -86,17 +88,19 @@ class CostumeStore extends EventEmitter {
   }
 
   getSuitableOwners(word) {
-    let owners = [
-        { name: 'Mikhalich', size: 'S' },
-        { name: 'Palich', size: 'XXL' },
-        { name: 'Nikitich', size: 'MW' },
-        { name: 'Petrovich', size: 'SW' }
-    ];
+//    let owners = [
+//        { name: 'Mikhalich', size: 'S' },
+//        { name: 'Palich', size: 'XXL' },
+//        { name: 'Nikitich', size: 'MW' },
+//        { name: 'Petrovich', size: 'SW' }
+//    ];
 
-    for (let i=0; i< 1000; i++) {
-//        owners.push({ name: owners[i % 4].name, size: 'S' });
-        owners.push({ name: `Palich${i}`, size: 'S' });
-    }
+//    for (let i=0; i< 1000; i++) {
+////        owners.push({ name: owners[i % 4].name, size: 'S' });
+//        owners.push({ name: `Palich${i}`, size: 'S' });
+//    }
+    computeCostumeOwners();
+    let owners = _costumeOwners;
 
     if (!word) {
         return owners;
@@ -130,6 +134,7 @@ const updateDB = async () => {
 //    console.log('updateDB', STORAGE_HISTORY, _history, _costumes);
     await AsyncStorage.setItem(STORAGE_HISTORY, JSON.stringify(_history));
     await AsyncStorage.setItem(STORAGE_COSTUMES, JSON.stringify(_costumes));
+    await AsyncStorage.setItem(STORAGE_COSTUME_OWNERS, JSON.stringify(_costumeOwners));
 
     reload();
 }
@@ -142,10 +147,31 @@ const _appendMessage = message => {
 //    console.log('_appendMessage', message);
 }
 
+const computeCostumeOwners = () => {
+    const listObject = {};
+    _history
+        .filter(h => h.tag === DISPATCHER_SWITCH_COSTUME_OWNER)
+        .map(h => {
+            const id = h.id;
+            const c = _costumes[id];
+            if (!c) {
+                return { size: 'error', name: 'error' };
+            }
+
+            const size = c.size;
+            const name = h.data.owner;
+
+            const obj = { size: size, name: name };
+            listObject[name + ':' + size] = obj;
+            return obj;
+        })
+    _costumeOwners = Object.values(listObject);
+}
+
 const loadDataFromDB = async () => {
     try {
       var value = await AsyncStorage.getItem(STORAGE_COSTUMES);
-      if (value !== null){
+      if (value !== null) {
         _costumes = JSON.parse(value);
         _appendMessage('Recovered STORAGE_COSTUMES from disk: ' + value);
       } else {
@@ -167,6 +193,7 @@ const loadDataFromDB = async () => {
       _appendMessage('AsyncStorage STORAGE_HISTORY error: ' + error.message);
     }
 
+    computeCostumeOwners();
     store.emitChange();
 }
 
